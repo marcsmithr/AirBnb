@@ -1,9 +1,8 @@
-# AirBnb# `<name of application here>`
+# AirBnb# `AirDnd`
 
 ## Database Schema Design
-![databaseSchema](https://user-images.githubusercontent.com/111596216/202570802-39ceafa1-18ac-4600-8c94-a44f98276045.PNG)
+![databaseSchema](https://user-images.githubusercontent.com/111596216/202571493-a618f40b-4f08-472d-b061-ce2c25b1b1df.PNG)
 
-`<insert database schema design here>`
 
 ## API Documentation
 
