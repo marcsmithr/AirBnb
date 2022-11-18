@@ -97,3 +97,5 @@ module.exports = (sequelize, DataTypes) => {
   );
   return User;
 };
+
+//schema and deploy nonsense
