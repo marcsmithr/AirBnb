@@ -98,4 +98,4 @@ module.exports = (sequelize, DataTypes) => {
   return User;
 };
 
-//schema and deploy nonsense
+//schema and deploy nonsense2: electric boogaloo
