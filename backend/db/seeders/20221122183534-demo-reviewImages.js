@@ -18,8 +18,8 @@ module.exports = {
       url: '/assets/review/penguinReview.png',
    },
    {
-    reviewId: 3,
-    url: '/assets/review/sakadoReview.png',
+      reviewId: 3,
+      url: '/assets/review/sakadoReview.png',
  }
   ])
 
