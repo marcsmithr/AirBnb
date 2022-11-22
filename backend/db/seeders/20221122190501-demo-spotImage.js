@@ -1,4 +1,5 @@
 'use strict';
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
@@ -7,31 +8,28 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    options.tableName = 'Bookings';
+    options.tableName = 'SpotImages';
     return queryInterface.bulkInsert(options, [
       {
-        spotId: 1,
-        userId: 2,
-        startDate: 2023-06-15,
-        endDate: 2023-06-18
-    },
-    {
-      spotId: 3,
-      userId: 3,
-      startDate: 2023-07-25,
-      endDate: 2023-07-30
-  },
-  {
-    spotId: 3,
-    userId: 1,
-    startDate: 2023-11-05,
-    endDate: 2023-11-07
-}
+        spotId:1,
+        url: '/assets/spot/krustyKrabSpot.jpg',
+        preview: true
+     },
+     {
+      spotId:2,
+      url: '/assets/spot/penguinSpot.png',
+      preview: false
+   },
+   {
+    spotId:1,
+    url: '/assets/spot/sakadoSpot.png',
+    preview: true
+ },
   ])
   },
 
   async down (queryInterface, Sequelize) {
-    options.tableName = 'Bookings';
+    options.tableName = 'SpotImages';
     await queryInterface.bulkDelete(options, options);
   }
 };
