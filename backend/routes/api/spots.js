@@ -1,5 +1,5 @@
 const express = require('express');
-const { Spot, Review, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
 
 const router = express.Router();
 
@@ -10,35 +10,40 @@ let spots = await Spot.findAll(
         model: Review,
         attributes: []
     }
+
 })
-
-
 
 let spotsWithRating = []
 for(let spot of spots){
-    console.log(spot)
     let reviews = await Review.findAll({
         where: {
             spotId: spot.id
         }
             })
+    let previewImage = await SpotImage.findAll({
+        where: {
+            spotId: spot.id,
+            preview: true
+            }
+        })
+        previewImage = JSON.stringify(previewImage)
+    let url = previewImage[0].url //this is undefined for some reason, previewImages returns an object with the url inside
+    console.log(previewImage)
 
+    let reviewSum = 0;
+    for (let review of reviews){
+         reviewSum += review.stars
+     }
+    let reviewAverage = reviewSum / reviews.length;
+    spot.setDataValue('avgRating', reviewAverage)
+    spot.setDataValue('previewImage', url)
 
-                let reviewSum = 0;
-                for (let review of reviews){
-                        reviewSum += review.stars
-                    }
-                    let reviewAverage = reviewSum / reviews.length;
-                    spot.setDataValue('avgRating', reviewAverage)
-                    spot.setDataValue('avgRating', reviewAverage)
-                    console.log(spotsWithRating)
-                    spotsWithRating.push(spot)
 }
 
 
 
 
-return res.json(spotsWithRating)
+return res.json(spots)
 });
 
 
