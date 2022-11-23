@@ -21,7 +21,7 @@ module.exports = {
       preview: false
    },
    {
-    spotId:1,
+    spotId:3,
     url: '/assets/spot/sakadoSpot.png',
     preview: true
  },

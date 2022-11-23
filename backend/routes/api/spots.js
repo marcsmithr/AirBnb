@@ -1,49 +1,56 @@
 const express = require('express');
-const { Spot, Review, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-let spots = await Spot.findAll({
+//grab all spots while having access to Reviews, without showing Reveiw data
+let spots = await Spot.findAll(
+    {
     include: {
         model: Review,
         attributes: []
     }
-    ,
-    attributes:{
-        include: [
-            [
-                sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-                "avgRating"
-            ]
-        ]
-    },
-    group: ['spot.Id']
+
+})
+
+//iterate through spots to manipulate each spot
+for(let spot of spots){
+    //grab all reviews
+    let reviews = await Review.findAll({
+        where: {
+            spotId: spot.id
+        }
+            })
+        //grab all SpotImages
+    let previewImage = await SpotImage.findAll({
+        where: {
+            spotId: spot.id,
+            preview: true
+            }
+        })
+        //Turn previewImage into something that can be keyed into
+        let previewImageString = JSON.stringify(previewImage)
+        let previewImageObj = JSON.parse(previewImageString)
+        //grab url from previewImage
+        let url;
+    if(previewImageObj[0]){
+        url = previewImageObj[0].url
+    }
+
+    //itterate through review to add all the star reviews
+    let reviewSum = 0;
+    for (let review of reviews){
+         reviewSum += review.stars
+     }
+    let reviewAverage = reviewSum / reviews.length;
+    //set the data into each spot
+    spot.setDataValue('avgRating', reviewAverage)
+    if(url){
+    spot.setDataValue('previewImage', url)
+    }
+
 }
-)
-
-
-
-// let spotsWithRating = []
-// for(let spot of spots){
-//     spot = spot.toJSON()
-//     let reviewAverage = await Review.AVG('stars', {
-//         where: {
-//             spotId: spot.Id
-//         }
-//     })
-//     spot.setDataValue('avgRating', reviewAverage)
-
-    //     let reviewSum = 0
-//     spot.Reviews.forEach(review => {
-//         reviewSum += review.stars
-//     });
-//     let reviewAverage = reviewSum / spot.Reviews.length;
-//     spot.setDataValue('avgRating', reviewAverage)
-//     delete spot.Reviews
-//     console.log(spotsWithRating)
-//     spotsWithRating.push(spot)
-// }
 
 
 
