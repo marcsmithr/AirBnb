@@ -135,9 +135,6 @@ router.post('/:spotId/images', restoreUser, requireAuth, async(req, res)=>{
     const {url, preview} = req.body;
     let spotIdObj = req.params;
     let doesSpotExist = await Spot.findByPk(spotIdObj.spotId)
-    console.log('-----------------------')
-    console.log(doesSpotExist)
-    console.log('-----------------------')
 
     if(!doesSpotExist){
         return res.status(404).send({
@@ -158,7 +155,14 @@ router.post('/:spotId/images', restoreUser, requireAuth, async(req, res)=>{
     })
 } )
 
-
+router.get('/current', restoreUser, requireAuth, async(req, res)=>{
+    let spots = await Spot.findAll({
+        where:{
+            ownerId: req.user.id
+        }
+    })
+    res.json(spots)
+} )
 
 
 
