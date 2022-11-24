@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
 const router = express.Router();
@@ -40,19 +40,24 @@ router.post(
   );
 
 
+//Get Current User: provided version
+  // router.get(
+  //   '/',
+  //   restoreUser,
+  //   (req, res) => {
+  //     const { user } = req;
+  //     if (user) {
+  //       return res.json({
+  //         user: user.toSafeObject()
+  //       });
+  //     } else return res.json({ user: null });
+  //   }
+  // );
+//Get Current User: self made version
+  router.get('/', restoreUser, requireAuth, async(req, res)=>{
 
-  router.get(
-    '/',
-    restoreUser,
-    (req, res) => {
-      const { user } = req;
-      if (user) {
-        return res.json({
-          user: user.toSafeObject()
-        });
-      } else return res.json({ user: null });
-    }
-  );
-
+    let user = await User.scope("currentUser").findByPk(req.user.id)
+    res.json(user)
+  })
 
 module.exports = router;
