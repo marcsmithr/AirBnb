@@ -1,6 +1,6 @@
 const express = require('express');
-const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { User, Spot, Review, SpotImage, sequelize } = require('../../db/models');
+const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
 
 const router = express.Router();
 
@@ -54,9 +54,81 @@ let spots = await Spot.findAll(
 return res.json(spots)
 });
 
-// router.post('/', requireAuth, async(req, res)=>{
+router.post('/', restoreUser, requireAuth, async(req, res)=>{
+    const {
+        address, city,
+        state, country,
+        lat, lng,
+        name, description,
+        price
+    } = req.body;
+    let ownerDataObj = await User.scope("currentUser").findByPk(req.user.id)
+    let ownerDataString = JSON.stringify(ownerDataObj)
+    let owner = JSON.parse(ownerDataString)
 
-// })
+    if(!address||!city||state||!country||!lat||!lng||!name||!description||!price){
+        return res.status(400).send({
+          message: "Validation error",
+          statusCode: 400,
+          errors: {
+            address: 'Street address is required',
+            city: 'City is required',
+            state: 'State is required',
+            country: 'Country is required',
+            lat: 'Latitude is not valid',
+            lng: 'Longitude is not valid',
+            name: 'Name must be less than 50 characters',
+            description: 'Description is required',
+            price: 'Price per day is required'
+            }
+        })
+      }
+      if(name.length >=50){
+        return res.status(400).send({
+            message: "Validation error",
+            statusCode: 400,
+            errors: {
+              address: 'Street address is required',
+              city: 'City is required',
+              state: 'State is required',
+              country: 'Country is required',
+              lat: 'Latitude is not valid',
+              lng: 'Longitude is not valid',
+              name: 'Name must be less than 50 characters',
+              description: 'Description is required',
+              price: 'Price per day is required'
+              }
+          })
+      }
+    let newSpot = await Spot.create({
+        ownerId: owner.id,
+        address, city,
+        state, country,
+        lat, lng,
+        name, description,
+        price
+    })
+
+
+    if(!newSpot){
+        return res.status(400).send({
+            message: 'Validation Error',
+            statusCode: 400,
+            errors: {
+                address: 'Street address is required',
+                city: 'City is required',
+                state: 'State is required',
+                country: 'Country is required',
+                lat: 'Latitude is not valid',
+                lng: 'Longitude is not valid',
+                name: 'Name must be less than 50 characters',
+                description: 'Description is required',
+                price: 'Price per day is required'
+                    }
+                })
+        }
+        res.status(201).send(newSpot)
+});
 
 
 
