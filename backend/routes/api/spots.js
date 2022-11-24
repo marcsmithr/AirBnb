@@ -134,15 +134,28 @@ router.post('/', restoreUser, requireAuth, async(req, res)=>{
 router.post('/:spotId/images', restoreUser, requireAuth, async(req, res)=>{
     const {url, preview} = req.body;
     let spotIdObj = req.params;
-    // console.log('-----------------------')
-    // console.log(spotId.spotId)
-    // console.log('-----------------------')
-    let newImage = await SpotImage.create({
+    let doesSpotExist = await Spot.findByPk(spotIdObj.spotId)
+    console.log('-----------------------')
+    console.log(doesSpotExist)
+    console.log('-----------------------')
+
+    if(!doesSpotExist){
+        return res.status(404).send({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+    let newImage = await SpotImage.scope("currentSpot").create({
         spotId: spotIdObj.spotId,
         url,
         preview
     })
-    return res.json(newImage)
+
+    return res.status(200).send({
+        id: newImage.id,
+        url: url,
+        preview: preview
+    })
 } )
 
 

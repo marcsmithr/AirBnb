@@ -30,6 +30,11 @@ module.exports = (sequelize, DataTypes) => {
       attributes: {
         exclude: ["createdAt", "updatedAt"]
       }
+    },
+    scopes: {
+      currentSpot: {
+        attributes: { exclude: ["createdAt", "updatedAt"] }
+      }
     }
   });
   return SpotImage;
