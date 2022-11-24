@@ -164,7 +164,48 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
     res.json(spots)
 } )
 
+router.get('/:spotId', async (req, res) => {
+    //grab all spots while having access to Reviews, without showing Reveiw data
+    let spot = await Spot.findByPk(req.params.spotId)
+    if(!spot){
+        return res.status(404).send({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+            //grab all reviews
+            let reviews = await Review.findAll({
+                where: {
+                    spotId: spot.id
+                }
+                    })
+            //grab all spot images
+            let spotImages = await spot.getSpotImages()
+            //jump through hoops to get the correct owner info
+            let ownerObj = await User.scope("public").findByPk(spot.ownerId)
+            let owner = {}
+            owner.id = ownerObj.id;
+            owner.firstName = ownerObj.firstName;
+            owner.lastName = ownerObj.lastName
 
+            //itterate through review to add all the star reviews
+            let reviewSum = 0;
+            for (let review of reviews){
+                reviewSum += review.stars
+            }
+            let numReviews = reviews.length;
+            let reviewAverage = reviewSum / reviews.length;
+            //set the data into each spot
+            if(!numReviews){
+                numReviews = 0
+            }
+            spot.setDataValue('numReviews', numReviews)
+            if(reviewAverage) spot.setDataValue('avgRating', reviewAverage);
+            if(spotImages) spot.setDataValue('SpotImages', spotImages);
+            if(owner) spot.setDataValue('Owner', owner);
+
+    return res.json(spot)
+    });
 
 
 
