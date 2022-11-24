@@ -7,18 +7,45 @@ const { User } = require('../../db/models');
 
 const router = express.Router();
 
+
+
+
 router.post(
     '/',
     async (req, res) => {
-      const { email, password, username } = req.body;
-      const user = await User.signup({ email, username, password });
+      const { email, password, username, firstName, lastName } = req.body;
+      let doesEmailExist = await User.findOne({
+        where:{
+          email: email
+        }
+      })
 
-      await setTokenCookie(res, user);
+      if(doesEmailExist){
+        res.status(403)
+        return res.json({
+          message: 'email already in use'
+        })
+      }
+      try {
+        const user = await User.signup({ email, username, password, firstName, lastName });
 
-      return res.json({
-        user: user
-      });
+        await setTokenCookie(res, user);
+
+        return res.json({
+          user: user
+        });
+
+      } catch (error) {
+        res.status(400)
+        return res.json({
+          message: 'Invalid first name, last name, or username'
+        })
+      }
     }
   );
+
+
+
+
 
 module.exports = router;

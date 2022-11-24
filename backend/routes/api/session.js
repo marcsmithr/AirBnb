@@ -5,28 +5,41 @@ const { User } = require('../../db/models');
 
 const router = express.Router();
 
+// const validations = async(firstName, lastName, username)=>{
+
+// }
+
 router.post(
     '/',
     async (req, res, next) => {
       const { credential, password } = req.body;
-
+      if(!credential||!password){
+        return res.status(400).send({
+          message: "Validation error",
+          statusCode: 400,
+          errors: {
+            credential: 'Email or username is required',
+            password: "Password is required"}
+        })
+      }
       const user = await User.login({ credential, password });
 
       if (!user) {
-        const err = new Error('Login failed');
-        err.status = 401;
-        err.title = 'Login failed';
-        err.errors = ['The provided credentials were invalid.'];
-        return next(err);
+       return res.status(401).send({
+          message: "Invalid credentials",
+          statusCode: 401
+        })
       }
 
-      await setTokenCookie(res, user);
-
+      let newToken = await setTokenCookie(res, user);
+      user.setDataValue('token', newToken)
       return res.json({
         user: user
       });
     }
   );
+
+
 
   router.get(
     '/',
