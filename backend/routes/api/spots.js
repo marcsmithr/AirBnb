@@ -66,7 +66,7 @@ router.post('/', restoreUser, requireAuth, async(req, res)=>{
     let ownerDataString = JSON.stringify(ownerDataObj)
     let owner = JSON.parse(ownerDataString)
 
-    if(!address||!city||state||!country||!lat||!lng||!name||!description||!price){
+    if(!address||!city||!state||!country||!lat||!lng||!name||!description||!price){
         return res.status(400).send({
           message: "Validation error",
           statusCode: 400,
@@ -129,6 +129,21 @@ router.post('/', restoreUser, requireAuth, async(req, res)=>{
         }
         res.status(201).send(newSpot)
 });
+
+
+router.post('/:spotId/images', restoreUser, requireAuth, async(req, res)=>{
+    const {url, preview} = req.body;
+    let spotIdObj = req.params;
+    // console.log('-----------------------')
+    // console.log(spotId.spotId)
+    // console.log('-----------------------')
+    let newImage = await SpotImage.create({
+        spotId: spotIdObj.spotId,
+        url,
+        preview
+    })
+    return res.json(newImage)
+} )
 
 
 
