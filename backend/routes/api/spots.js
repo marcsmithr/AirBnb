@@ -66,7 +66,7 @@ router.post('/', restoreUser, requireAuth, async(req, res)=>{
     let ownerDataString = JSON.stringify(ownerDataObj)
     let owner = JSON.parse(ownerDataString)
 
-    if(!address||!city||state||!country||!lat||!lng||!name||!description||!price){
+    if(!address||!city||!state||!country||!lat||!lng||!name||!description||!price){
         return res.status(400).send({
           message: "Validation error",
           statusCode: 400,
@@ -131,8 +131,81 @@ router.post('/', restoreUser, requireAuth, async(req, res)=>{
 });
 
 
+router.post('/:spotId/images', restoreUser, requireAuth, async(req, res)=>{
+    const {url, preview} = req.body;
+    let spotIdObj = req.params;
+    let doesSpotExist = await Spot.findByPk(spotIdObj.spotId)
 
+    if(!doesSpotExist){
+        return res.status(404).send({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+    let newImage = await SpotImage.scope("currentSpot").create({
+        spotId: spotIdObj.spotId,
+        url,
+        preview
+    })
 
+    return res.status(200).send({
+        id: newImage.id,
+        url: url,
+        preview: preview
+    })
+} )
+
+router.get('/current', restoreUser, requireAuth, async(req, res)=>{
+    let spots = await Spot.findAll({
+        where:{
+            ownerId: req.user.id
+        }
+    })
+    res.json(spots)
+} )
+
+router.get('/:spotId', async (req, res) => {
+    //grab all spots while having access to Reviews, without showing Reveiw data
+    let spot = await Spot.findByPk(req.params.spotId)
+    if(!spot){
+        return res.status(404).send({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+            //grab all reviews
+            let reviews = await Review.findAll({
+                where: {
+                    spotId: spot.id
+                }
+                    })
+            //grab all spot images
+            let spotImages = await spot.getSpotImages()
+            //jump through hoops to get the correct owner info
+            let ownerObj = await User.scope("public").findByPk(spot.ownerId)
+            let owner = {}
+            owner.id = ownerObj.id;
+            owner.firstName = ownerObj.firstName;
+            owner.lastName = ownerObj.lastName
+
+            //itterate through review to add all the star reviews
+            let reviewSum = 0;
+            for (let review of reviews){
+                reviewSum += review.stars
+            }
+            let numReviews = reviews.length;
+            let reviewAverage = reviewSum / reviews.length;
+            //set the data into each spot
+            if(!numReviews){
+                numReviews = 0
+            }
+            spot.setDataValue('numReviews', numReviews)
+            if(reviewAverage) spot.setDataValue('avgRating', reviewAverage);
+            if(spotImages) spot.setDataValue('SpotImages', spotImages);
+            if(owner) spot.setDataValue('Owner', owner);
+
+    return res.json(spot)
+    });
 
 
 
