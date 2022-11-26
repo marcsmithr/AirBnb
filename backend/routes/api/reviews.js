@@ -36,6 +36,36 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
     })
 })
 
+router.post('/:reviewId/images', restoreUser, requireAuth, async(req, res)=>{
+    const{url} = req.body;
+    let reviewDataObj = await Review.findByPk(req.params.reviewId);
+    if(!reviewDataObj){
+        return res.status(404).send({
+            message: "Review couldn't be found",
+            statusCode: 404
+        })
+    }
+
+    let reviewDataString = JSON.stringify(reviewDataObj);
+    let review = JSON.parse(reviewDataString);
+    let reviewImages = ReviewImage.findAll({where: {reviewId: review.id} })
+    if(reviewImages.length >= 10){
+        return res.status(403).send({
+            message: "Maximum number of images for this resource was reached",
+            statusCode: 403
+        })
+    }
+    let newReviewImg = await ReviewImage.create({
+        reviewId: review.id,
+        url
+    })
+    res.status(200).send({
+        id: newReviewImg.id,
+        url: url
+    })
+
+})
+
 
 
 
