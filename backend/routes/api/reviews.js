@@ -1,4 +1,5 @@
 const express = require('express');
+const { Json } = require('sequelize/types/utils');
 const { User, Spot, Review, ReviewImage, SpotImage, Booking, sequelize } = require('../../db/models');
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
 
@@ -55,6 +56,7 @@ router.post('/:reviewId/images', restoreUser, requireAuth, async(req, res)=>{
             statusCode: 403
         })
     }
+
     let newReviewImg = await ReviewImage.create({
         reviewId: review.id,
         url
@@ -63,7 +65,16 @@ router.post('/:reviewId/images', restoreUser, requireAuth, async(req, res)=>{
         id: newReviewImg.id,
         url: url
     })
+})
 
+router.get('/:spotId/reviews', restoreUser, requireAuth, async(req, res)=>{
+    let spotDataObj = await Spot.findByPk(req.params.spotId);
+    let spotDataString = JSON.stringify(spotDataObj);
+    let spot = JSON.parse(spotDataString)
+    let reviews = await Review.findAll({
+        where: {spotId: spot.id}
+    })
+    res.status(200).send({Reviews: reviews})
 })
 
 
