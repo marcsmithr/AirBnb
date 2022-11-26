@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Spot, Review, SpotImage, sequelize } = require('../../db/models');
+const { User, Spot, Review, SpotImage, Booking, sequelize } = require('../../db/models');
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
 
 const router = express.Router();
@@ -206,6 +206,128 @@ router.get('/:spotId', async (req, res) => {
 
     return res.json(spot)
     });
+
+    router.put('/:spotId', restoreUser, requireAuth, async(req, res)=>{
+        const {
+            address, city,
+            state, country,
+            lat, lng,
+            name, description,
+            price
+        } = req.body;
+
+        let spotDataObj = await Spot.findByPk(req.params.spotId)
+        if(!spotDataObj){
+            return res.status(404).send({
+                message: "Spot couldn't be found",
+                statusCode: 404
+            })
+        }
+        let spotObjString = JSON.stringify(spotDataObj)
+        let spot = JSON.parse(spotObjString)
+        let userDataObj = await spotDataObj.getUser()
+        let userObjString = JSON.stringify(userDataObj)
+        let owner = JSON.parse(userObjString)
+        if(owner.id!== spot.ownerId){
+            return res.status(401).send({
+                message: 'Authorization Error',
+                statusCode: 401,
+                 message: 'Must be the owner to edit a spot'
+                    })
+        }
+        if(!address||!city||!state||!country||!lat||!lng||!name||!description||!price){
+            return res.status(400).send({
+              message: "Validation error",
+              statusCode: 400,
+              errors: {
+                address: 'Street address is required',
+                city: 'City is required',
+                state: 'State is required',
+                country: 'Country is required',
+                lat: 'Latitude is not valid',
+                lng: 'Longitude is not valid',
+                name: 'Name must be less than 50 characters',
+                description: 'Description is required',
+                price: 'Price per day is required'
+                }
+            })
+          }
+        spotDataObj.set({
+            ownerId: owner.id,
+            address, city,
+            state, country,
+            lat, lng,
+            name, description,
+            price
+        })
+
+        res.json(spotDataObj)
+    })
+
+    //COME BACK AND FINISH THIS! Problem: has extra Spot and User ids, review does not have an Id
+    router.post('/:spotId/reviews', restoreUser, requireAuth, async(req, res)=>{
+        const {review, stars} = req.body;
+        let userDataObj = req.user
+        let userObjString = JSON.stringify(userDataObj)
+        let user = JSON.parse(userObjString)
+        let spotDataObj = await Spot.findByPk(req.params.spotId)
+        if(!spotDataObj){
+            return res.status(404).send({
+                message: "Spot couldn't be found",
+                statusCode: 404
+            })
+        }
+        let spotObjString = JSON.stringify(spotDataObj)
+        let spot = JSON.parse(spotObjString)
+        let newReview = await Review.create({
+            userId: user.id,
+            spotId: spot.id,
+            review,
+            stars
+        })
+        console.log('-------------')
+        console.log(user)
+        console.log('--------------')
+        console.log('-------------')
+        console.log(spot)
+        console.log('--------------')
+        console.log('-------------')
+        console.log(newReview)
+        console.log('--------------')
+        res.status(200).send({
+            id: newReview.id,
+            userId: newReview.userId,
+            spotId: newReview.spotId,
+            review: review,
+            stars: stars,
+            createdAt: newReview.createdAt,
+            updatedAt: newReview.updatedAt
+        })
+    })
+    //same issue here
+        router.post('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
+            // const {startDate, endDate} = req.body;
+            // let userDataObj = req.user
+            // let userObjString = JSON.stringify(userDataObj)
+            // let user = JSON.parse(userObjString)
+            // let spotDataObj = await Spot.findByPk(req.params.spotId)
+            // if(!spotDataObj){
+            //     return res.status(404).send({
+            //         message: "Spot couldn't be found",
+            //         statusCode: 404
+            //     })
+            // }
+            // let spotObjString = JSON.stringify(spotDataObj)
+            // let spot = JSON.parse(spotObjString)
+            let newBooking = await Booking.create({
+                spotId: 3,
+                userId: 1,
+                startDate: '2023-11-05',
+                endDate: '2023-11-07'
+            })
+            res.json(newBooking)
+        })
+
 
 
 
