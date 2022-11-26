@@ -266,6 +266,13 @@ router.get('/:spotId', async (req, res) => {
 
     //COME BACK AND FINISH THIS! Problem: has extra Spot and User ids, review does not have an Id
     router.post('/:spotId/reviews', restoreUser, requireAuth, async(req, res)=>{
+        let doesSpotExist = await Spot.findByPk(req.params.spotId)
+    if(!doesSpotExist){
+        return res.status(404).send({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
         const {review, stars} = req.body;
         let userDataObj = req.user
         let userObjString = JSON.stringify(userDataObj)
@@ -279,6 +286,28 @@ router.get('/:spotId', async (req, res) => {
         }
         let spotObjString = JSON.stringify(spotDataObj)
         let spot = JSON.parse(spotObjString)
+        let hasBeenReviewed = Review.findAll({where:{
+            userId: user.id,
+            spotId: spot.id
+        }
+        })
+        if(hasBeenReviewed){
+            return res.status(401).send({
+                message: "User already has a review for this spot",
+                statusCode: 403
+                    })
+        }
+
+        if(!review||stars < 1||stars > 5||!stars){
+            return res.status(400).send({
+              message: "Validation error",
+              statusCode: 400,
+              errors: {
+                review: "Review text is required",
+                stars: "Stars must be an integer from 1 to 5"
+                }
+            })
+          }
         let newReview = await Review.create({
             userId: user.id,
             spotId: spot.id,
