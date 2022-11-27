@@ -1,5 +1,4 @@
 const express = require('express');
-const { Json } = require('sequelize/types/utils');
 const { User, Spot, Review, ReviewImage, SpotImage, Booking, sequelize } = require('../../db/models');
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
 

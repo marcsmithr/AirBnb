@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Spot, Review, SpotImage, Booking, sequelize } = require('../../db/models');
+const { User, Spot, Review, SpotImage, ReviewImage, Booking, sequelize } = require('../../db/models');
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
 
 const router = express.Router();
@@ -285,12 +285,13 @@ router.get('/:spotId', async (req, res) => {
         }
         let spotObjString = JSON.stringify(spotDataObj)
         let spot = JSON.parse(spotObjString)
-        let hasBeenReviewed = Review.findAll({where:{
+        let hasBeenReviewed = await Review.findAll({where:{
             userId: user.id,
             spotId: spot.id
         }
         })
-        if(hasBeenReviewed){
+        console.log(hasBeenReviewed)
+        if(hasBeenReviewed.length !== 0){
             return res.status(401).send({
                 message: "User already has a review for this spot",
                 statusCode: 403
@@ -353,6 +354,38 @@ router.get('/:spotId', async (req, res) => {
             })
             res.json(newBooking)
         })
+
+    router.get('/:spotId/reviews', restoreUser, requireAuth, async(req, res)=>{
+        let spotIdObj = req.params;
+        let doesSpotExist = await Spot.findByPk(spotIdObj.spotId)
+
+        if(!doesSpotExist){
+            return res.status(404).send({
+                message: "Spot couldn't be found",
+                statusCode: 404
+            })
+        }
+        let Reviews = await Review.findAll({where:{spotId: req.params.spotId}});
+
+        for(let reviewDataObj of Reviews){
+            let reviewDataString = JSON.stringify(reviewDataObj)
+            let review = JSON.parse(reviewDataString)
+
+            let userDataObj = await User.findByPk(review.userId)
+            reviewDataObj.setDataValue('User', userDataObj)
+
+            let reviewImgsDataObj = await ReviewImage.findAll({
+                attributes:['id', 'url'],
+                where: {id: review.id}
+            })
+            if(reviewImgsDataObj.length !== 0){
+            reviewDataObj.setDataValue('ReviewImages', reviewImgsDataObj)
+            }
+    }
+    res.status(200).send({
+        Reviews
+    })
+})
 
 
 
