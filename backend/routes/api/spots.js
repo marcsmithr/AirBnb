@@ -394,7 +394,31 @@ router.get('/:spotId', async (req, res) => {
     })
 })
 
-
+router.delete('/:spotId', restoreUser, requireAuth, async(req, res)=>{
+    let spot = await Spot.findByPk(req.params.spotId);
+    if(!spot){
+        return res.status(404).send({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+    let spotStringObj = JSON.stringify(spot);
+    let spotReadable = JSON.parse(spotStringObj)
+    let userDataObj = req.user
+    let userObjString = JSON.stringify(userDataObj)
+    let user = JSON.parse(userObjString)
+    if(spotReadable.ownerId !== user.id){
+        return res.status(403).send({
+            message: "Must be the owner to delete",
+            statusCode: 403
+        })
+    }
+    await spot.destroy();
+    res.status(200).send({
+        message: "Successfully deleted",
+        statusCode: 200
+    })
+})
 
 
 module.exports = router;
