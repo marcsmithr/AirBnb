@@ -372,7 +372,14 @@ router.get('/:spotId', async (req, res) => {
             let review = JSON.parse(reviewDataString)
 
             let userDataObj = await User.findByPk(review.userId)
-            reviewDataObj.setDataValue('User', userDataObj)
+            let userObjString = JSON.stringify(userDataObj)
+            let user = JSON.parse(userObjString)
+            let userNoUsername = {}
+            userNoUsername.id = user.id;
+            userNoUsername.firstName = user.firstName;
+            userNoUsername.lastName = user.lastName;
+
+            reviewDataObj.setDataValue('User', userNoUsername)
 
             let reviewImgsDataObj = await ReviewImage.findAll({
                 attributes:['id', 'url'],
