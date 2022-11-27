@@ -77,6 +77,48 @@ router.get('/:spotId/reviews', restoreUser, requireAuth, async(req, res)=>{
 })
 
 
+router.put('/:reviewId', restoreUser, requireAuth, async(req, res)=>{
+    const{review, stars} = req.body
+    let userDataObj = req.user
+    let userObjString = JSON.stringify(userDataObj)
+    let user = JSON.parse(userObjString)
+
+    let reviewDataObj = await Review.findByPk(req.params.reviewId)
+    if(!reviewDataObj){
+        return res.status(404).send({
+            message: "Review couldn't be found",
+            statusCode: 404
+        })
+    }
+    let reviewObjString = JSON.stringify(reviewDataObj)
+    let reviewObj = JSON.parse(reviewObjString)
+
+    if(user.id !== reviewObj.userId){
+        return res.status(403).send({
+            message: "Only the review owner can edit their review",
+            statusCode: 403
+        })
+    }
+
+    if(!review || !stars || stars < 1 || stars > 5){
+        return res.status(400).send({
+            message: "Validation error",
+            statusCode: 400,
+            errors: {
+                review: "Review text is required",
+                stars: "Stars must be an integer from 1 to 5"
+            }
+        })
+    }
+    reviewDataObj.set({
+        review,
+        stars
+    })
+
+    res.json(reviewDataObj)
+})
+
+
 
 
 
