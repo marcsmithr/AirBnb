@@ -475,6 +475,7 @@ router.get('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
 
 
     let Bookings= await Booking.findAll({where:{spotId: spotReadable.id}})
+    if(user.id === spotReadable.ownerId){
     for(let bookingDataObj of Bookings){
         let bookingDataString = JSON.stringify(bookingDataObj)
         let booking = JSON.parse(bookingDataString)
@@ -482,6 +483,8 @@ router.get('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
 
         bookingDataObj.setDataValue('User', guest)
 }
+    }
+    
 return res.status(200).send({
     Bookings
 })
