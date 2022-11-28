@@ -24,12 +24,6 @@ router.delete('/:spotImageId', restoreUser, requireAuth, async(req, res)=>{
     let userDataObj = req.user;
     let userDataString = JSON.stringify(userDataObj);
     let user = JSON.parse(userDataString)
-    console.log('-----------------')
-    console.log(spot)
-    console.log('-----------------')
-    console.log('-----------------')
-    console.log(user)
-    console.log('-----------------')
     if(spot.ownerId !== user.id){
         return res.status(403).send({
             message: "Must be the owner to delete",

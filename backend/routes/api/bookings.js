@@ -9,10 +9,20 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
     let userDataObj = req.user
     let userObjString = JSON.stringify(userDataObj)
     let user = JSON.parse(userObjString)
-    let Bookings = await Booking.findAll({where:{userId: user.id}})
-    Bookings.setDataValue('User', userDataObj)
-    return res.json(Bookings)
+    let userNoUsername = {}
+        userNoUsername.id = user.id;
+        userNoUsername.firstName = user.firstName;
+        userNoUsername.lastName = user.lastName;
+
+    let Bookings= await Booking.findAll({where:{userId: user.id}})
+    for(let bookingDataObj of Bookings){
+        bookingDataObj.setDataValue('User', userNoUsername)
+}
+res.status(200).send({
+    Bookings
 })
+})
+
 
 
 
