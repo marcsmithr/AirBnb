@@ -67,7 +67,7 @@ router.put('/:bookingId', restoreUser, requireAuth, async(req, res)=>{
         startDate,
         endDate
     })
-    console.log(bookingDataObj)
+    await bookingDataObj.save()
     return res.json(bookingDataObj)
 })
 

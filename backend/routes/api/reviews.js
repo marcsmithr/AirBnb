@@ -114,6 +114,7 @@ router.put('/:reviewId', restoreUser, requireAuth, async(req, res)=>{
         review,
         stars
     })
+    await reviewDataObj.save()
 
     return res.json(reviewDataObj)
 })
