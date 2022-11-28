@@ -14,7 +14,7 @@ router.delete('/:spotImageId', restoreUser, requireAuth, async(req, res)=>{
     console.log('-----------------')
     if(!spotImageDataObj){
         return res.status(404).send({
-            message: "Spot couldn't be found",
+            message: "Spot image couldn't be found",
             statusCode: 404
         })
     }
