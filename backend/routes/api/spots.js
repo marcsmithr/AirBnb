@@ -1,6 +1,7 @@
 const express = require('express');
-const { User, Spot, Review, SpotImage, ReviewImage, Booking, sequelize } = require('../../db/models');
+const { User, Spot, Review, SpotImage, ReviewImage, Booking, Sequelize } = require('../../db/models');
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
+const Op = Sequelize.Op
 
 const router = express.Router();
 
@@ -325,35 +326,7 @@ router.get('/:spotId', async (req, res) => {
             updatedAt: newReview.updatedAt
         })
     })
-    //Validation error cannot read properties of undefined, reading args (I suspect date issues)
-        router.post('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
-            const {startDate, endDate} = req.body;
-            let userDataObj = req.user
-            let userObjString = JSON.stringify(userDataObj)
-            let user = JSON.parse(userObjString)
-            let spotDataObj = await Spot.findByPk(req.params.spotId)
-            if(!spotDataObj){
-                return res.status(404).send({
-                    message: "Spot couldn't be found",
-                    statusCode: 404
-                })
-            }
-            let spotObjString = JSON.stringify(spotDataObj)
-            let spot = JSON.parse(spotObjString)
-            console.log('-----------------')
-            console.log(startDate.toString())
-            console.log('----------------')
-            console.log(endDate.toString())
-            console.log('----------------')
-            console.log(startDate)
-            let newBooking = await Booking.create({
-                spotId: spot.id,
-                userId: user.id,
-                startDate:startDate.toString(),
-                endDate:endDate.toString()
-            })
-            res.json(newBooking)
-        })
+
 
     router.get('/:spotId/reviews', restoreUser, requireAuth, async(req, res)=>{
         let spotIdObj = req.params;
@@ -418,6 +391,100 @@ router.delete('/:spotId', restoreUser, requireAuth, async(req, res)=>{
         message: "Successfully deleted",
         statusCode: 200
     })
+})
+
+router.post('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
+    const {startDate, endDate} = req.body;
+    const starting = new Date(startDate);
+    const ending = new Date(endDate)
+    const userId = req.user.id
+
+    let spot = await Spot.findByPk(req.params.spotId);
+    if(!spot){
+        return res.status(404).send({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+
+    if(userId=== spot.ownerId){
+        return res.status(400).send({
+            message: "The owner can not book",
+            statusCode: 400
+        })
+    }
+    if(ending <= starting){
+        return res.status(400).send({
+            message: "Validation error",
+            statusCode: 400,
+            errors: {
+                endDate: "endDate cannot be on or before startDate"
+            }
+        })
+    }
+
+    let hasBookingConflict = await Booking.findAll({where:{
+        startDate:{
+            [Op.between]: [starting, ending]
+        },
+        endDate: {
+            [Op.between]: [starting, ending]
+        }
+    }})
+
+    if(hasBookingConflict.length > 0){
+        return res.status(403).send({
+            message: "Sorry, this spot is already booked for the specified dates",
+            statusCode: 403,
+            errors: {
+                startDate: "Start date conflicts with an existing booking",
+                endDate: "End date conflicts with an existing booking"
+            }
+        })
+    }
+
+
+    let newBooking = await Booking.create({
+        spotId: spot.id,
+        userId,
+        startDate: starting,
+        endDate: ending
+    })
+    return res.json(newBooking)
+})
+
+router.get('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
+    let userDataObj = req.user
+    let userObjString = JSON.stringify(userDataObj)
+    let user = JSON.parse(userObjString)
+    let userNoUsername = {}
+        userNoUsername.id = user.id;
+        userNoUsername.firstName = user.firstName;
+        userNoUsername.lastName = user.lastName;
+
+
+    let spot = await Spot.findByPk(req.params.spotId);
+    if(!spot){
+        return res.status(404).send({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+    let spotStringObj = JSON.stringify(spot);
+    let spotReadable = JSON.parse(spotStringObj)
+
+
+    let Bookings= await Booking.findAll({where:{spotId: spotReadable.id}})
+    for(let bookingDataObj of Bookings){
+        let bookingDataString = JSON.stringify(bookingDataObj)
+        let booking = JSON.parse(bookingDataString)
+        let spot = await Spot.findAll({where:{id: booking.spotId}})
+
+        bookingDataObj.setDataValue('Spot', spot)
+}
+return res.status(200).send({
+    Bookings
+})
 })
 
 

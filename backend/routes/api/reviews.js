@@ -118,7 +118,31 @@ router.put('/:reviewId', restoreUser, requireAuth, async(req, res)=>{
     res.json(reviewDataObj)
 })
 
-
+router.delete('/:reviewId', restoreUser, requireAuth, async(req, res)=>{
+    let review = await Review.findByPk(req.params.reviewId);
+    if(!review){
+        return res.status(404).send({
+            message: "Review couldn't be found",
+            statusCode: 404
+        })
+    }
+    let reviewStringObj = JSON.stringify(review);
+    let reviewReadable = JSON.parse(reviewStringObj)
+    let userDataObj = req.user
+    let userObjString = JSON.stringify(userDataObj)
+    let user = JSON.parse(userObjString)
+    if(reviewReadable.userId !== user.id){
+        return res.status(403).send({
+            message: "Must be the owner to delete",
+            statusCode: 403
+        })
+    }
+    await review.destroy();
+    res.status(200).send({
+        message: "Successfully deleted",
+        statusCode: 200
+    })
+})
 
 
 
