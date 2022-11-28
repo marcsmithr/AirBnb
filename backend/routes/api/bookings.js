@@ -71,7 +71,31 @@ router.put('/:bookingId', restoreUser, requireAuth, async(req, res)=>{
     return res.json(bookingDataObj)
 })
 
-
+router.delete('/:bookingId', restoreUser, requireAuth, async(req, res)=>{
+    let booking = await Booking.findByPk(req.params.bookingId);
+    if(!booking){
+        return res.status(404).send({
+            message: "Booking couldn't be found",
+            statusCode: 404
+        })
+    }
+    let bookingStringObj = JSON.stringify(booking);
+    let bookingReadable = JSON.parse(bookingStringObj)
+    let userDataObj = req.user
+    let userObjString = JSON.stringify(userDataObj)
+    let user = JSON.parse(userObjString)
+    if(bookingReadable.userId !== user.id){
+        return res.status(403).send({
+            message: "Must be the owner to delete",
+            statusCode: 403
+        })
+    }
+    await booking.destroy();
+    return res.status(200).send({
+        message: "Successfully deleted",
+        statusCode: 200
+    })
+})
 
 
 
