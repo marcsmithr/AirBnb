@@ -31,7 +31,7 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
         })
         reviewDataObj.setDataValue('ReviewImages', reviewImgsDataObj)
     }
-    res.status(200).send({
+    return res.status(200).send({
         Reviews
     })
 })
@@ -60,7 +60,7 @@ router.post('/:reviewId/images', restoreUser, requireAuth, async(req, res)=>{
         reviewId: review.id,
         url
     })
-    res.status(200).send({
+    return res.status(200).send({
         id: newReviewImg.id,
         url: url
     })
@@ -73,7 +73,7 @@ router.get('/:spotId/reviews', restoreUser, requireAuth, async(req, res)=>{
     let reviews = await Review.findAll({
         where: {spotId: spot.id}
     })
-    res.status(200).send({Reviews: reviews})
+    return res.status(200).send({Reviews: reviews})
 })
 
 
@@ -115,7 +115,7 @@ router.put('/:reviewId', restoreUser, requireAuth, async(req, res)=>{
         stars
     })
 
-    res.json(reviewDataObj)
+    return res.json(reviewDataObj)
 })
 
 router.delete('/:reviewId', restoreUser, requireAuth, async(req, res)=>{
@@ -138,11 +138,12 @@ router.delete('/:reviewId', restoreUser, requireAuth, async(req, res)=>{
         })
     }
     await review.destroy();
-    res.status(200).send({
+    return res.status(200).send({
         message: "Successfully deleted",
         statusCode: 200
     })
 })
+
 
 
 
