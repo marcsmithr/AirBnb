@@ -478,9 +478,9 @@ router.get('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
     for(let bookingDataObj of Bookings){
         let bookingDataString = JSON.stringify(bookingDataObj)
         let booking = JSON.parse(bookingDataString)
-        let spot = await Spot.findAll({where:{id: booking.spotId}})
+        let guest = await User.findAll({where:{id: booking.userId}})
 
-        bookingDataObj.setDataValue('Spot', spot)
+        bookingDataObj.setDataValue('User', guest)
 }
 return res.status(200).send({
     Bookings
