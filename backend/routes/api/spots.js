@@ -325,35 +325,7 @@ router.get('/:spotId', async (req, res) => {
             updatedAt: newReview.updatedAt
         })
     })
-    //Validation error cannot read properties of undefined, reading args (I suspect date issues)
-        router.post('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
-            const {startDate, endDate} = req.body;
-            let userDataObj = req.user
-            let userObjString = JSON.stringify(userDataObj)
-            let user = JSON.parse(userObjString)
-            let spotDataObj = await Spot.findByPk(req.params.spotId)
-            if(!spotDataObj){
-                return res.status(404).send({
-                    message: "Spot couldn't be found",
-                    statusCode: 404
-                })
-            }
-            let spotObjString = JSON.stringify(spotDataObj)
-            let spot = JSON.parse(spotObjString)
-            console.log('-----------------')
-            console.log(startDate.toString())
-            console.log('----------------')
-            console.log(endDate.toString())
-            console.log('----------------')
-            console.log(startDate)
-            let newBooking = await Booking.create({
-                spotId: spot.id,
-                userId: user.id,
-                startDate:startDate.toString(),
-                endDate:endDate.toString()
-            })
-            res.json(newBooking)
-        })
+
 
     router.get('/:spotId/reviews', restoreUser, requireAuth, async(req, res)=>{
         let spotIdObj = req.params;
@@ -418,6 +390,41 @@ router.delete('/:spotId', restoreUser, requireAuth, async(req, res)=>{
         message: "Successfully deleted",
         statusCode: 200
     })
+})
+
+router.post('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
+    console.log(1)
+    const {startDate, endDate} = req.body;
+    console.log(2)
+    let spot = await Spot.findByPk(req.params.spotId);
+    if(!spot){
+        return res.status(404).send({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+    console.log(3)
+    let spotStringObj = JSON.stringify(spot);
+    let spotReadable = JSON.parse(spotStringObj)
+    console.log(4)
+    let userDataObj = req.user
+    let userObjString = JSON.stringify(userDataObj)
+    let user = JSON.parse(userObjString)
+    console.log(5)
+    if(user.id === spot.ownerId){
+        return res.status(400).send({
+            message: "The owner can not book",
+            statusCode: 400
+        })
+    }
+    console.log(6)
+    let newBooking = await Booking.create({
+        spotId: spotReadable.id,
+        userId: user.id,
+        startDate: new Date (startDate),
+        endDate: new Date (endDate)
+    })
+    res.json(newBooking)
 })
 
 
