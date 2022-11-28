@@ -6,18 +6,49 @@ const Op = Sequelize.Op
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-//grab all spots while having access to Reviews, without showing Reveiw data
-let spots = await Spot.findAll(
-    {
-    include: {
-        model: Review,
-        attributes: []
+    let query = {
+        where: {},
+        include: []
+    }
+const page = req.query.page;
+//  === undefined ? 1 : parseInt(req.query.page);
+const size = req.query.size;
+// === undefined ? 5 : parseInt(req.query.size);
+if (page >= 1 && size >= 1) {
+        query.limit = size;
+        query.offset = size * (page - 1);
     }
 
-})
+if(req.query.minLat){
+    query.where.lat= {[Op.gte] : minLat}
+}
+if(req.query.maxLat){
+    query.where.lat = {[Op.lte]: maxLat}
+}
+if(req.query.minLng){
+    query.where.lng = {[Op.gte] : minLng}
+}
+if(req.query.maxLng){
+    query.where.lng = {[Op.lte]: maxLng}
+}
+if(req.query.minPrice < 0){
+    req.query.minPrice = 0
+}
+if(req.query.maxPrice < 0){
+    req.query.maxPrice = 0
+}
+if(req.query.minPrice){
+    query.where.price = {[Op.gte]: minPrice}
+}
+if(req.query.maxPrice){
+    query.where.price = {[Op.lte]: maxPrice}
+}
+
+//grab all spots while having access to Reviews, without showing Reveiw data
+let Spots = await Spot.scope('getAll').findAll(query)
 
 //iterate through spots to manipulate each spot
-    for(let spot of spots){
+    for(let spot of Spots){
         //grab all reviews
         let reviews = await Review.findAll({
             where: {
@@ -52,8 +83,19 @@ let spots = await Spot.findAll(
         spot.setDataValue('previewImage', url)
         }
     }
-return res.json(spots)
+
+if(page || size){
+    return res.json({
+        Spots,
+        page,
+        size
+    })
+}
+return res.json({
+    Spots
+})
 });
+
 
 router.post('/', restoreUser, requireAuth, async(req, res)=>{
     const {
@@ -484,7 +526,7 @@ router.get('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
         bookingDataObj.setDataValue('User', guest)
 }
     }
-    
+
 return res.status(200).send({
     Bookings
 })
