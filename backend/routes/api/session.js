@@ -40,24 +40,26 @@ router.post(
   );
 
 
-//Get Current User: provided version
-  // router.get(
-  //   '/',
-  //   restoreUser,
-  //   (req, res) => {
-  //     const { user } = req;
-  //     if (user) {
-  //       return res.json({
-  //         user: user.toSafeObject()
-  //       });
-  //     } else return res.json({ user: null });
-  //   }
-  // );
-//Get Current User: self made version
-  router.get('/', restoreUser, requireAuth, async(req, res)=>{
 
-    let user = await User.scope("currentUser").findByPk(req.user.id)
-    res.json(user)
-  })
+  router.get(
+    '/',
+    restoreUser,
+    (req, res) => {
+      const { user } = req;
+      if (user) {
+        return res.json({
+          user: user.toSafeObject()
+        });
+      } else return res.json({ user: null });
+    }
+  );
+
+  router.delete(
+    '/',
+    (_req, res) => {
+      res.clearCookie('token');
+      return res.json({ message: 'success' });
+    }
+  );
 
 module.exports = router;

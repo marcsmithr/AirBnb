@@ -22,7 +22,7 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
 
         bookingDataObj.setDataValue('Spot', spot)
 }
-res.status(200).send({
+return res.status(200).send({
     Bookings
 })
 })
