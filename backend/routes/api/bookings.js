@@ -44,14 +44,16 @@ router.put('/:bookingId', restoreUser, requireAuth, async(req, res)=>{
     let bookingObj = JSON.parse(bookingObjString)
 
     if(user.id !== bookingObj.userId){
-        return res.status(403).send({
+        res.status(403)
+        return res.json({
             message: "Only the booking owner can edit their rental",
             statusCode: 403
         })
     }
 
     if(endDate < startDate){
-        return res.status(400).send({
+        res.status(400)
+        return res.json({
             message: "Validation error",
             statusCode: 400,
             errors: {
@@ -72,7 +74,8 @@ router.put('/:bookingId', restoreUser, requireAuth, async(req, res)=>{
 router.delete('/:bookingId', restoreUser, requireAuth, async(req, res)=>{
     let booking = await Booking.findByPk(req.params.bookingId);
     if(!booking){
-        return res.status(404).send({
+        res.status(404)
+        return res.json({
             message: "Booking couldn't be found",
             statusCode: 404
         })
@@ -83,23 +86,24 @@ router.delete('/:bookingId', restoreUser, requireAuth, async(req, res)=>{
     let userObjString = JSON.stringify(userDataObj)
     let user = JSON.parse(userObjString)
     if(bookingReadable.userId !== user.id){
-        return res.status(403).send({
+        res.status(403)
+        return res.json({
             message: "Must be the owner to delete",
             statusCode: 403
         })
     }
     let now = new Date().getTime()
-    console.log(now)
     let startDate = new Date(bookingReadable.startDate).getTime()
-    console.log(startDate)
     if(now >= startDate){
-        return res.status(403).send({
+        res.status(403)
+        return res.json({
             message: "Bookings that have been started can't be deleted",
             statusCode: 403
         })
     }
     await booking.destroy();
-    return res.status(200).send({
+    res.status(200)
+    return res.json({
         message: "Successfully deleted",
         statusCode: 200
     })
