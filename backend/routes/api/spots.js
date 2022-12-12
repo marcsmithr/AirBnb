@@ -110,7 +110,8 @@ router.post('/', restoreUser, requireAuth, async(req, res)=>{
     let owner = JSON.parse(ownerDataString)
 
     if(!address||!city||!state||!country||!lat||!lng||!name||!description||!price){
-        return res.status(400).send({
+        res.status(400)
+        return res.json({
           message: "Validation error",
           statusCode: 400,
           errors: {
@@ -127,7 +128,8 @@ router.post('/', restoreUser, requireAuth, async(req, res)=>{
         })
       }
       if(name.length >=50){
-        return res.status(400).send({
+        res.status(400)
+        return res.json({
             message: "Validation error",
             statusCode: 400,
             errors: {
@@ -154,7 +156,8 @@ router.post('/', restoreUser, requireAuth, async(req, res)=>{
 
 
     if(!newSpot){
-        return res.status(400).send({
+        res.status(400)
+        return res.json({
             message: 'Validation Error',
             statusCode: 400,
             errors: {
@@ -170,7 +173,8 @@ router.post('/', restoreUser, requireAuth, async(req, res)=>{
                     }
                 })
         }
-        res.status(201).send(newSpot)
+        res.status(201)
+        res.json(newSpot)
 });
 
 
@@ -180,7 +184,8 @@ router.post('/:spotId/images', restoreUser, requireAuth, async(req, res)=>{
     let doesSpotExist = await Spot.findByPk(spotIdObj.spotId)
 
     if(!doesSpotExist){
-        return res.status(404).send({
+        res.status(404)
+        return res.json({
             message: "Spot couldn't be found",
             statusCode: 404
         })
@@ -191,8 +196,8 @@ router.post('/:spotId/images', restoreUser, requireAuth, async(req, res)=>{
         preview
     })
 
-    return res.status(200).send({
-        id: newImage.id,
+    res.status(200);
+    res.json({
         url: url,
         preview: preview
     })
@@ -204,14 +209,16 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
             ownerId: req.user.id
         }
     })
-    res.json(spots)
+    res.status(200)
+    res.json({Spots: spots})
 } )
 
 router.get('/:spotId', async (req, res) => {
     //grab all spots while having access to Reviews, without showing Reveiw data
     let spot = await Spot.findByPk(req.params.spotId)
     if(!spot){
-        return res.status(404).send({
+        res.status(404)
+        return res.json({
             message: "Spot couldn't be found",
             statusCode: 404
         })
@@ -261,7 +268,8 @@ router.get('/:spotId', async (req, res) => {
 
         let spotDataObj = await Spot.findByPk(req.params.spotId)
         if(!spotDataObj){
-            return res.status(404).send({
+            res.status(404)
+            return res.json({
                 message: "Spot couldn't be found",
                 statusCode: 404
             })
@@ -272,14 +280,16 @@ router.get('/:spotId', async (req, res) => {
         let userObjString = JSON.stringify(userDataObj)
         let owner = JSON.parse(userObjString)
         if(owner.id!== spot.ownerId){
-            return res.status(401).send({
+            res.status(401)
+            return res.json({
                 message: 'Authorization Error',
                 statusCode: 401,
                  message: 'Must be the owner to edit a spot'
                     })
         }
         if(!address||!city||!state||!country||!lat||!lng||!name||!description||!price){
-            return res.status(400).send({
+            res.status(400)
+            return res.json ({
               message: "Validation error",
               statusCode: 400,
               errors: {
@@ -310,7 +320,8 @@ router.get('/:spotId', async (req, res) => {
     router.post('/:spotId/reviews', restoreUser, requireAuth, async(req, res)=>{
         let doesSpotExist = await Spot.findByPk(req.params.spotId)
     if(!doesSpotExist){
-        return res.status(404).send({
+        res.status(404)
+        return res.json({
             message: "Spot couldn't be found",
             statusCode: 404
         })
@@ -321,7 +332,8 @@ router.get('/:spotId', async (req, res) => {
         let user = JSON.parse(userObjString)
         let spotDataObj = await Spot.findByPk(req.params.spotId)
         if(!spotDataObj){
-            return res.status(404).send({
+            res.status(404)
+            return res.json({
                 message: "Spot couldn't be found",
                 statusCode: 404
             })
@@ -333,16 +345,17 @@ router.get('/:spotId', async (req, res) => {
             spotId: spot.id
         }
         })
-        console.log(hasBeenReviewed)
         if(hasBeenReviewed.length !== 0){
-            return res.status(401).send({
+            res.status(401)
+            return res.json({
                 message: "User already has a review for this spot",
                 statusCode: 403
                     })
         }
 
         if(!review||stars < 1||stars > 5||!stars){
-            return res.status(400).send({
+            res.status(400)
+            return res.json({
               message: "Validation error",
               statusCode: 400,
               errors: {
@@ -358,7 +371,8 @@ router.get('/:spotId', async (req, res) => {
             stars
         })
 
-        res.status(200).send({
+        res.status(200)
+        res.json({
             id: newReview.id,
             userId: newReview.userId,
             spotId: newReview.spotId,
@@ -375,7 +389,8 @@ router.get('/:spotId', async (req, res) => {
         let doesSpotExist = await Spot.findByPk(spotIdObj.spotId)
 
         if(!doesSpotExist){
-            return res.status(404).send({
+            res.status(404)
+            return res.json({
                 message: "Spot couldn't be found",
                 statusCode: 404
             })
@@ -404,7 +419,8 @@ router.get('/:spotId', async (req, res) => {
             reviewDataObj.setDataValue('ReviewImages', reviewImgsDataObj)
             }
     }
-    res.status(200).send({
+    res.status(200);
+    res.json({
         Reviews
     })
 })
@@ -412,7 +428,8 @@ router.get('/:spotId', async (req, res) => {
 router.delete('/:spotId', restoreUser, requireAuth, async(req, res)=>{
     let spot = await Spot.findByPk(req.params.spotId);
     if(!spot){
-        return res.status(404).send({
+        res.status(404);
+        return res.json({
             message: "Spot couldn't be found",
             statusCode: 404
         })
@@ -423,13 +440,15 @@ router.delete('/:spotId', restoreUser, requireAuth, async(req, res)=>{
     let userObjString = JSON.stringify(userDataObj)
     let user = JSON.parse(userObjString)
     if(spotReadable.ownerId !== user.id){
-        return res.status(403).send({
+        res.status(403)
+        return res.json({
             message: "Must be the owner to delete",
             statusCode: 403
         })
     }
     await spot.destroy();
-    res.status(200).send({
+    res.status(200)
+    res.json({
         message: "Successfully deleted",
         statusCode: 200
     })
@@ -443,20 +462,23 @@ router.post('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
 
     let spot = await Spot.findByPk(req.params.spotId);
     if(!spot){
-        return res.status(404).send({
+        res.status(404)
+        return res.json({
             message: "Spot couldn't be found",
             statusCode: 404
         })
     }
 
     if(userId=== spot.ownerId){
-        return res.status(400).send({
+        res.status(400)
+        return res.json({
             message: "The owner can not book",
             statusCode: 400
         })
     }
     if(ending <= starting){
-        return res.status(400).send({
+        res.status(400)
+        return res.json({
             message: "Validation error",
             statusCode: 400,
             errors: {
@@ -475,7 +497,8 @@ router.post('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
     }})
 
     if(hasBookingConflict.length > 0){
-        return res.status(403).send({
+        res.status(403)
+        return res.json({
             message: "Sorry, this spot is already booked for the specified dates",
             statusCode: 403,
             errors: {
@@ -507,7 +530,8 @@ router.get('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
 
     let spot = await Spot.findByPk(req.params.spotId);
     if(!spot){
-        return res.status(404).send({
+        res.status(404)
+        return res.json({
             message: "Spot couldn't be found",
             statusCode: 404
         })
@@ -527,7 +551,8 @@ router.get('/:spotId/bookings', restoreUser, requireAuth, async(req, res)=>{
 }
     }
 
-return res.status(200).send({
+res.status(200)
+res.json({
     Bookings
 })
 })

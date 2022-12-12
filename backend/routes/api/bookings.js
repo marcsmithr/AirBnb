@@ -9,10 +9,6 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
     let userDataObj = req.user
     let userObjString = JSON.stringify(userDataObj)
     let user = JSON.parse(userObjString)
-    // let userNoUsername = {}
-    //     userNoUsername.id = user.id;
-    //     userNoUsername.firstName = user.firstName;
-    //     userNoUsername.lastName = user.lastName;
 
     let Bookings= await Booking.findAll({where:{userId: user.id}})
     for(let bookingDataObj of Bookings){
@@ -22,7 +18,8 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
 
         bookingDataObj.setDataValue('Spot', spot)
 }
-return res.status(200).send({
+res.status(200)
+return res.json({
     Bookings
 })
 })
@@ -37,7 +34,8 @@ router.put('/:bookingId', restoreUser, requireAuth, async(req, res)=>{
 
     let bookingDataObj = await Booking.findByPk(req.params.bookingId)
     if(!bookingDataObj){
-        return res.status(404).send({
+        res.status(404)
+        return res.json({
             message: "Booking could not be found",
             statusCode: 404
         })

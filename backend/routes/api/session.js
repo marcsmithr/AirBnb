@@ -14,7 +14,8 @@ router.post(
     async (req, res, next) => {
       const { credential, password } = req.body;
       if(!credential||!password){
-        return res.status(400).send({
+        res.status(400)
+        return res.json({
           message: "Validation error",
           statusCode: 400,
           errors: {
@@ -25,7 +26,8 @@ router.post(
       const user = await User.login({ credential, password });
 
       if (!user) {
-       return res.status(401).send({
+       res.status(401)
+       return res.json({
           message: "Invalid credentials",
           statusCode: 401
         })
