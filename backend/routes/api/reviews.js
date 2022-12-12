@@ -31,7 +31,8 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
         })
         reviewDataObj.setDataValue('ReviewImages', reviewImgsDataObj)
     }
-    return res.status(200).send({
+    res.status(200)
+    return res.json({
         Reviews
     })
 })
@@ -40,7 +41,8 @@ router.post('/:reviewId/images', restoreUser, requireAuth, async(req, res)=>{
     const{url} = req.body;
     let reviewDataObj = await Review.findByPk(req.params.reviewId);
     if(!reviewDataObj){
-        return res.status(404).send({
+        res.status(404)
+        return res.json({
             message: "Review couldn't be found",
             statusCode: 404
         })
@@ -50,7 +52,8 @@ router.post('/:reviewId/images', restoreUser, requireAuth, async(req, res)=>{
     let review = JSON.parse(reviewDataString);
     let reviewImages = ReviewImage.findAll({where: {reviewId: review.id} })
     if(reviewImages.length >= 10){
-        return res.status(403).send({
+        res.status(403)
+        return res.json({
             message: "Maximum number of images for this resource was reached",
             statusCode: 403
         })
@@ -60,7 +63,8 @@ router.post('/:reviewId/images', restoreUser, requireAuth, async(req, res)=>{
         reviewId: review.id,
         url
     })
-    return res.status(200).send({
+    res.status(200)
+    return res.json({
         id: newReviewImg.id,
         url: url
     })
@@ -73,7 +77,8 @@ router.get('/:spotId/reviews', restoreUser, requireAuth, async(req, res)=>{
     let reviews = await Review.findAll({
         where: {spotId: spot.id}
     })
-    return res.status(200).send({Reviews: reviews})
+    res.status(200)
+    return res.json({Reviews: reviews})
 })
 
 
@@ -85,7 +90,8 @@ router.put('/:reviewId', restoreUser, requireAuth, async(req, res)=>{
 
     let reviewDataObj = await Review.findByPk(req.params.reviewId)
     if(!reviewDataObj){
-        return res.status(404).send({
+        res.status(404)
+        return res.json({
             message: "Review couldn't be found",
             statusCode: 404
         })
@@ -94,14 +100,16 @@ router.put('/:reviewId', restoreUser, requireAuth, async(req, res)=>{
     let reviewObj = JSON.parse(reviewObjString)
 
     if(user.id !== reviewObj.userId){
-        return res.status(403).send({
+        res.status(403)
+        return res.json({
             message: "Only the review owner can edit their review",
             statusCode: 403
         })
     }
 
     if(!review || !stars || stars < 1 || stars > 5){
-        return res.status(400).send({
+        res.status(400)
+        return res.json({
             message: "Validation error",
             statusCode: 400,
             errors: {
@@ -122,7 +130,8 @@ router.put('/:reviewId', restoreUser, requireAuth, async(req, res)=>{
 router.delete('/:reviewId', restoreUser, requireAuth, async(req, res)=>{
     let review = await Review.findByPk(req.params.reviewId);
     if(!review){
-        return res.status(404).send({
+        res.status(404)
+        return res.json({
             message: "Review couldn't be found",
             statusCode: 404
         })
@@ -133,13 +142,15 @@ router.delete('/:reviewId', restoreUser, requireAuth, async(req, res)=>{
     let userObjString = JSON.stringify(userDataObj)
     let user = JSON.parse(userObjString)
     if(reviewReadable.userId !== user.id){
-        return res.status(403).send({
+        res.status(403)
+        return res.json({
             message: "Must be the owner to delete",
             statusCode: 403
         })
     }
     await review.destroy();
-    return res.status(200).send({
+    res.status(200)
+    return res.json({
         message: "Successfully deleted",
         statusCode: 200
     })
