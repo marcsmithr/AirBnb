@@ -8,11 +8,10 @@ router.delete('/:reviewImageId', restoreUser, requireAuth, async(req, res)=>{
     let reviewImageDataObj = await ReviewImage.findByPk(req.params.reviewImageId)
     let reviewImageDataString = JSON.stringify(reviewImageDataObj);
     let reviewImage = JSON.parse(reviewImageDataString)
-    console.log('-----------------')
-    console.log(reviewImageDataObj)
-    console.log('-----------------')
+
     if(!reviewImageDataObj){
-        return res.status(404).send({
+        res.status(404)
+        return res.json({
             message: "review image couldn't be found",
             statusCode: 404
         })
@@ -23,14 +22,17 @@ router.delete('/:reviewImageId', restoreUser, requireAuth, async(req, res)=>{
     let userDataObj = req.user;
     let userDataString = JSON.stringify(userDataObj);
     let user = JSON.parse(userDataString)
+
     if(review.userId !== user.id){
-        return res.status(403).send({
+        res.status(403)
+        return res.json({
             message: "Must be the owner to delete",
             statusCode: 403
         })
     }
     await reviewImageDataObj.destroy()
-    return res.status(200).send({
+    res.status(200)
+    return res.json({
         message: "Successfully deleted",
         statusCode: 200
     })

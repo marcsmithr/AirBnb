@@ -11,7 +11,8 @@ router.delete('/:spotImageId', restoreUser, requireAuth, async(req, res)=>{
     let spotImage = JSON.parse(spotImageDataString)
 
     if(!spotImageDataObj){
-        return res.status(404).send({
+        res.status(404)
+        return res.json({
             message: "Spot image couldn't be found",
             statusCode: 404
         })
@@ -23,13 +24,15 @@ router.delete('/:spotImageId', restoreUser, requireAuth, async(req, res)=>{
     let userDataString = JSON.stringify(userDataObj);
     let user = JSON.parse(userDataString)
     if(spot.ownerId !== user.id){
-        return res.status(403).send({
+        res.status(403)
+        return res.json({
             message: "Must be the owner to delete",
             statusCode: 403
         })
     }
     await spotImageDataObj.destroy()
-    return res.status(200).send({
+    res.status(200)
+    return res.json({
         message: "Successfully deleted",
         statusCode: 200
     })
