@@ -29,7 +29,10 @@ router.post(
        res.status(401)
        return res.json({
           message: "Invalid credentials",
-          statusCode: 401
+          statusCode: 401,
+          errors:{
+            credential: 'Invalid credential'
+          }
         })
       }
 

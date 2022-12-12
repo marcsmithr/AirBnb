@@ -38,7 +38,10 @@ router.post(
       } catch (error) {
         res.status(400)
         return res.json({
-          message: 'Invalid first name, last name, or username'
+          message: 'Invalid first name, last name, or username',
+          errors: {
+            invalidInput: 'Invalid first name, last name, or username'
+          }
         })
       }
     }
