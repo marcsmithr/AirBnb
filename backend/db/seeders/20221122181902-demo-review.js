@@ -27,6 +27,24 @@ module.exports = {
       review: 'Dance performance were immaculate',
       stars: 5
     },
+    {
+      spotId: 4,
+      userId: 1,
+      review: 'A wonderful experience',
+      stars: 5
+    },
+    {
+      spotId: 5,
+      userId: 2,
+      review: 'The place was pretty dirty',
+      stars: 2
+    },
+    {
+      spotId: 6,
+      userId: 2,
+      review: 'Lovely spot',
+      stars: 4
+    }
     ])
   },
 
