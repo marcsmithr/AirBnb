@@ -9,3 +9,8 @@ body {
 img {
     height: 20px;
 }
+
+a {
+    text-decoration: none;
+    color: #222;
+}

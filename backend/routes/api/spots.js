@@ -1,9 +1,46 @@
 const express = require('express');
 const { User, Spot, Review, SpotImage, ReviewImage, Booking, Sequelize } = require('../../db/models');
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
+const { handleValidationErrors } = require('../../utils/auth')
+const {check }= require('express-validator')
 const Op = Sequelize.Op
 
 const router = express.Router();
+
+const validateSpots = [
+    check('address')
+    .notEmpty()
+    .withMessage('Street address is required'),
+    check('city')
+    .notEmpty()
+    .withMessage('City is required'),
+    check('state')
+    .notEmpty()
+    .withMessage('State is required'),
+    check('country')
+    .notEmpty()
+    .withMessage('Country is required'),
+    check('lat')
+    .notEmpty()
+    .isDecimal()
+    .withMessage('Latitude is not valid'),
+    check('lng')
+    .notEmpty()
+    .isDecimal()
+    .withMessage('Longitude is required'),
+    check('name')
+    .notEmpty()
+    .isLength({max:50})
+    .withMessage('Name must be less than 50 characters'),
+    check('description')
+    .notEmpty()
+    .withMessage('Description is required'),
+    check('price')
+    .notEmpty()
+    .withMessage('Price per day is required'),
+    handleValidationErrors
+]
+
 
 router.get('/', async (req, res) => {
     let query = {
@@ -97,7 +134,7 @@ return res.json({
 });
 
 
-router.post('/', restoreUser, requireAuth, async(req, res)=>{
+router.post('/', restoreUser, requireAuth, validateSpots, async(req, res)=>{
     const {
         address, city,
         state, country,

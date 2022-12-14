@@ -1,11 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
-import { getSpots } from "../../store/spotReducer";
-import { useEffect } from "react";
 import SpotCard from "../SpotCard";
 import './SpotList.css'
 
 const SpotList = () => {
-    const dispatch = useDispatch();
     const spotsObj = useSelector(state => state.spots.allSpots)
     const spots = Object.values(spotsObj)
 
