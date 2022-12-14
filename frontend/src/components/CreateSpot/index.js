@@ -17,14 +17,13 @@ const CreateSpot = ()=>{
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    return dispatch(postSpot({ address, city, state, lat, name, description, price}))
+    return dispatch(postSpot({ address, city, state, country, lat, lng, name, description, price}))
     .catch(async(res) =>{
-        const data = await res.json();
+        const data = await res.json()
         if( data && data.errors) {
             console.log('data: ', data)
-            const errorsArr = Object.values(data.errors)
-            console.log('errorsArr: ', errorsArr)
-            setErrors(errorsArr)
+            console.log('data.errors: ', data.errors)
+            setErrors(data.errors)
         }
     })
     }

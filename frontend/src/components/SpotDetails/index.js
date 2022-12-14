@@ -7,14 +7,14 @@ const SpotDetails = () => {
     const dispatch = useDispatch()
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.singleSpot)
-    useEffect((e)=>{
+    useEffect(()=>{
         dispatch(getOneSpot(spotId))
     }, [dispatch])
-    console.log('Spot Details: ', spot)
-    return (
+    if(!spot) return null
+    return spot.id && (
         <div className="spot-details-container">
             <div className="details-header-div">
-                <h1>{spot.name}</h1>
+                <h1>{spot?.name}</h1>
                 <div className="basic-details-div">
                     <p>{spot.avgRating} ᛫ {spot.numReviews} reviews ᛫ {spot.city}, {spot.state}, {spot.country}</p>
                 </div>
@@ -36,7 +36,9 @@ const SpotDetails = () => {
                     <p>{spot.avgRating} ᛫ {spot.numReviews} reviews</p>
                 </div>
             </div>
-
+        <div>
+            <button type="delete">Delete</button>
+        </div>
         </div>
     )
 }

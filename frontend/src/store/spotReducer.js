@@ -33,6 +33,7 @@ export const getSpots = () => async dispatch =>{
         dispatch(load(Spots))
         return Spots
     }
+    return response
 }
 
 export const postSpot = (payload) => async dispatch => {
@@ -41,11 +42,13 @@ export const postSpot = (payload) => async dispatch => {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(payload)
     });
+    console.log('response: ' , response)
     if(response.ok){
         const spot = await response.json();
         dispatch(create(spot))
         return spot
     }
+    return response
 }
 
 export const putSpot = (payload) => async dispatch => {
@@ -60,15 +63,16 @@ export const putSpot = (payload) => async dispatch => {
         dispatch(create(spot))
         return spot
     }
+    return response
 }
 
 export const getOneSpot = (id) => async dispatch => {
     const response= await csrfFetch(`/api/spots/${id}`);
     if (response.ok){
         const spot = await response.json();
-        console.log('Thunk Spot: ', spot)
         dispatch(getOne(spot))
     }
+    return response
 }
 
 const intialState = {allSpots:{}, singleSpot: {}}
@@ -76,7 +80,7 @@ const intialState = {allSpots:{}, singleSpot: {}}
 const spotReducer = (state = intialState, action) => {
     let newState;
     switch (action.type) {
-        case LOAD:
+        case LOAD:{
             newState = {...state}
             let spots2 = {}
 
@@ -85,17 +89,20 @@ const spotReducer = (state = intialState, action) => {
             })
             newState.allSpots = spots2
             return newState
-        case CREATE:
-            return {
-                ...state, spots: [...state.spots, action.spot]
-            }
-        case GET_ONE:
+        }
+        case CREATE:{
             newState = {...state}
-            console.log(action.spot)
+            let spot2 = {...state.allSpots}
+            spot2[action.spot.id] = action.spot
+            newState.allSpots = spot2
+            return newState
+        }
+        case GET_ONE: {
+            newState = {...state, allSpots: {...state.allSpots}}
             let singleSpot2 = action.spot
             newState.singleSpot = singleSpot2
-            console.log('newState:' , newState)
             return newState
+        }
             default:
                 return state
     }
