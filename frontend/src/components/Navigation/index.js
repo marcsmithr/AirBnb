@@ -16,7 +16,10 @@ function Navigation({ isLoaded }){
         </NavLink>
       </div>
       {isLoaded && (
-        <div>
+        <div className='nav-user-div'>
+          <NavLink exact to="/create">
+            <p>Airbnb your home</p>
+          </NavLink>
           <ProfileButton user={sessionUser} />
         </div>
       )}

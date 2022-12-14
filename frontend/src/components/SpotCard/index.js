@@ -1,4 +1,5 @@
 import './SpotCard.css'
+import { Link } from 'react-router-dom'
 
 
 const SpotCard = ({spot}) => {
@@ -7,6 +8,7 @@ const SpotCard = ({spot}) => {
 
     return(
     <div className='spot-card-container'>
+        <Link to={`/spot/${spot.id}`}>
             <img src={spot.previewImage} className='spot-image'/>
             <div className='spot-info'>
                 <div>
@@ -17,6 +19,7 @@ const SpotCard = ({spot}) => {
                     <p>{spot.avgRating}</p>
                 </div>
             </div>
+            </Link>
         </div>
 
 

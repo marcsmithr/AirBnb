@@ -5,6 +5,8 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotList from "./components/SpotList";
 import { getSpots } from "./store/spotReducer";
+import CreateSpot from "./components/CreateSpot";
+import SpotDetails from "./components/SpotDetails";
 
 
 function App() {
@@ -22,6 +24,12 @@ function App() {
         <Switch>
           <Route path="/" exact>
         <SpotList />
+          </Route>
+          <Route path="/create" exact>
+        <CreateSpot/>
+          </Route>
+          <Route path="/spot/:spotId">
+        <SpotDetails/>
           </Route>
         </Switch>
       )}
