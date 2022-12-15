@@ -52,6 +52,7 @@ export const postSpot = (payload) => async dispatch => {
 }
 
 export const putSpot = (payload) => async dispatch => {
+    console.log('payload: ', payload)
     const response = await csrfFetch(`/api/spots/${payload.id}`,{
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},

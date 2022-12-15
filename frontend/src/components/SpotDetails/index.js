@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getOneSpot, deleteSpot } from "../../store/spotReducer";
@@ -7,8 +7,9 @@ const SpotDetails = () => {
     const dispatch = useDispatch()
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.singleSpot)
-    const handleDelete = (id) => {
-        dispatch(deleteSpot(id))
+    const handleDelete = async() => {
+        const deletespot = await dispatch(deleteSpot(spot.id))
+        return deletespot
     }
     useEffect(()=>{
         dispatch(getOneSpot(spotId))
@@ -40,7 +41,10 @@ const SpotDetails = () => {
                 </div>
             </div>
         <div>
-            <button onClick={handleDelete(spot.id)}>Delete</button>
+            <button onClick={handleDelete}>Delete</button>
+            <Link to={`${spot.id}/edit`}>
+                <button>Edit</button>
+            </Link>
         </div>
         </div>
     )
