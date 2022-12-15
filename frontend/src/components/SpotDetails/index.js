@@ -23,6 +23,7 @@ const SpotDetails = () => {
                     <p>{spot?.avgRating} ᛫ {spot?.numReviews} reviews ᛫ {spot.city}, {spot.state}, {spot.country}</p>
                 </div>
             </div>
+
             <div className="preview-images-div">
                 <img src={spot.SpotImages[0].url}/>
             </div>

@@ -4,6 +4,7 @@ const LOAD = 'spots/LOAD'
 const CREATE = 'spots/CREATE'
 const DELETE = 'spots/DELETE'
 const GET_ONE = 'spots/GET_ONE'
+const CREATE_IMG = 'spots/image/CREATE'
 
 const load = spots => ({
     type: LOAD,
@@ -15,6 +16,11 @@ const create = spot => ({
     spot
 })
 
+const createImage = image => ({
+    type: CREATE,
+    image
+})
+
 const getOne = spot => ({
     type: GET_ONE,
     spot
@@ -24,6 +30,8 @@ const remove = spotId => ({
     type: DELETE,
     spotId
 })
+
+
 
 export const getSpots = () => async dispatch =>{
     const response = await csrfFetch('/api/spots');
@@ -47,6 +55,20 @@ export const postSpot = (payload) => async dispatch => {
         const spot = await response.json();
         dispatch(create(spot))
         return spot
+    }
+    return response
+}
+
+export const postSpotImage = (payload) => async dispatch => {
+    const response = await csrfFetch(`api/spots/${payload.spotId}/images`,{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+    });
+    if(response.ok){
+        const image = await response.json();
+        dispatch(createImage(image))
+        return image
     }
     return response
 }
@@ -96,7 +118,7 @@ const spotReducer = (state = intialState, action) => {
     let newState;
     switch (action.type) {
         case LOAD:{
-            newState = {...state}
+            newState = {...state, singleSpot: {}}
             let spots2 = {}
 
             action.spots.forEach(spot => {
@@ -112,8 +134,20 @@ const spotReducer = (state = intialState, action) => {
             newState.allSpots = spot2
             return newState
         }
+        case CREATE_IMG: {
+            newState = {...state, singleSpot:{...state.singleSpot}}
+            let images = []
+            if(newState.singleSpot.SpotImages.length){
+                newState.singleSpot.SpotImages.forEach((image)=>{
+                    images.push(image)
+                })
+            }
+            images.push(action.image)
+            newState.singleSpot.SpotImages = images
+            return newState
+        }
         case GET_ONE: {
-            newState = {...state, allSpots: {...state.allSpots}}
+            newState = {...state, singleSpot: {}}
             let singleSpot2 = action.spot
             newState.singleSpot = singleSpot2
             return newState

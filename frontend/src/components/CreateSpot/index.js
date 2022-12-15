@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { useState } from "react"
-import { postSpot } from "../../store/spotReducer";
+import { postSpot, postSpotImage } from "../../store/spotReducer";
 
 const CreateSpot = ()=>{
   const dispatch = useDispatch();
@@ -13,20 +13,57 @@ const CreateSpot = ()=>{
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
+  const [url, setUrl] = useState('')
   const [errors, setErrors] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault()
-    return dispatch(postSpot({ address, city, state, country, lat, lng, name, description, price}))
+    let errorsArr = []
+    let spot = await dispatch(postSpot({ address, city, state, country, lat, lng, name, description, price}))
     .catch(async(res) =>{
         const data = await res.json()
         if( data && data.errors) {
             console.log('data: ', data)
             console.log('data.errors: ', data.errors)
-            setErrors(data.errors)
+            data.errors.forEach((el) => {
+                errorsArr.push(el)
+            })
+        }})
+        console.log(spot)
+        if(!url){
+            let payload = {
+                spotId:spot.id,
+                url: 'https://a0.muscache.com/im/pictures/f31aec24-2f49-4fdc-a1ac-b750117c0b8f.jpg?im_w=960',
+                preview: true}
+        dispatch(postSpotImage(payload))
+        .catch(async(res) =>{
+            const data = await res.json()
+            if( data && data.message) {
+                console.log('data: ', data)
+                console.log('data.errors: ', data.message)
+                    errorsArr.push(data.message)
+
+            }
+         })
         }
-    })
-    }
+        if(url){
+            let payload = {
+                spotId:spot.id,
+                url: url,
+                preview: true}
+        dispatch(postSpotImage(payload))
+        .catch(async(res) =>{
+            const data = await res.json()
+            if( data && data.message) {
+                console.log('data: ', data)
+                console.log('data.errors: ', data.message)
+                errorsArr.push(data.message)
+            }
+         })
+        }
+    setErrors(errorsArr)
+}
+
 
     return (
         <div className="spot-form-container">
@@ -114,6 +151,14 @@ const CreateSpot = ()=>{
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
+                />
+                </lable>
+                <lable>
+                    Preview Image
+                <input
+                    type="text"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
                 />
                 </lable>
                 <button type="submit">Submit</button>
