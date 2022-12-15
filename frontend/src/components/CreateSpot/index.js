@@ -1,9 +1,11 @@
 import { useDispatch } from "react-redux"
 import { useState } from "react"
 import { postSpot, postSpotImage } from "../../store/spotReducer";
+import { useHistory } from "react-router-dom";
 
 const CreateSpot = ()=>{
   const dispatch = useDispatch();
+  const history = useHistory();
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -18,50 +20,21 @@ const CreateSpot = ()=>{
 
   const handleSubmit = async(e) => {
     e.preventDefault()
-    let errorsArr = []
-    let spot = await dispatch(postSpot({ address, city, state, country, lat, lng, name, description, price}))
+    let payload = {
+        spotPayload:{ address, city, state, country, lat, lng, name, description, price},
+        imagePayload: {
+            url: url,
+            preview: true
+        }}
+    let spot = await dispatch(postSpot(payload))
     .catch(async(res) =>{
-        const data = await res.json()
+        let data = await res.json()
+        console.log('data: ', data)
         if( data && data.errors) {
             console.log('data: ', data)
             console.log('data.errors: ', data.errors)
-            data.errors.forEach((el) => {
-                errorsArr.push(el)
-            })
-        }})
-        console.log(spot)
-        if(!url){
-            let payload = {
-                spotId:spot.id,
-                url: 'https://a0.muscache.com/im/pictures/f31aec24-2f49-4fdc-a1ac-b750117c0b8f.jpg?im_w=960',
-                preview: true}
-        dispatch(postSpotImage(payload))
-        .catch(async(res) =>{
-            const data = await res.json()
-            if( data && data.message) {
-                console.log('data: ', data)
-                console.log('data.errors: ', data.message)
-                    errorsArr.push(data.message)
-
-            }
-         })
-        }
-        if(url){
-            let payload = {
-                spotId:spot.id,
-                url: url,
-                preview: true}
-        dispatch(postSpotImage(payload))
-        .catch(async(res) =>{
-            const data = await res.json()
-            if( data && data.message) {
-                console.log('data: ', data)
-                console.log('data.errors: ', data.message)
-                errorsArr.push(data.message)
-            }
-         })
-        }
-    setErrors(errorsArr)
+            setErrors(data.errors)
+        }}).then(() => history.push('/'))
 }
 
 
@@ -72,7 +45,7 @@ const CreateSpot = ()=>{
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
-                <lable>
+                <label>
                     Address
                 <input
                     type="text"
@@ -80,8 +53,8 @@ const CreateSpot = ()=>{
                     onChange={(e) => setAddress(e.target.value)}
                     required
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     City
                 <input
                     type="text"
@@ -89,8 +62,8 @@ const CreateSpot = ()=>{
                     onChange={(e) => setCity(e.target.value)}
                     required
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     State
                 <input
                     type="text"
@@ -98,8 +71,8 @@ const CreateSpot = ()=>{
                     onChange={(e) => setState(e.target.value)}
                     required
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Country
                 <input
                     type="text"
@@ -107,8 +80,8 @@ const CreateSpot = ()=>{
                     onChange={(e) => setCountry(e.target.value)}
                     required
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Latitude
                 <input
                     type="number"
@@ -116,8 +89,8 @@ const CreateSpot = ()=>{
                     onChange={(e) => setLat(e.target.value)}
                     required
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Longitude
                 <input
                     type="number"
@@ -125,8 +98,8 @@ const CreateSpot = ()=>{
                     onChange={(e) => setLng(e.target.value)}
                     required
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Name
                 <input
                     type="text"
@@ -134,8 +107,8 @@ const CreateSpot = ()=>{
                     onChange={(e) => setName(e.target.value)}
                     required
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Description
                 <input
                     type="text"
@@ -143,8 +116,8 @@ const CreateSpot = ()=>{
                     onChange={(e) => setDescription(e.target.value)}
                     required
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Price
                 <input
                     type="number"
@@ -152,16 +125,19 @@ const CreateSpot = ()=>{
                     onChange={(e) => setPrice(e.target.value)}
                     required
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Preview Image
                 <input
                     type="text"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
+                    required
                 />
-                </lable>
-                <button type="submit">Submit</button>
+                </label>
+                <button type="submit">
+                    Submit
+                    </button>
             </form>
         </div>
     )

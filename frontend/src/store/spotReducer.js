@@ -45,44 +45,54 @@ export const getSpots = () => async dispatch =>{
 }
 
 export const postSpot = (payload) => async dispatch => {
-    const response = await csrfFetch('/api/spots', {
+    console.log('hello from postSpot')
+    let spot;
+    const {spotPayload} = payload
+    console.log('spotPayload: ', spotPayload)
+    const spotResponse = await csrfFetch('/api/spots', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload)
-    });
-    console.log('response: ' , response)
-    if(response.ok){
-        const spot = await response.json();
-        dispatch(create(spot))
-        return spot
+        body: JSON.stringify(spotPayload)
+    })
+
+    spot = await spotResponse.json();
+    console.log('before first response check')
+    if(spotResponse.ok){
+         console.log('spot: ',spot)
+        const {imagePayload} = payload
+        console.log('imagePayload: ', imagePayload)
+        const imageResponse = await csrfFetch(`/api/spots/${spot.id}/images`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(imagePayload)
+        })
+        const image = await imageResponse.json();
+        console.log('imageResponse: ', image)
+        if(imageResponse.ok){
+            console.log('image: ', image)
+        spot.previewImage = image.url
+        await dispatch(create(spot))
     }
-    return response
+}
+    console.log('thunk spot final form: ', spot)
+    return spot
 }
 
-export const postSpotImage = (payload) => async dispatch => {
-    const response = await csrfFetch(`api/spots/${payload.spotId}/images`,{
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload)
-    });
-    if(response.ok){
-        const image = await response.json();
-        dispatch(createImage(image))
-        return image
-    }
-    return response
-}
+
 
 export const putSpot = (payload) => async dispatch => {
-    console.log('payload: ', payload)
-    const response = await csrfFetch(`/api/spots/${payload.id}`,{
+    let {spotPayload, imageUrl} = payload
+    console.log('spot in putSpot:', spotPayload)
+    console.log('imageUrl in putSpot', `${imageUrl}`)
+    const response = await csrfFetch(`/api/spots/${spotPayload.id}`,{
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload)
+        body: JSON.stringify(spotPayload)
     });
 
     if(response.ok) {
         const spot = await response.json();
+        spot.previewImage = imageUrl
         dispatch(create(spot))
         return spot
     }

@@ -18,12 +18,15 @@ const EditSpot = ()=>{
   const [name, setName] = useState(spot.name);
   const [description, setDescription] = useState(spot.description);
   const [price, setPrice] = useState(spot.price);
+  const [image, setImage] = useState(spot.previewImage)
   const [errors, setErrors] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const payload = {id: spot.id,
-         address, city, state, country, lat, lng, name, description, price}
+    console.log(spot)
+    const payload = {spotPayload: {id: spot.id,
+         address, city, state, country, lat, lng, name, description, price},
+        imageUrl: image}
     return dispatch(putSpot(payload))
     .catch(async(res) =>{
         const data = await res.json()

@@ -2,17 +2,20 @@ import { useParams, Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getOneSpot, deleteSpot } from "../../store/spotReducer";
+import { getReviews } from "../../store/reviewReducer";
 
 const SpotDetails = () => {
     const dispatch = useDispatch()
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.singleSpot)
+    const reviews = useSelector((state) => state.reviews.spot[spotId])
     const handleDelete = async() => {
         const deletespot = await dispatch(deleteSpot(spot.id))
         return deletespot
     }
     useEffect(()=>{
         dispatch(getOneSpot(spotId))
+        dispatch(getReviews(spotId))
     }, [dispatch])
     if(!spot) return null
     return spot.id && (
@@ -41,7 +44,10 @@ const SpotDetails = () => {
                     <p>{spot.avgRating} ᛫ {spot.numReviews} reviews</p>
                 </div>
             </div>
-        <div>
+        <div className="reviews-container">
+            
+        </div>
+        <div className="modify-spot-buttons">
             <button onClick={handleDelete}>Delete</button>
             <Link to={`${spot.id}/edit`}>
                 <button>Edit</button>
