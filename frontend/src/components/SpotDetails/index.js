@@ -1,12 +1,15 @@
 import { useParams } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getOneSpot } from "../../store/spotReducer";
+import { getOneSpot, deleteSpot } from "../../store/spotReducer";
 
 const SpotDetails = () => {
     const dispatch = useDispatch()
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.singleSpot)
+    const handleDelete = (id) => {
+        dispatch(deleteSpot(id))
+    }
     useEffect(()=>{
         dispatch(getOneSpot(spotId))
     }, [dispatch])
@@ -14,9 +17,9 @@ const SpotDetails = () => {
     return spot.id && (
         <div className="spot-details-container">
             <div className="details-header-div">
-                <h1>{spot?.name}</h1>
+                <h1>{spot.name}</h1>
                 <div className="basic-details-div">
-                    <p>{spot.avgRating} ᛫ {spot.numReviews} reviews ᛫ {spot.city}, {spot.state}, {spot.country}</p>
+                    <p>{spot?.avgRating} ᛫ {spot?.numReviews} reviews ᛫ {spot.city}, {spot.state}, {spot.country}</p>
                 </div>
             </div>
             <div className="preview-images-div">
@@ -37,7 +40,7 @@ const SpotDetails = () => {
                 </div>
             </div>
         <div>
-            <button type="delete">Delete</button>
+            <button onClick={handleDelete(spot.id)}>Delete</button>
         </div>
         </div>
     )
