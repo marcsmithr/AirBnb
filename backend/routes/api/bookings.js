@@ -26,8 +26,6 @@ return res.json({
 
 router.put('/:bookingId', restoreUser, requireAuth, async(req, res)=>{
     const{startDate, endDate} = req.body
-    console.log(startDate)
-    console.log(endDate)
     let userDataObj = req.user
     let userObjString = JSON.stringify(userDataObj)
     let user = JSON.parse(userObjString)

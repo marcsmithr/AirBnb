@@ -1,3 +1,15 @@
 .hidden {
     display: none;
 }
+.nav-container{
+    display: flex;
+    justify-content: space-between;
+    border-bottom:  1px solid rgba(211,211,211, .2);
+}
+.nav-user-div{
+    display: flex;
+}
+.nav-user-div > p {
+    font-size: 10px;
+    padding: 10px;
+}

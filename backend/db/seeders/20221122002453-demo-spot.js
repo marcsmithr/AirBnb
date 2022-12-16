@@ -44,7 +44,44 @@ module.exports = {
         name: 'Gaigo',
         description: 'Lair of the Gaigo students',
         price: 30
-      }
+      },
+      {
+        ownerId: '1',
+        address: '312 Crescent Street',
+        city: 'Springfield',
+        state: 'Illinois',
+        country: 'United States',
+        lat: 41.5250,
+        lng: 88.0817,
+        name: 'The Burrow',
+        description: 'Lovely downtown apartment',
+        price: 250
+      },
+      {
+        ownerId: '2',
+        address: '6319 Drawbridge Court',
+        city: 'Charleston',
+        state: 'South Carolina',
+        country: 'United States',
+        lat: 32.7765,
+        lng: 79.9311,
+        name: 'The Castle',
+        description: 'A imposing fortification in west Charleston',
+        price: 300
+      },
+      {
+        ownerId: '3',
+        address: '850 Conifer Circle',
+        city: 'Charlotte',
+        state: 'North Carolina',
+        country: 'United States',
+        lat: 35.2271,
+        lng: 80.8431,
+        name: 'The Tar Heel Spot',
+        description: 'The home of basketball',
+        price: 275
+      },
+
     ], {});
   },
 
