@@ -36,7 +36,7 @@ function App() {
           <Route path="/spots/:spotId/edit" exact>
               <EditSpot/>
           </Route>
-          <Route path="/spot/:spotId/review" exact>
+          <Route path="/spots/:spotId/review" >
               <CreateReview/>
           </Route>
         </Switch>

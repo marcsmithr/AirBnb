@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 
 const ReviewCard = ({review}) => {
+    console.log('review in card: ', review)
 const handleDelete= () =>{
 
 }

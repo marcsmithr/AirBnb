@@ -1,10 +1,12 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useState } from "react"
 import { postReview } from "../../store/reviewReducer";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 const CreateReview = ()=>{
   const dispatch = useDispatch();
+  const { spotId } = useParams()
+  const spot = useSelector((state) => state.spots.allSpots[spotId])
   const history = useHistory();
   const [review, setReview] = useState("");
   const [stars, setStars] = useState("");
@@ -13,7 +15,10 @@ const CreateReview = ()=>{
 
   const handleSubmit = async(e) => {
     e.preventDefault()
-    let payload = {review, stars}
+    let payload = {
+        reviewPayload: {review, stars},
+        spotIdPayload: spot.id
+    }
     await dispatch(postReview(payload))
     .catch(async(res) =>{
         let data = await res.json()
@@ -22,7 +27,7 @@ const CreateReview = ()=>{
             console.log('data: ', data)
             console.log('data.errors: ', data.errors)
             setErrors(data.errors)
-        }}).then(() => history.push('/'))
+        }}).then(() => history.push(`/spot/${spot.id}`))
 }
 
 

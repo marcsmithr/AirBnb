@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, NavLink } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getOneSpot, deleteSpot } from "../../store/spotReducer";
@@ -10,7 +10,6 @@ const SpotDetails = () => {
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.singleSpot)
     const reviews = useSelector((state) => state.reviews.spots)
-    console.log(reviews)
     const reviewsArr = Object.values(reviews)
 
     const handleDelete = async() => {
@@ -57,9 +56,9 @@ const SpotDetails = () => {
                 />
             ))}
             </ol>
-            <Link exact to= {`/spots/${spot.id}/review`}>
+            <NavLink exact to= {`${spot.id}/review`}>
             <button>Create Review</button>
-          </Link>
+          </NavLink>
         </div>
         <div className="modify-spot-buttons">
             <button onClick={handleDelete}>Delete</button>

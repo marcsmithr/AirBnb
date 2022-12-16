@@ -75,8 +75,6 @@ export const postSpot = (payload) => async dispatch => {
 
 export const putSpot = (payload) => async dispatch => {
     let {spotPayload, imageUrl} = payload
-    console.log('spot in putSpot:', spotPayload)
-    console.log('imageUrl in putSpot', `${imageUrl}`)
     const response = await csrfFetch(`/api/spots/${spotPayload.id}`,{
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
