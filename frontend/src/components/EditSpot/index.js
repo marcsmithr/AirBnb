@@ -7,7 +7,9 @@ const EditSpot = ()=>{
 
   const dispatch = useDispatch();
   const { spotId } = useParams();
+  console.log(spotId)
   const spot = useSelector((state) => state.spots.allSpots[spotId])
+  console.log('spot: ',spot)
 
   const [address, setAddress] = useState(spot.address);
   const [city, setCity] = useState(spot.city);
@@ -21,31 +23,32 @@ const EditSpot = ()=>{
   const [image, setImage] = useState(spot.previewImage)
   const [errors, setErrors] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault()
-    console.log(spot)
     const payload = {spotPayload: {id: spot.id,
          address, city, state, country, lat, lng, name, description, price},
         imageUrl: image}
-    return dispatch(putSpot(payload))
+        console.log('payload: ', payload)
+    return await dispatch(putSpot(payload))
     .catch(async(res) =>{
         const data = await res.json()
         if( data && data.errors) {
             console.log('data: ', data)
             console.log('data.errors: ', data.errors)
-            setErrors(data.errors)
+            let errorsArr = Object.values(data.errors)
+            setErrors(errorsArr)
         }
     })
     }
 
-    return (
+    if(spot.id) return (
         <div className="spot-form-container">
             <h1>Edit {spot.name}</h1>
-            <form className="create-spot-form" onSubmit={handleSubmit}>
+            <form className="edit-spot-form" onSubmit={handleSubmit}>
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
-                <lable>
+                <label>
                     Address
                 <input
                     type="text"
@@ -53,75 +56,76 @@ const EditSpot = ()=>{
                     onChange={(e) => setAddress(e.target.value)}
 
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     City
                 <input
                     type="text"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     State
                 <input
                     type="text"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Country
                 <input
                     type="text"
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Latitude
                 <input
                     type="number"
                     value={lat}
                     onChange={(e) => setLat(e.target.value)}
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Longitude
                 <input
                     type="number"
                     value={lng}
                     onChange={(e) => setLng(e.target.value)}
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Name
                 <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Description
                 <input
                     type="text"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                </lable>
-                <lable>
+                </label>
+                <label>
                     Price
                 <input
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                 />
-                </lable>
+                </label>
                 <button type="submit">Submit</button>
             </form>
         </div>
     )
+    else return null
 }
 
 export default EditSpot

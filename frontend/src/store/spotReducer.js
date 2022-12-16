@@ -75,6 +75,7 @@ export const postSpot = (payload) => async dispatch => {
 
 export const putSpot = (payload) => async dispatch => {
     let {spotPayload, imageUrl} = payload
+    console.log('spotPayload: ', spotPayload)
     const response = await csrfFetch(`/api/spots/${spotPayload.id}`,{
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
@@ -119,7 +120,7 @@ const spotReducer = (state = intialState, action) => {
     let newState;
     switch (action.type) {
         case LOAD:{
-            newState = {...state, singleSpot: {}}
+            newState = {...intialState}
             let spots2 = {}
 
             action.spots.forEach(spot => {

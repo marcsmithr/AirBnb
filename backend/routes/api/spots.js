@@ -166,9 +166,18 @@ router.post('/', restoreUser, requireAuth, async(req, res)=>{
     let owner = JSON.parse(ownerDataString)
     let errorsArr;
      errorsArr = validateSpots(address, city, state, country, lat, lng, name, description, price)
-
-    if(errorsArr.length){
+     if(errorsArr.length){
         res.status(400)
+        // const error = new Error ('Validaton error')
+        // error.status = 400
+        // error.errors = errorsArr
+        // throw error
+        //with next
+        //const err = new Error ('Validaton error')
+        // err.status = 400
+        // err.errors = errorsArr
+        // next (err)
+
         return res.json({
           message: "Validation error",
           statusCode: 400,
@@ -318,24 +327,29 @@ router.get('/:spotId', async (req, res) => {
                  message: 'Must be the owner to edit a spot'
                     })
         }
-        if(!address||!city||!state||!country||!lat||!lng||!name||!description||!price){
-            res.status(400)
-            return res.json ({
-              message: "Validation error",
-              statusCode: 400,
-              errors: {
-                address: 'Street address is required',
-                city: 'City is required',
-                state: 'State is required',
-                country: 'Country is required',
-                lat: 'Latitude is not valid',
-                lng: 'Longitude is not valid',
-                name: 'Name must be less than 50 characters',
-                description: 'Description is required',
-                price: 'Price per day is required'
-                }
-            })
-          }
+
+
+       let errorsArr;
+     errorsArr = validateSpots(address, city, state, country, lat, lng, name, description, price)
+     if(errorsArr.length){
+        res.status(400)
+        // const error = new Error ('Validaton error')
+        // error.status = 400
+        // error.errors = errorsArr
+        // throw error
+        //with next
+        //const err = new Error ('Validaton error')
+        // err.status = 400
+        // err.errors = errorsArr
+        // next (err)
+
+        return res.json({
+          message: "Validation error",
+          statusCode: 400,
+          errors: errorsArr
+        })
+      }
+
         spotDataObj.set({
             ownerId: owner.id,
             address, city,
@@ -344,7 +358,7 @@ router.get('/:spotId', async (req, res) => {
             name, description,
             price
         })
-
+        await spotDataObj.save()
         res.json(spotDataObj)
     })
 

@@ -1,11 +1,15 @@
 import './ReviewCard.css'
-import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { deleteReview } from '../../store/reviewReducer'
+
 
 
 const ReviewCard = ({review}) => {
     console.log('review in card: ', review)
-const handleDelete= () =>{
-
+    const dispatch = useDispatch()
+const handleDelete= async() =>{
+    const deletespot = await dispatch(deleteReview(review.id))
+    return deletespot
 }
     return(
     <div className='review-card-container'>
@@ -20,9 +24,6 @@ const handleDelete= () =>{
             </div>
             <div className="modify-review-buttons">
             <button onClick={handleDelete}>Delete</button>
-            <Link to={`${review.id}/edit`}>
-                <button>Edit</button>
-            </Link>
         </div>
         </div>
     )
