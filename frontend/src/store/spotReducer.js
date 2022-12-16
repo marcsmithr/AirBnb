@@ -45,10 +45,8 @@ export const getSpots = () => async dispatch =>{
 }
 
 export const postSpot = (payload) => async dispatch => {
-    console.log('hello from postSpot')
     let spot;
     const {spotPayload} = payload
-    console.log('spotPayload: ', spotPayload)
     const spotResponse = await csrfFetch('/api/spots', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -56,25 +54,20 @@ export const postSpot = (payload) => async dispatch => {
     })
 
     spot = await spotResponse.json();
-    console.log('before first response check')
     if(spotResponse.ok){
-         console.log('spot: ',spot)
         const {imagePayload} = payload
-        console.log('imagePayload: ', imagePayload)
         const imageResponse = await csrfFetch(`/api/spots/${spot.id}/images`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(imagePayload)
         })
         const image = await imageResponse.json();
-        console.log('imageResponse: ', image)
         if(imageResponse.ok){
             console.log('image: ', image)
         spot.previewImage = image.url
         await dispatch(create(spot))
     }
 }
-    console.log('thunk spot final form: ', spot)
     return spot
 }
 
@@ -157,7 +150,9 @@ const spotReducer = (state = intialState, action) => {
             return newState
         }
         case GET_ONE: {
-            newState = {...state, singleSpot: {}}
+            newState = {
+                ...state,
+                singleSpot: {}}
             let singleSpot2 = action.spot
             newState.singleSpot = singleSpot2
             return newState

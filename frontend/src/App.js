@@ -8,6 +8,7 @@ import { getSpots } from "./store/spotReducer";
 import CreateSpot from "./components/CreateSpot";
 import SpotDetails from "./components/SpotDetails";
 import EditSpot from "./components/EditSpot";
+import CreateReview from "./components/CreateReview";
 
 
 function App() {
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <Route path="/spots/:spotId/edit" exact>
               <EditSpot/>
+          </Route>
+          <Route path="/spot/:spotId/review" exact>
+              <CreateReview/>
           </Route>
         </Switch>
       )}

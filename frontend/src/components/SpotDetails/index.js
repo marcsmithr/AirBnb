@@ -3,12 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getOneSpot, deleteSpot } from "../../store/spotReducer";
 import { getReviews } from "../../store/reviewReducer";
+import ReviewCard  from "../ReviewCard/index.js"
 
 const SpotDetails = () => {
     const dispatch = useDispatch()
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.singleSpot)
-    const reviews = useSelector((state) => state.reviews.spot[spotId])
+    const reviews = useSelector((state) => state.reviews.spots)
+    console.log(reviews)
+    const reviewsArr = Object.values(reviews)
+
     const handleDelete = async() => {
         const deletespot = await dispatch(deleteSpot(spot.id))
         return deletespot
@@ -18,7 +22,7 @@ const SpotDetails = () => {
         dispatch(getReviews(spotId))
     }, [dispatch])
     if(!spot) return null
-    return spot.id && (
+    return spot.id && reviews &&(
         <div className="spot-details-container">
             <div className="details-header-div">
                 <h1>{spot.name}</h1>
@@ -45,7 +49,17 @@ const SpotDetails = () => {
                 </div>
             </div>
         <div className="reviews-container">
-            
+            <ol>
+            {reviewsArr.map((review)=> (
+                <ReviewCard
+                review={review}
+                key={review.id}
+                />
+            ))}
+            </ol>
+            <Link exact to= {`/spots/${spot.id}/review`}>
+            <button>Create Review</button>
+          </Link>
         </div>
         <div className="modify-spot-buttons">
             <button onClick={handleDelete}>Delete</button>
