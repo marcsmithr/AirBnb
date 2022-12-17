@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { getOneSpot, deleteSpot, getSpots } from "../../store/spotReducer";
 import { getReviews } from "../../store/reviewReducer";
 import ReviewCard  from "../ReviewCard/index.js"
+import './SpotDetails.css'
 
 const SpotDetails = () => {
     const history = useHistory()
@@ -11,8 +12,12 @@ const SpotDetails = () => {
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.singleSpot)
     const reviews = useSelector((state) => state.reviews.spots)
+    const currentUser = useSelector((state) => state.session.user)
     const reviewsArr = Object.values(reviews)
 
+
+    console.log('spot:',spot)
+    console.log('current user: ', currentUser)
     const handleDelete = async() => {
         const deletespot = await dispatch(deleteSpot(spot.id))
         await dispatch(getSpots())
@@ -59,16 +64,18 @@ const SpotDetails = () => {
                 />
             ))}
             </ol>
+            {(currentUser.id !== spot.ownerId)&&
             <NavLink exact to= {`${spot.id}/review`}>
             <button>Create Review</button>
-          </NavLink>
+          </NavLink>}
         </div>
+        {(currentUser.id === spot.ownerId)&&
         <div className="modify-spot-buttons">
             <button onClick={handleDelete}>Delete</button>
             <Link to={`${spot.id}/edit`}>
                 <button>Edit</button>
             </Link>
-        </div>
+        </div>}
         </div>
     )
 }
