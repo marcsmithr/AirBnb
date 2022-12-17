@@ -10,13 +10,20 @@ const SpotCard = ({spot}) => {
         <Link to={`/spots/${spot.id}`}>
             <img src={spot.previewImage} className='spot-image'/>
             <div className='spot-info'>
-                <div>
-                    <p>{spot.name}</p>
+                <div className='spot-text'>
                     <p className='location'>{spot.city}, {spot.state}</p>
-                    <p className='price'>${spot.price} night</p>
+                    <div>
+                        <span className='price'>${spot.price} </span>
+                         night
+                    </div>
+
                 </div>
                 <div className='spot-review-avg'>
-                    <p>{spot.avgRating}</p>
+
+                    <span>
+                        <i className="fa-solid fa-star star"></i>
+                        {spot.avgRating}
+                    </span>
                 </div>
             </div>
             </Link>

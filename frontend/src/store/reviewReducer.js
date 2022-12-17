@@ -81,15 +81,14 @@ const reviewReducer = (state = intialState, action) => {
             return newState
         }
         case CREATE: {
-            const newState = {...state}
-            let review2 = {...state.spots}
-            review2[action.review.id] = action.review
-            newState.spots = review2
+            const newState = {...state, spots:{...state.spots}}
+            newState.spots[action.review.id] = action.review
+
             return newState
         }
         case DELETE: {
-            const newState = {...state}
-            delete newState[action.reviewId]
+            const newState = {...state, spots: {...state.spots}}
+            delete newState.spots[action.reviewId]
             return newState
         }
         default:

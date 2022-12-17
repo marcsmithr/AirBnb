@@ -1,11 +1,12 @@
 import { useSelector, useDispatch } from "react-redux"
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useState } from "react"
 import { putSpot } from "../../store/spotReducer";
 
 const EditSpot = ()=>{
 
   const dispatch = useDispatch();
+  const history = useHistory()
   const { spotId } = useParams();
   console.log(spotId)
   const spot = useSelector((state) => state.spots.allSpots[spotId])
@@ -29,7 +30,7 @@ const EditSpot = ()=>{
          address, city, state, country, lat, lng, name, description, price},
         imageUrl: image}
         console.log('payload: ', payload)
-    return await dispatch(putSpot(payload))
+    await dispatch(putSpot(payload))
     .catch(async(res) =>{
         const data = await res.json()
         if( data && data.errors) {
@@ -39,6 +40,7 @@ const EditSpot = ()=>{
             setErrors(errorsArr)
         }
     })
+    history.push(`/spots/${payload.spotPayload.id}`)
     }
 
     if(spot.id) return (

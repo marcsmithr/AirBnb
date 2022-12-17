@@ -1,1 +1,12 @@
+.spot-details-container{
+    margin: 8px 5%;
+}
 
+.details-header-div > h1 {
+    margin: 0px;
+    font-size: 20px;
+}
+
+.details-header-div > p {
+    
+}

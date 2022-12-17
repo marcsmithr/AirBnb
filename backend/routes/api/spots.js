@@ -57,6 +57,7 @@ const validateSpots = (address, city, state, country, lat, lng, name, descriptio
     if(name.length > 50) errors.push('Name must be less than 50 characters')
     if(!description) errors.push('Description is required')
     if(!price) errors.push('Price per day is required')
+    if(price < 1) errors.push('Price must be a positive integer')
     return errors
 }
 

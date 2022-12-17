@@ -18,16 +18,18 @@ function Navigation({ isLoaded }){
 
   return (
     <div className='nav-container'>
-      <div>
+      <div className='left-nav-icons'>
         <NavLink exact to="/">
           <img src='https://1000logos.net/wp-content/uploads/2017/08/Airbnb-Logo.png'/>
         </NavLink>
-        <button onClick={handleLogin} >Demo User</button>
+        <button onClick={handleLogin} className= "demo-user-button">
+            <i className="fa-regular fa-id-card demo-user"></i>
+        </button>
       </div>
       {isLoaded && (
-        <div className='nav-user-div'>
+        <div className='right-nav-user-icons'>
           <NavLink exact to="/create">
-            <p>Airbnb your home</p>
+            <p className='air-your-home'>Airbnb your home</p>
           </NavLink>
           <ProfileButton user={sessionUser} />
         </div>

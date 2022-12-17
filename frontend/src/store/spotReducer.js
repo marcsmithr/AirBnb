@@ -120,8 +120,8 @@ const spotReducer = (state = intialState, action) => {
     let newState;
     switch (action.type) {
         case LOAD:{
-            newState = {...intialState}
-            let spots2 = {}
+            newState = {...state, allSpots: {...state.allSpots}, singleSpot: {...state.singleSpot} }
+            let spots2={}
 
             action.spots.forEach(spot => {
                 spots2[spot.id] = spot
@@ -130,10 +130,8 @@ const spotReducer = (state = intialState, action) => {
             return newState
         }
         case CREATE:{
-            newState = {...state}
-            let spot2 = {...state.allSpots}
-            spot2[action.spot.id] = action.spot
-            newState.allSpots = spot2
+            newState = {...state, allSpots: {...state.allSpots}}
+            newState.allSpots[action.spot.id] = action.spot
             return newState
         }
         case CREATE_IMG: {
@@ -151,13 +149,13 @@ const spotReducer = (state = intialState, action) => {
         case GET_ONE: {
             newState = {
                 ...state,
+                allSpots: {...state.allSpots},
                 singleSpot: {}}
-            let singleSpot2 = action.spot
-            newState.singleSpot = singleSpot2
+            newState.singleSpot = action.spot
             return newState
         }
         case DELETE: {
-            newState = {...state}
+            newState = {...state, allSpots: {...state.allSpots}}
             delete newState[action.spotId]
             return newState
         }
