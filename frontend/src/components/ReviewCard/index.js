@@ -17,7 +17,8 @@ const handleDelete= async() =>{
     await dispatch(getOneSpot(review.spotId))
     return deletespot
 }
-    if(review.id) return(
+    console.log(currentUser)
+    if(review.id && currentUser) return(
     <div className='review-card-container'>
             <div className='review-header'>
                 <div>
@@ -33,6 +34,19 @@ const handleDelete= async() =>{
                 <button onClick={handleDelete}>Delete</button>
             </div>}
     </div>
+    )
+    else if(review.id) return (
+        <div className='review-card-container'>
+        <div className='review-header'>
+            <div>
+                <p>{review?.User.firstName}</p>
+                <p>{review.stars}</p>
+            </div>
+            <div className='review-content'>
+                <p className='review'>{review.review}</p>
+            </div>
+        </div>
+</div>
     )
     else return null
 }
