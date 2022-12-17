@@ -20,7 +20,7 @@ function Navigation({ isLoaded }){
     <div className='nav-container'>
       <div className='left-nav-icons'>
         <NavLink exact to="/">
-          <img src='https://1000logos.net/wp-content/uploads/2017/08/Airbnb-Logo.png'/>
+          <img src='https://1000logos.net/wp-content/uploads/2017/08/Airbnb-Logo.png' alt='air bnb logo' className='air-bnb-logo'/>
         </NavLink>
         <button onClick={handleLogin} className= "demo-user-button">
             <i className="fa-regular fa-id-card demo-user"></i>

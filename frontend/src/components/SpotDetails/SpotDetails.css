@@ -1,13 +1,62 @@
 .spot-details-container{
-    margin: 8px 5%;
+    margin: 20px 5.2%;
+}
+
+.details-header-div {
+    display: flex;
+    justify-content: space-between;
 }
 
 .details-header-div > h1 {
     margin: 0px;
-    font-size: 20px;
+    font-size: 40px;
 }
 
-.basic-details-div > p {
-    margin-top: 3px;
-    font-size: 9px;
+.basic-details-div{
+    margin-top: 6px;
+    font-size: 16px;
+}
+
+.preview-images-div {
+    margin-top: 20px;
+    margin-bottom: 35px;
+    width: 100%;
+
+}
+
+.main-spot-image {
+    height: 600px;
+    width: 600px;
+    border-radius: 5%;
+}
+
+.spot-details-header-reviews {
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.spot-details-header-location {
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.star-rating{
+    font-weight: 600;
+}
+
+.owner-details {
+    width: 50%;
+    padding-bottom: 25px;
+    border-bottom:  2px solid rgba(211,211,211, .2);
+    font-size: 28px;
+    font-weight:400;
+}
+
+.review-card-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 20px;
+    height: 800px;
+    width: 100%;
 }

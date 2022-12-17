@@ -17,13 +17,12 @@ const handleDelete= async() =>{
     await dispatch(getOneSpot(review.spotId))
     return deletespot
 }
-    console.log(currentUser)
+
     if(review.id && currentUser) return(
-    <div className='review-card-container'>
+    <div className='review-card'>
             <div className='review-header'>
                 <div>
                     <p>{review?.User.firstName}</p>
-                    <p>{review.stars}</p>
                 </div>
                 <div className='review-content'>
                     <p className='review'>{review.review}</p>
@@ -42,10 +41,11 @@ const handleDelete= async() =>{
                 <p>{review?.User.firstName}</p>
                 <p>{review.stars}</p>
             </div>
-            <div className='review-content'>
-                <p className='review'>{review.review}</p>
+            <div >
+                <p className='review-content'>{review.review}</p>
             </div>
         </div>
+
 </div>
     )
     else return null

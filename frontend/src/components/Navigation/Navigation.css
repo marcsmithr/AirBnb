@@ -6,9 +6,11 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: 2px 0px 0px 0px;
-    padding-bottom: 1px;
-    border-bottom:  1px solid rgba(211,211,211, .2);
+    margin: 4px 0px 0px 0px;
+    padding-bottom: 2px;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-bottom:  2px solid rgba(211,211,211, .2);
     background-color: white;
     position: sticky;
     top: 0px;
@@ -17,19 +19,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 20px;
 }
 .right-nav-user-icons > p {
-    font-size: 10px;
-    padding: 10px;
+    font-size: 20px;
+    padding: 20px;
 }
 .air-your-home{
-    margin-right: 10px;
-    padding: 5px 8px;
-    border-radius: 12px 12px 12px 12px;
+    margin-right: 20px;
+    padding: 10px 16px;
+    border-radius: 24px 24px 24px 24px;
     background-color: white;
     color: #484848;
-    font-size: 8px;
+    font-size: 16px;
     font-weight: 600;
 
     transition-property: background-color;
@@ -40,29 +41,32 @@
 
 .left-nav-icons {
     display: flex;
-    margin-left: 20px;
 }
 
 .demo-user-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 5px;
+    margin-left: 10px;
     background-color: #FF5A60;
     border:0px;
     border-radius: 100%;
-    height: 20px;
-    width: 20px;
-    font-size: 10px;
+    height: 40px;
+    width: 40px;
+    font-size: 20px;
     color: white;
     box-shadow: 0px;
     transition-property: box-shadow;
 }
 
 .demo-user-button:hover{
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.4)
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4)
 }
 
 .demo-user-container{
     background-color:;
+}
+
+.air-bnb-logo {
+    height: 40px;
 }

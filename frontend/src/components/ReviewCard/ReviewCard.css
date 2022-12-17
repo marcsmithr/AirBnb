@@ -1,0 +1,9 @@
+.review-card{
+    margin: 0px ;
+    width: 600px;
+    height: 150px
+}
+
+.review-content{
+    text-overflow: ellipsis;
+}
