@@ -10,8 +10,8 @@ const CreateSpot = ()=>{
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0)
+  const [lat, setLat] = useState(1);
+  const [lng, setLng] = useState(1)
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
@@ -34,7 +34,8 @@ const CreateSpot = ()=>{
             console.log('data: ', data)
             console.log('data.errors: ', data.errors)
             setErrors(data.errors)
-        }}).then(() => history.push('/'))
+        }})
+        history.push(`/spots/${spot.id}`)
 }
 
 
@@ -81,24 +82,7 @@ const CreateSpot = ()=>{
                     required
                 />
                 </label>
-                <label>
-                    Latitude
-                <input
-                    type="number"
-                    value={lat}
-                    onChange={(e) => setLat(e.target.value)}
-                    required
-                />
-                </label>
-                <label>
-                    Longitude
-                <input
-                    type="number"
-                    value={lng}
-                    onChange={(e) => setLng(e.target.value)}
-                    required
-                />
-                </label>
+    
                 <label>
                     Name
                 <input
@@ -129,7 +113,7 @@ const CreateSpot = ()=>{
                 <label>
                     Preview Image
                 <input
-                    type="text"
+                    type="url"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     required

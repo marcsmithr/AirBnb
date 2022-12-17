@@ -1,11 +1,12 @@
-import { useParams, Link, NavLink } from "react-router-dom"
+import { useParams, Link, NavLink, useHistory } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getOneSpot, deleteSpot } from "../../store/spotReducer";
+import { getOneSpot, deleteSpot, getSpots } from "../../store/spotReducer";
 import { getReviews } from "../../store/reviewReducer";
 import ReviewCard  from "../ReviewCard/index.js"
 
 const SpotDetails = () => {
+    const history = useHistory()
     const dispatch = useDispatch()
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.singleSpot)
@@ -14,14 +15,16 @@ const SpotDetails = () => {
 
     const handleDelete = async() => {
         const deletespot = await dispatch(deleteSpot(spot.id))
+        await dispatch(getSpots())
+        history.push('/')
         return deletespot
     }
     useEffect(()=>{
         dispatch(getOneSpot(spotId))
         dispatch(getReviews(spotId))
     }, [dispatch])
-    if(!spot) return null
-    return spot.id && reviews &&(
+    if(!spot.id || reviews === {}) return null
+    else return (
         <div className="spot-details-container">
             <div className="details-header-div">
                 <h1>{spot.name}</h1>

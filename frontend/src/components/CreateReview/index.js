@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useState } from "react"
-import { postReview } from "../../store/reviewReducer";
+import { getReviews, postReview } from "../../store/reviewReducer";
 import { useHistory, useParams } from "react-router-dom";
+import { getOneSpot, getSpots } from "../../store/spotReducer";
 
 const CreateReview = ()=>{
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ const CreateReview = ()=>{
   const spot = useSelector((state) => state.spots.allSpots[spotId])
   const history = useHistory();
   const [review, setReview] = useState("");
-  const [stars, setStars] = useState("");
+  const [stars, setStars] = useState(1);
 
   const [errors, setErrors] = useState([]);
 
@@ -27,7 +28,11 @@ const CreateReview = ()=>{
             console.log('data: ', data)
             console.log('data.errors: ', data.errors)
             setErrors(data.errors)
-        }}).then(() => history.push(`/spot/${spot.id}`))
+        }})
+        await dispatch(getReviews(spot.id))
+        await dispatch(getOneSpot(spot.id))
+        await dispatch(getSpots())
+        history.push(`/spots/${spot.id}`)
 }
 
 
@@ -55,6 +60,7 @@ const CreateReview = ()=>{
                     onChange={(e) => setStars(e.target.value)}
                     required
                     >
+                    <option>select a value</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
