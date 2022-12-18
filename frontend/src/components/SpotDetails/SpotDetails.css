@@ -1,5 +1,6 @@
 .spot-details-container{
     margin: 20px 5.2%;
+    height: 100%;
 }
 
 .details-header-div {
@@ -30,6 +31,53 @@
     border-radius: 5%;
 }
 
+.details-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.left-details{
+    width: 60%;
+}
+
+.right-details {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 2px solid rgba(211,211,211, .2);
+    width: 33%;
+    border-radius: 20px;
+    box-shadow: 0px 5px 10px rgba(	248, 240, 227, .5);
+}
+
+.right-details-price{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.right-details-reviews-container{
+    font-size: 16px;
+}
+
+.right-details-header-reviews{
+    text-decoration: underline;
+    color: #767676
+}
+
+
+.owner-details {
+    width: 100%;
+    padding-bottom: 25px;
+    border-bottom:  2px solid rgba(211,211,211, .2);
+    font-size: 28px;
+    font-weight:400;
+}
+
+.description{
+    border-bottom: 2px solid rgba(211,211,211, .2);
+}
+
 .spot-details-header-reviews {
     font-weight: 600;
     text-decoration: underline;
@@ -44,19 +92,20 @@
     font-weight: 600;
 }
 
-.owner-details {
-    width: 50%;
-    padding-bottom: 25px;
-    border-bottom:  2px solid rgba(211,211,211, .2);
-    font-size: 28px;
-    font-weight:400;
+.review-details-div{
+    margin-top: 20px;
+}
+
+.reviews-container{
+height: 100%;
 }
 
 .review-card-container{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     margin-right: 20px;
-    height: 800px;
+    height: 90%;
     width: 100%;
 }

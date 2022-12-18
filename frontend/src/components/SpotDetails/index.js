@@ -120,7 +120,33 @@ const SpotDetails = () => {
                     </div>
                 </div>
                 <div className="right-details">
-                    <p>${spot.price} night</p>
+                    <div className="right-details-header">
+                    <div>
+                        <span className='right-details-price'>${spot.price} </span>
+                         night
+                    </div>
+                    <div className="right-details-reviews-container">
+                    {(spot.numReviews=== 1) &&
+                    <>
+                   <span className="star-rating">
+                     <i className="fa-solid fa-star star"></i>
+                        {spot.avgRating} ᛫
+                    </span>
+
+                    <span className="right-details-header-reviews"> {spot?.numReviews} review </span>
+                    </>}
+                    {(spot.numReviews > 1) &&
+                    <>
+                   <span className="star-rating">
+                     <i className="fa-solid fa-star star"></i>
+                        {spot.avgRating} ᛫
+                    </span>
+
+                    <span className="right-details-header-reviews"> {spot?.numReviews} reviews </span>
+                    </>}
+
+                </div>
+                </div>
                 </div>
             </div>
         <div className="reviews-container">
@@ -152,11 +178,11 @@ const SpotDetails = () => {
                             />
                         ))}
             </div>
-            {(currentUser.id !== spot.ownerId)&&
+        </div>
+        {(currentUser.id !== spot.ownerId)&&
             <NavLink exact to= {`${spot.id}/review`}>
             <button>Create Review</button>
           </NavLink>}
-        </div>
         </div>
     )
 }
