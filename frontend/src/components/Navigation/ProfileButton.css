@@ -62,10 +62,10 @@
     color: #484848;
 }
 
-.logout-button{
+.profile-dropdown-button{
     transition-property: background-color;
     font-weight: 600;
 }
-.logout-button:hover{
+.profile-dropdown-button:hover{
     background-color: #F8F8F8;
 }

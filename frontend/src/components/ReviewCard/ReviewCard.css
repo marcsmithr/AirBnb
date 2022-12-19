@@ -1,9 +1,16 @@
 .review-card{
     margin: 30px 0px ;
     width: 600px;
-    height: 150px
+    
 }
 
-.review-content{
-    text-overflow: ellipsis;
+
+.reviewer-name {
+    font-weight: bold;
+}
+
+.review-image{
+    height: 150px;
+    width: 150px;
+    border-radius: 10px;
 }

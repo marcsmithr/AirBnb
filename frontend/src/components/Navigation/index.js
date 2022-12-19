@@ -28,9 +28,10 @@ function Navigation({ isLoaded }){
       </div>
       {isLoaded && (
         <div className='right-nav-user-icons'>
+          { (sessionUser) &&
           <NavLink exact to="/create">
             <p className='air-your-home'>Airbnb your home</p>
-          </NavLink>
+          </NavLink>}
           <ProfileButton user={sessionUser} />
         </div>
       )}

@@ -40,6 +40,31 @@ module.exports = {
   url: 'https://a0.muscache.com/im/pictures/410b7b80-cac2-4fb2-808e-156468c2252c.jpg?im_w=720',
   preview: true
 },
+{
+  spotId:7,
+  url: 'https://a0.muscache.com/im/pictures/46f1f74c-377f-478e-821a-7a6b0794823b.jpg?im_w=720',
+  preview: true
+},
+{
+  spotId:8,
+  url: 'https://a0.muscache.com/im/pictures/ac91d6eb-56a6-4723-9ee0-9a5e3f8efcd2.jpg?im_w=720',
+  preview: true
+},
+{
+  spotId:9,
+  url: 'https://a0.muscache.com/im/pictures/751548f1-b6c6-41e3-abd8-f4a8ff1ef64a.jpg?im_w=720',
+  preview: true
+},
+{
+  spotId:10,
+  url: 'https://a0.muscache.com/im/pictures/462efd2a-7d0b-48e4-bcc6-e20065bb987b.jpg?im_w=720',
+  preview: true
+},
+{
+  spotId:11,
+  url: 'https://a0.muscache.com/im/pictures/d7da1a02-993f-4f6d-ae17-e1afee4d23a1.jpg?im_w=960',
+  preview: true
+}
   ])
   },
 

@@ -29,45 +29,112 @@ const SpotDetails = () => {
         dispatch(getReviews(spotId))
     }, [dispatch])
     if(!spot.id || reviews === {}) return null
-    // else if(!currentUser) return(
-    //     <div className="spot-details-container">
-    //     <div className="details-header-div">
-    //         <h1>{spot.name}</h1>
-    //         <div className="basic-details-div">
-    //             <p>{spot?.avgRating} ᛫ {spot?.numReviews} reviews ᛫ {spot.city}, {spot.state}, {spot.country}</p>
-    //         </div>
-    //     </div>
+    else if(!currentUser) return(
+        <div className="spot-details-container">
+            <div className="details-header-div">
+                <div className="left-header-div">
+                <h1>{spot.name}</h1>
+                <div className="basic-details-div">
+                    {(spot.numReviews=== 1) &&
+                    <>
+                   <span className="star-rating">
+                     <i className="fa-solid fa-star star"></i>
+                        {spot.avgRating} ᛫
+                    </span>
 
-    //     <div className="preview-images-div">
-    //         <img src={spot.SpotImages[0].url} className='main-spot-image'/>
-    //     </div>
-    //     <div className="details-div">
-    //         <div className="left-details">
-    //             <div className="owner-details">
-    //                 <h2> Hosted by {spot.Owner.firstName}</h2>
-    //             </div>
-    //             <div className="description">
-    //                 <p>{spot.description}</p>
-    //             </div>
-    //         </div>
-    //         <div className="right-details">
-    //             <p>${spot.price} night</p>
-    //             <p>{spot.avgRating} ᛫ {spot.numReviews} reviews</p>
-    //         </div>
-    //     </div>
-    // <div className="reviews-container">
-    //     <ol>
-    //     {reviewsArr.map((review)=> (
-    //         <ReviewCard
-    //         review={review}
-    //         key={review.id}
-    //         />
-    //     ))}
-    //     </ol>
+                    <span className="spot-details-header-reviews"> {spot?.numReviews} review </span>
+                    </>}
+                    {(spot.numReviews > 1) &&
+                    <>
+                   <span className="star-rating">
+                     <i className="fa-solid fa-star star"></i>
+                        {spot.avgRating} ᛫
+                    </span>
 
-    // </div>
-    // </div>
-    // )
+                    <span className="spot-details-header-reviews"> {spot?.numReviews} reviews </span>
+                    </>}
+
+                    <span className="spot-details-header-location"> ᛫ {spot.city}, {spot.state}, {spot.country}</span>
+                </div>
+                </div>
+                <div className="rightt-header-div">
+            </div>
+            </div>
+
+            <div className="preview-images-div">
+                <img src={spot.SpotImages[0].url} className='main-spot-image'/>
+            </div>
+            <div className="details-div">
+                <div className="left-details">
+                    <div className="owner-details">
+                        <span> Hosted by {spot.Owner.firstName}</span>
+                    </div>
+                    <div className="description">
+                        <p>{spot.description}</p>
+                    </div>
+                </div>
+                <div className="right-details">
+                    <div className="right-details-header">
+                    <div>
+                        <span className='right-details-price'>${spot.price} </span>
+                         night
+                    </div>
+                    <div className="right-details-reviews-container">
+                    {(spot.numReviews=== 1) &&
+                    <>
+                   <span className="star-rating">
+                     <i className="fa-solid fa-star star"></i>
+                        {spot.avgRating} ᛫
+                    </span>
+
+                    <span className="right-details-header-reviews"> {spot?.numReviews} review </span>
+                    </>}
+                    {(spot.numReviews > 1) &&
+                    <>
+                   <span className="star-rating">
+                     <i className="fa-solid fa-star star"></i>
+                        {spot.avgRating} ᛫
+                    </span>
+
+                    <span className="right-details-header-reviews"> {spot?.numReviews} reviews </span>
+                    </>}
+
+                </div>
+                </div>
+                </div>
+            </div>
+        <div className="reviews-container">
+                <div className="review-details-div">
+                    {(spot.numReviews=== 1) &&
+                    <>
+                   <span className="star-rating">
+                     <i className="fa-solid fa-star star"></i>
+                        {spot.avgRating} ᛫
+                    </span>
+
+                    <span className="spot-details-header-reviews"> {spot?.numReviews} review </span>
+                    </>}
+                    {(spot.numReviews > 1) &&
+                    <>
+                   <span className="star-rating">
+                     <i className="fa-solid fa-star star"></i>
+                        {spot.avgRating} ᛫
+                    </span>
+
+                    <span className="spot-details-header-reviews"> {spot?.numReviews} reviews </span>
+                    </>}
+                </div>
+                <div className="review-card-container">
+                        {reviewsArr.map((review)=> (
+                            <ReviewCard
+                            review={review}
+                            key={review.id}
+                            />
+                        ))}
+            </div>
+        </div>
+        </div>
+    )
     else return (
         <div className="spot-details-container">
             <div className="details-header-div">
@@ -99,9 +166,9 @@ const SpotDetails = () => {
                 <div className="rightt-header-div">
                 {(currentUser.id === spot.ownerId)&&
                  <div className="modify-spot-buttons">
-            <button onClick={handleDelete}>Delete</button>
+            <button onClick={handleDelete} className='airbnb-button'>Delete</button>
             <Link to={`${spot.id}/edit`}>
-                <button>Edit</button>
+                <button className='airbnb-button'>Edit</button>
             </Link>
         </div>}
             </div>
@@ -181,7 +248,7 @@ const SpotDetails = () => {
         </div>
         {(currentUser.id !== spot.ownerId)&&
             <NavLink exact to= {`${spot.id}/review`}>
-            <button>Create Review</button>
+            <button className="airbnb-button">Create Review</button>
           </NavLink>}
         </div>
     )

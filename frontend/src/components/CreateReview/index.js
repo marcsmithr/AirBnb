@@ -3,6 +3,7 @@ import { useState } from "react"
 import { getReviews, postReview } from "../../store/reviewReducer";
 import { useHistory, useParams } from "react-router-dom";
 import { getOneSpot, getSpots } from "../../store/spotReducer";
+import './CreateReview.css'
 
 const CreateReview = ()=>{
   const dispatch = useDispatch();
@@ -37,16 +38,22 @@ const CreateReview = ()=>{
 
 
     return (
-        <div className="spot-form-container">
+        <div className="form-page-main-container">
+            <div className="form-header-div">
             <h1>Create Review</h1>
-            <form className="create-spot-form" onSubmit={handleSubmit}>
+            </div>
+            <div className="form-page-inner-container" >
+            <form className="airbnb-form" onSubmit={handleSubmit}>
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
+                <div className="review-inputs">
                 <label>
                     Review
-                <input
+                <textarea
+                    className="review"
                     type="text"
+                    placeholder="Write your review..."
                     value={review}
                     onChange={(e) => setReview(e.target.value)}
                     required
@@ -68,10 +75,14 @@ const CreateReview = ()=>{
                     <option value="5">5</option>
                 </select>
                 </label>
-                <button type="submit">
+                </div>
+                <div className="form-button-container">
+                <button type="submit" className="airbnb-button">
                     Submit
                     </button>
+                </div>
             </form>
+            </div>
         </div>
     )
 }

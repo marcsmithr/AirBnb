@@ -30,36 +30,44 @@ function LoginFormModal() {
   };
 
   return (
-    <>
+    <div className="form-modal-main-container">
+      <div className="form-header-div">
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+      </div>
+      <div className="form-inner-container">
+      <form onSubmit={handleSubmit} className='airbnb-form'>
         <ul>
           {console.log('errors array: ', errors)}
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}
         </ul>
-        <label>
-          Username or Email
+        <div className="form-input-container">
           <input
+            className="form-input"
+            placeholder="Username or Email"
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
           />
-        </label>
-        <label>
-          Password
+        </div>
+        <div className="form-input-container">
           <input
+            className="form-input"
+            placeholder="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        <button type="submit">Log In</button>
+        </div>
+        <div className="form-button-container">
+        <button type="submit" className="airbnb-button">Log In</button>
+        </div>
       </form>
-    </>
+      </div>
+      </div>
   );
 }
 

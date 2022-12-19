@@ -81,6 +81,66 @@ module.exports = {
         description: 'The home of basketball',
         price: 275
       },
+      {
+        ownerId: '4',
+        address: '568 Drixon Street',
+        city: 'Charleston',
+        state: 'South Carolina',
+        country: 'United States',
+        lat: 45.2271,
+        lng: 50.8431,
+        name: 'lectus quam id',
+        description: 'Tempus imperdiet nulla malesuada pellentesque elit eget. Nunc pulvinar sapien et ligula ullamcorper malesuada. Ornare arcu dui vivamus arcu.',
+        price: 175
+      },
+      {
+        ownerId: '2',
+        address: '741 Coral Circle',
+        city: 'Jacksonville',
+        state: 'Florida',
+        country: 'United States',
+        lat: 15.2271,
+        lng: 67.8431,
+        name: 'Purus ut faucibus',
+        description: 'Sed egestas egestas fringilla phasellus faucibus scelerisque. Vehicula ipsum a arcu cursus vitae congue mauris rhoncus.',
+        price: 345
+      },
+      {
+        ownerId: '1',
+        address: '852 River Drive',
+        city: 'Joilet',
+        state: 'Illinois',
+        country: 'United States',
+        lat: 15.2271,
+        lng: 50.8431,
+        name: 'Sapien faucibus et molestie ac',
+        description: 'At imperdiet dui accumsan sit amet nulla. Non arcu risus quis varius quam. Pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum.',
+        price: 225
+      },
+      {
+        ownerId: '2',
+        address: '753 Kracken Street',
+        city: 'Chapel Hill',
+        state: 'North Carolina',
+        country: 'United States',
+        lat: 35.22371,
+        lng: 80.8341,
+        name: 'Consequat ac felis donec',
+        description: 'Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Amet mauris commodo quis imperdiet massa tincidunt.',
+        price: 165
+      },
+      {
+        ownerId: '3',
+        address: '159 Willow Drive',
+        city: 'Denton',
+        state: 'Texas',
+        country: 'United States',
+        lat: 38.2271,
+        lng: 80.2331,
+        name: 'Donec adipiscing tristique',
+        description: 'Blandit massa enim nec dui nunc. Scelerisque in dictum non consectetur a erat nam at lectus.',
+        price: 223
+      }
 
     ], {});
   },

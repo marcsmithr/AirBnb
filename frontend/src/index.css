@@ -18,3 +18,118 @@ a {
     text-decoration: none;
     color: #222;
 }
+
+
+.airbnb-button {
+    width: 200px;
+    height: 50px;
+    font-size: 18px;
+    color: white;
+    background-image: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%);
+    border: 0px;
+    border-radius: 10px;
+    transition-property: box-shadow;
+    transition-duration: .2s;
+}
+.airbnb-button:hover {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
+}
+
+
+.form-modal-main-container{
+    width: 650px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.airbnb-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: ;
+    border: 2px solid rgba(211,211,211, .2);
+    width: 100%;
+}
+
+.airbnb-form > ul {
+    margin: 0px
+}
+
+.form-inner-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items:center;
+    margin-bottom: 15px;
+    width:80%
+}
+
+.form-page-inner-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items:center;
+    margin-bottom: 15px;
+    width: 100%
+}
+
+
+.form-input-container {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.form-input {
+    border: none;
+    border: 1px solid rgba(211,211,211, .2);
+    padding: 15px;
+}
+
+.form-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0px;
+    margin: 20px 0px;
+}
+
+.form-header-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    padding: 5px;
+    border-bottom: 1px solid rgba(211,211,211, .2);
+    margin-bottom: 30px;;
+    width: 98%;
+}
+
+.form-header-div > h1 {
+    margin: 0px;
+}
+
+
+.form-page-main-container{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.non-text-form-inputs-container {
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
+}
+
+.non-text-form-inputs{
+    border: none;
+    border: 1px solid rgba(211,211,211, .2);
+    padding: 15px;
+    width: 60%;
+}
