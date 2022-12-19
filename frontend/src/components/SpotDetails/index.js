@@ -16,8 +16,6 @@ const SpotDetails = () => {
     const reviewsArr = Object.values(reviews)
 
 
-    console.log('spot:',spot)
-    console.log('current user: ', currentUser)
     const handleDelete = async() => {
         const deletespot = await dispatch(deleteSpot(spot.id))
         await dispatch(getSpots())

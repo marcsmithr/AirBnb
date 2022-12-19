@@ -8,9 +8,7 @@ const EditSpot = ()=>{
   const dispatch = useDispatch();
   const history = useHistory()
   const { spotId } = useParams();
-  console.log(spotId)
   const spot = useSelector((state) => state.spots.allSpots[spotId])
-  console.log('spot: ',spot)
 
   const [address, setAddress] = useState(spot.address);
   const [city, setCity] = useState(spot.city);
@@ -29,7 +27,6 @@ const EditSpot = ()=>{
     const payload = {spotPayload: {id: spot.id,
          address, city, state, country, lat, lng, name, description, price},
         imageUrl: image}
-        console.log('payload: ', payload)
     await dispatch(putSpot(payload))
     .catch(async(res) =>{
         const data = await res.json()
@@ -44,87 +41,112 @@ const EditSpot = ()=>{
     }
 
     if(spot.id) return (
-        <div className="spot-form-container">
-            <h1>Edit {spot.name}</h1>
-            <form className="edit-spot-form" onSubmit={handleSubmit}>
+        <div className="form-page-main-container">
+            <div className="form-header-div">
+                <h1>Edit {`${spot.name}`}</h1>
+            </div>
+            <div className="form-page-inner-container">
+            <form className="airbnb-form-page create-spot-form" onSubmit={handleSubmit}>
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
-                <label>
-                    Address
+                <div className="non-text-form-inputs-container">
+                    <label>
+                        Address
                 <input
+                    className="non-text-form-inputs"
                     type="text"
+                    placeholder="Address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-
+                    required
                 />
-                </label>
-                <label>
-                    City
+                    </label>
+                </div>
+                <div className="non-text-form-inputs-container">
+                    <label>
+                        City
                 <input
+                    className="non-text-form-inputs"
                     type="text"
+                    placeholder="City"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
+                    required
                 />
-                </label>
-                <label>
-                    State
+                    </label>
+                </div>
+                <div className="non-text-form-inputs-container">
+                    <label>
+                        State
                 <input
+                    className="non-text-form-inputs"
                     type="text"
+                    placeholder="State"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
+                    required
                 />
-                </label>
-                <label>
-                    Country
+                    </label>
+                </div>
+                <div className="non-text-form-inputs-container">
+                    <lable>
+                        Country
                 <input
+                    className="non-text-form-inputs"
                     type="text"
+                    placeholder="Country"
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
+                    required
                 />
-                </label>
-                <label>
-                    Latitude
+                    </lable>
+                </div>
+                <div className="non-text-form-inputs-container">
+                    <label>
+                        Name
                 <input
-                    type="number"
-                    value={lat}
-                    onChange={(e) => setLat(e.target.value)}
-                />
-                </label>
-                <label>
-                    Longitude
-                <input
-                    type="number"
-                    value={lng}
-                    onChange={(e) => setLng(e.target.value)}
-                />
-                </label>
-                <label>
-                    Name
-                <input
+                    className="non-text-form-inputs"
                     type="text"
+                    placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
                 />
-                </label>
+                    </label>
+                </div>
+                <div className="non-text-form-inputs-container">
                 <label>
                     Description
                 <input
+                    className="non-text-form-inputs"
                     type="text"
+                    placeholder="Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    required
                 />
                 </label>
+                </div>
+                <div className="non-text-form-inputs-container">
                 <label>
                     Price
                 <input
+                    className="non-text-form-inputs"
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
+                    required
                 />
                 </label>
-                <button type="submit">Submit</button>
+                </div>
+                <div className="form-button-container">
+                <button type="submit" className="airbnb-button">
+                    Submit
+                    </button>
+                </div>
             </form>
+            </div>
         </div>
     )
     else return null

@@ -48,8 +48,16 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: ;
+    align-items: center;
     border: 2px solid rgba(211,211,211, .2);
+    width: 100%;
+}
+
+.airbnb-form-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
 }
 
@@ -79,6 +87,7 @@ a {
 .form-input-container {
     display: flex;
     flex-direction: column;
+    width: 60%;
 
 }
 
@@ -114,16 +123,16 @@ a {
 
 
 .form-page-main-container{
-    width: 90%;
     display: flex;
+    width: 90%;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
 }
 
 .non-text-form-inputs-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     padding-left: 30px;
 }
 
@@ -131,5 +140,5 @@ a {
     border: none;
     border: 1px solid rgba(211,211,211, .2);
     padding: 15px;
-    width: 60%;
+    width: 500px;
 }
