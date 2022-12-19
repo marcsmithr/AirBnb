@@ -34,69 +34,81 @@ function SignupFormModal() {
   };
 
   return (
-    <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="form-modal-main-container">
+      <div className="form-header-div">
+        <h1>Sign Up</h1>
+      </div>
+      <div className="form-inner-container">
+      <form onSubmit={handleSubmit} className='airbnb-form'>
         <ul>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
-        <label>
-          Email
+        <div className="form-input-container">
           <input
+            className="form-input"
             type="text"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
-        <label>
-          Username
+        </div>
+        <div className="form-input-container">
           <input
+            className="form-input"
             type="text"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </label>
-        <label>
-          First Name
+        </div>
+        <div className="form-input-container">
           <input
+            className="form-input"
             type="text"
+            placeholder="First Name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
-        </label>
-        <label>
-          Last Name
+        </div>
+        <div className="form-input-container">
           <input
+            className="form-input"
             type="text"
+            placeholder="Last Name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
           />
-        </label>
-        <label>
-          Password
+        </div>
+        <div className="form-input-container">
           <input
+            className="form-input"
             type="password"
             value={password}
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        <label>
-          Confirm Password
+        </div>
+        <div className="form-input-container">
           <input
+            className="form-input"
             type="password"
+            placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </label>
-        <button type="submit">Sign Up</button>
+        </div>
+        <div className="form-button-container">
+          <button type="submit" className="airbnb-button">Sign Up</button>
+        </div>
       </form>
-    </>
+      </div>
+    </div>
   );
 }
 

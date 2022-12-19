@@ -40,70 +40,80 @@ const CreateSpot = ()=>{
 
 
     return (
-        <div className="spot-form-container">
-            <h1>Create New Airbnb</h1>
-            <form className="create-spot-form" onSubmit={handleSubmit}>
+        <div className="form-page-main-container">
+            <div className="form-header-div">
+                <h1>Create New Airbnb</h1>
+            </div>
+            <div className="form-page-inner-container">
+            <form className="airbnb-form create-spot-form" onSubmit={handleSubmit}>
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
-                <label>
-                    Address
+                <div className="form-input-container">
                 <input
+                    className="form-input"
                     type="text"
+                    placeholder="Address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     required
                 />
-                </label>
-                <label>
-                    City
+                </div>
+                <div className="form-input-container">
                 <input
+                    className="form-input"
                     type="text"
+                    placeholder="City"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     required
                 />
-                </label>
-                <label>
-                    State
+                </div>
+                <div className="form-input-container">
                 <input
+                    className="form-input"
                     type="text"
+                    placeholder="State"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
                     required
                 />
-                </label>
-                <label>
-                    Country
+                </div>
+                <div className="form-input-container">
                 <input
+                    className="form-input"
                     type="text"
+                    placeholder="Country"
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
                     required
                 />
-                </label>
-    
-                <label>
-                    Name
+                </div>
+                <div className="form-input-container">
                 <input
+                    className="form-input"
                     type="text"
+                    placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
                 />
-                </label>
-                <label>
-                    Description
+                </div>
+                <div className="form-input-container">
                 <input
+                    className="form-input"
                     type="text"
+                    placeholder="Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
                 />
-                </label>
+                </div>
+                <div className="non-text-form-inputs-container">
                 <label>
                     Price
                 <input
+                    className="non-text-form-inputs"
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
@@ -113,16 +123,22 @@ const CreateSpot = ()=>{
                 <label>
                     Preview Image
                 <input
+                    className="non-text-form-inputs"
                     type="url"
+                    placeholder="Preview Image Url"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     required
                 />
                 </label>
-                <button type="submit">
+                </div>
+                <div className="form-button-container">
+                <button type="submit" className="airbnb-button">
                     Submit
                     </button>
+                </div>
             </form>
+            </div>
         </div>
     )
 }

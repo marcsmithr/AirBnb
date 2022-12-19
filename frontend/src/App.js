@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
 import SpotList from "./components/SpotList";
 import { getSpots } from "./store/spotReducer";
 import CreateSpot from "./components/CreateSpot";
@@ -41,6 +42,7 @@ function App() {
           </Route>
         </Switch>
       )}
+      <Footer/>
     </>
   );
 }

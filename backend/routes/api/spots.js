@@ -133,7 +133,8 @@ let Spots = await Spot.scope('getAll').findAll(query)
         for (let review of reviews){
             reviewSum += review.stars
         }
-        let reviewAverage = reviewSum / reviews.length;
+        let reviewAverageNum = reviewSum / reviews.length;
+        let reviewAverage = reviewAverageNum.toFixed(2)
         //set the data into each spot
         spot.setDataValue('avgRating', reviewAverage)
         if(url){
@@ -285,7 +286,8 @@ router.get('/:spotId', async (req, res) => {
                 reviewSum += review.stars
             }
             let numReviews = reviews.length;
-            let reviewAverage = reviewSum / reviews.length;
+            let reviewAverageNum = reviewSum / reviews.length;
+            let reviewAverage = reviewAverageNum.toFixed(2)
             //set the data into each spot
             if(!numReviews){
                 numReviews = 0
@@ -430,7 +432,7 @@ router.get('/:spotId', async (req, res) => {
     })
 
 
-    router.get('/:spotId/reviews', restoreUser, requireAuth, async(req, res)=>{
+    router.get('/:spotId/reviews', restoreUser, async(req, res)=>{
         let spotIdObj = req.params;
         let doesSpotExist = await Spot.findByPk(spotIdObj.spotId)
 
