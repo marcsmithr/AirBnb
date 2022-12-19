@@ -12,19 +12,19 @@ module.exports = {
       {
       spotId: 1,
       userId: 2,
-      review: 'Egestas purus viverra accumsan in nisl nisi scelerisque. Sodales neque sodales ut etiam sit amet. Mus mauris vitae ultricies leo. Risus sed vulputate odio ut enim. Augue interdum velit euismod in pellentesque massa placerat. Condimentum mattis pellentesque id nibh tortor.',
+      review: 'Egestas purus viverra accumsan in nisl nisi scelerisque. Sodales neque sodales ut etiam sit amet. Mus mauris vitae ultricies leo. Risus sed vulputate odio ut enim. ',
       stars: 5
     },
     {
       spotId: 2,
       userId: 3,
-      review: 'Consectetur libero id faucibus nisl tincidunt. Quam vulputate dignissim suspendisse in est ante. Arcu cursus euismod quis viverra. Sodales neque sodales ut etiam sit. Augue interdum velit euismod in pellentesque massa. Rhoncus dolor purus non enim.',
+      review: 'Consectetur libero id faucibus nisl tincidunt. Quam vulputate dignissim suspendisse in est ante. Arcu cursus euismod quis viverra. Sodales neque sodales ut etiam sit. ',
       stars: 2
     },
     {
       spotId: 3,
       userId: 1,
-      review: 'Augue ut lectus arcu bibendum. Congue quisque egestas diam in arcu. Malesuada fames ac turpis egestas sed tempus urna et pharetra. Dictum at tempor commodo ullamcorper a lacus vestibulum. Posuere morbi leo urna molestie at elementum eu facilisis sed. ',
+      review: 'Augue ut lectus arcu bibendum. Congue quisque egestas diam in arcu. Malesuada fames ac turpis egestas sed tempus urna et pharetra. Dictum at tempor commodo ullamcorper.',
       stars: 5
     },
     {
@@ -36,13 +36,13 @@ module.exports = {
     {
       spotId: 5,
       userId: 2,
-      review: 'Amet tellus cras adipiscing enim eu turpis. Viverra accumsan in nisl nisi scelerisque eu ultrices vitae. Id nibh tortor id aliquet lectus proin nibh nisl. Sed cras ornare arcu dui. Maecenas sed enim ut sem viverra aliquet eget sit. Eu consequat ac felis donec. ',
+      review: 'Amet tellus cras adipiscing enim eu turpis. Viverra accumsan in nisl nisi scelerisque eu ultrices vitae. Id nibh tortor id aliquet lectus proin nibh nisl. Sed cras ornare arcu dui.  ',
       stars: 2
     },
     {
       spotId: 1,
       userId: 4,
-      review: 'Auctor augue mauris augue neque gravida. Felis donec et odio pellentesque diam volutpat commodo. Aliquam purus sit amet luctus venenatis lectus magna fringilla urna. Proin fermentum leo vel orci porta non. Integer enim neque volutpat ac tincidunt vitae semper. Vel pretium lectus quam id. Quis vel eros donec ac odio tempor orci dapibus ultrices.',
+      review: 'Auctor augue mauris augue neque gravida. Felis donec et odio pellentesque diam volutpat commodo. Aliquam purus sit amet luctus venenatis lectus magna fringilla urna. ',
       stars: 4
     },
     {
@@ -54,7 +54,7 @@ module.exports = {
     {
       spotId: 3,
       userId: 4,
-      review: 'Iaculis eu non diam phasellus. In est ante in nibh mauris cursus mattis molestie. Suscipit adipiscing bibendum est ultricies integer quis auctor elit. Cursus euismod quis viverra nibh. Sapien faucibus et molestie ac feugiat sed lectus.',
+      review: 'Iaculis eu non diam phasellus. In est ante in nibh mauris cursus mattis molestie. Suscipit adipiscing bibendum est ultricies integer quis auctor elit. Cursus euismod quis viverra nibh.',
       stars: 4
     },
     {
@@ -72,7 +72,7 @@ module.exports = {
     {
       spotId: 3,
       userId: 5,
-      review: 'Nunc consequat interdum varius sit amet mattis. Ut tristique et egestas quis ipsum. Vulputate dignissim suspendisse in est ante in nibh mauris cursus. Sit amet dictum sit amet. Morbi tempus iaculis urna id. Congue nisi vitae suscipit tellus mauris a. ',
+      review: 'Nunc consequat interdum varius sit amet mattis. Ut tristique et egestas quis ipsum. Vulputate dignissim suspendisse in est ante in nibh mauris cursus. Sit amet dictum sit amet.  ',
       stars: 4
     }
     ])
