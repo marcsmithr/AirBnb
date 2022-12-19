@@ -45,7 +45,7 @@ const CreateSpot = ()=>{
                 <h1>Create New Airbnb</h1>
             </div>
             <div className="form-page-inner-container">
-            <form className="airbnb-form create-spot-form" onSubmit={handleSubmit}>
+            <form className="airbnb-form-page create-spot-form" onSubmit={handleSubmit}>
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>

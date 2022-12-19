@@ -10,8 +10,6 @@ const ReviewCard = ({review}) => {
     const history = useHistory()
     const dispatch = useDispatch()
     const currentUser = useSelector((state) => state.session.user)
-    console.log('review:', review)
-    if(review.ReviewImages)console.log('review.ReviewImages[0].url: ', review.ReviewImages[0].url)
 const handleDelete= async() =>{
     const deletespot = await dispatch(deleteReview(review.id))
     await dispatch(getOneSpot(review.spotId))

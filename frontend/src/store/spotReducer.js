@@ -63,7 +63,6 @@ export const postSpot = (payload) => async dispatch => {
         })
         const image = await imageResponse.json();
         if(imageResponse.ok){
-            console.log('image: ', image)
         spot.previewImage = image.url
         await dispatch(create(spot))
     }
@@ -75,7 +74,6 @@ export const postSpot = (payload) => async dispatch => {
 
 export const putSpot = (payload) => async dispatch => {
     let {spotPayload, imageUrl} = payload
-    console.log('spotPayload: ', spotPayload)
     const response = await csrfFetch(`/api/spots/${spotPayload.id}`,{
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
