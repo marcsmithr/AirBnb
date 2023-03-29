@@ -10,6 +10,7 @@ import CreateSpot from "./components/CreateSpot";
 import SpotDetails from "./components/SpotDetails";
 import EditSpot from "./components/EditSpot";
 import CreateReview from "./components/CreateReview";
+import AllUserBookings from "./components/Bookings/AllUserBookings";
 
 
 function App() {
@@ -30,6 +31,9 @@ function App() {
           </Route>
           <Route path="/create" exact>
               <CreateSpot/>
+          </Route>
+          <Route path="/trips/:id" exact>
+              <AllUserBookings/>
           </Route>
           <Route path="/spots/:spotId" exact>
               <SpotDetails/>

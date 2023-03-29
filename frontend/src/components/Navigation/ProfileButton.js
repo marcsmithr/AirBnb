@@ -4,8 +4,8 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
+import { Link, useHistory } from "react-router-dom";
 import './ProfileButton.css';
-import { useHistory } from "react-router-dom";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -57,9 +57,11 @@ function ProfileButton({ user }) {
           {user.username&&
             <li>{user.username}</li>
           }
-          {(user.firstName||user.lastName)&&
-            <li>{user.firstName} {user.lastName}</li>
-          }
+          <Link to={`/trips/${user.id}`}>
+            <button>
+              <li>Trips</li>
+            </button>
+          </Link>
           {user.email &&
             <li>{user.email}</li>
           }
