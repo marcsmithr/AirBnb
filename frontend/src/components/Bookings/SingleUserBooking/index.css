@@ -1,0 +1,115 @@
+.SBOuterContainer{
+    background-color: rgba(128, 128, 128, 0.092);
+}
+
+.SBMain{
+    background-color: white;
+}
+
+.SBImage{
+    height: 400px;
+    width: 550px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.SBImage>img{
+    height: 400px;
+    width: 550px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.SBOuterContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.SBInOutContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.SBInOutOuter{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 2rem 0rem;
+
+}
+.SBInOutInner{
+    padding-left: 2rem;
+}
+.checkout{
+    border-left: .5px solid rgba(0, 0, 0, 0.185);
+}
+
+.SBInOutInner>span{
+    font-weight: bold;
+    font-size: .9rem;
+}
+
+.SBInOutDate{
+    font-weight: bold;
+}
+
+.SBInOutTime{
+    font-size: .9rem;
+    color: rgba(0, 0, 0, 0.544);
+}
+
+.SBDetailContainer{
+    margin: .5rem 0rem;
+    padding: .5rem;
+    background-color: white;
+}
+
+.SBDetailContainer>h2{
+    margin: .5rem .5rem .8rem;
+    font-size: 1.5rem;
+}
+
+.SBDetailSubheader{
+    margin-left: .5rem;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.SBDetailText{
+    margin: .5rem;
+    color:rgba(0, 0, 0, 0.519);
+    font-size: 1rem;
+}
+
+.SBCrud{
+    width: 100%;
+}
+
+.SBCrud>button{
+    display: flex;
+    margin-left: .5rem;
+    padding: .5rem 0rem;
+    width: 100%;
+    background-color: white;
+    border-left: none;
+    border-right: none;
+    border-top: 2px solid rgba(0, 0, 0, 0.094);
+    border-bottom: none;
+    transition: background-color .5s;
+}
+
+.SBCrud>button:hover{
+    background-color: rgba(0, 0, 0, 0.205);
+}
+
+.SBCrudButton>span{
+    margin-left: .5rem;
+    color:rgba(0, 0, 0, 0.519);
+    font-size: 1rem;
+}
+
+.SBCrudButton>i{
+    margin-left: .5rem
+}

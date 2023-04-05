@@ -57,7 +57,7 @@ function ProfileButton({ user }) {
           {user.username&&
             <li>{user.username}</li>
           }
-          <Link to={`/trips/${user.id}`}>
+          <Link to={`/${user.id}/trips`}>
             <button>
               <li>Trips</li>
             </button>

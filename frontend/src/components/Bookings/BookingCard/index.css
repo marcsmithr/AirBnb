@@ -1,28 +1,73 @@
 .bookingCard{
     display: flex;
     flex-direction: row;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    width: 500px;
+    box-shadow: 0px 0px 6px 3px rgba(0, 0, 0, 0.172);
+    transition: box-shadow .4s;
 }
 
-.bookingDetails{
+.bookingCard:hover{
+    box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.314);
 }
 
-.bookingCardHeader{
+
+.bookingCardUpper{
+    padding: .8rem;
     border-bottom: solid rgba(58, 58, 58, 0.146) 1px;
 }
 .bookingCardName{
     font-weight: bold;
 }
 
+.bookingCardLower{
+    display: flex;
+    flex-direction: row;
+}
+
+.bookingCardLowerLeft{
+    padding: .8rem;
+}
+
+.bookingCardDateContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bookingCardDetailsDate{
+    margin: 5px, 0px;
+    padding: 0px;
+    font-size: 1rem;
+}
+
+.bookingCardLowerRight{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: .8rem;
+    border-left: solid rgba(58, 58, 58, 0.146) 1px;
+}
+
+.bookingCardLocation{
+    font-size: 1rem;
+}
+
+.bookingCardCountry{
+    font-size: .8rem;
+}
+
 .bookingCardImage{
     margin-left: 1rem;
-    height: 150px;
+    height: 160px;
     width: 250px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
 .bookingCardImage > img{
     object-fit: cover;
-    height: 150px;
+    height: 168px;
     width: 250px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -40,5 +85,5 @@
     color:rgba(27, 27, 27, 0.417)
 }
 .smallText{
-    font-size: 13px;
+    font-size: 12px;
 }

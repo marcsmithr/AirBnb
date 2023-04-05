@@ -15,8 +15,22 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
         let bookingDataString = JSON.stringify(bookingDataObj)
         let booking = JSON.parse(bookingDataString)
         let spot = await Spot.findAll({where:{id: booking.spotId}})
+        let previewImage = await SpotImage.findAll({
+            where: {
+                spotId: booking.spotId,
+                preview: true
+                }
+            })
+        let previewImageString = JSON.stringify(previewImage)
+        let previewImageObj = JSON.parse(previewImageString)
+        //grab url from previewImage
+        let url;
+        if(previewImageObj[0]){
+            url = previewImageObj[0].url
+        }
 
-        bookingDataObj.setDataValue('Spot', spot)
+        bookingDataObj.setDataValue('spot', spot)
+        bookingDataObj.setDataValue('previewImage', url)
 }
 res.status(200)
 return res.json({

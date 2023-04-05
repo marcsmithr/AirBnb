@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import {useDispatch, useSelector} from 'react-redux'
 import { allBookingsByUser } from "../../../store/bookingReducer";
 import  BookingCard from "../BookingCard"
+import './index.css'
 
 
 function AllUserBookings () {
@@ -18,10 +19,18 @@ function AllUserBookings () {
     if(!user||!bookings) return null
     return(
         <>
-            <div>
+            <div className="allUserBookings">
+                <div className="allUserBookingsHeader">
+                    <h2>Trips</h2>
+                </div>
+                <div className="allUserBookingsSubheader">
+                    <h3>Upcoming reservations</h3>
+                </div>
+                <div className="bookingCardsContainer">
                     {bookings.map((booking)=>(
                         <BookingCard booking={booking} key={booking.id}/>
                     ))}
+                </div>
             </div>
         </>
     )
