@@ -60,7 +60,7 @@ const SpotDetails = () => {
             </div>
 
             <div className="preview-images-div">
-                <img src={spot.SpotImages[0].url} className='main-spot-image'/>
+                <img src={spot.spotImages[0].url} className='main-spot-image'/>
             </div>
             <div className="details-div">
                 <div className="left-details">
@@ -173,7 +173,7 @@ const SpotDetails = () => {
             </div>
 
             <div className="preview-images-div">
-                <img src={spot.SpotImages[0].url} className='main-spot-image'/>
+                <img src={spot.spotImages[0].url} className='main-spot-image'/>
             </div>
             <div className="details-div">
                 <div className="left-details">

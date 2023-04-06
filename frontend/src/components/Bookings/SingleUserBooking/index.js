@@ -5,6 +5,16 @@ import { allBookingsByUser } from "../../../store/bookingReducer"
 import { getOneSpot } from "../../../store/spotReducer"
 import './index.css'
 
+function daysBetween (startDate, endDate){
+    const start = new Date(startDate)
+    const end = new Date(endDate)
+    let Difference_In_Time = end.getTime() - start.getTime();
+
+    // To calculate the no. of days between two dates
+    let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    return Difference_In_Days
+}
+
 function findBooking(arr, id){
     console.log("arr in findBooking", arr)
     console.log("id in findBooking", id)
@@ -25,6 +35,10 @@ const time = new Intl.DateTimeFormat(undefined, {
     timeStyle: "short"
 })
 
+// const standardDate = new Intl.DateTimeFormat(undefined, {
+
+// })
+
 function SingleBooking(){
     const dispatch = useDispatch()
     const {bookingId, userId} = useParams()
@@ -37,7 +51,15 @@ function SingleBooking(){
     console.log("booking", booking)
 
     console.log("spot", spot)
-    let previewImage;
+    let bookingLength;
+    let price;
+    if(booking){
+        bookingLength = daysBetween(booking.startDate, booking.endDate)
+        price = bookingLength * booking.spot[0].price
+        console.log("length of booking", bookingLength)
+        console.log("price of booking", price)
+    }
+    let previewImage
     if(spot.spotImages && spot.spotImages.length> 0){
         previewImage = spot.spotImages[0]
     }
@@ -46,7 +68,7 @@ function SingleBooking(){
         dispatch(allBookingsByUser(userId))
     },[])
 
-    if(!booking || !spot){
+    if(!booking || !spot ){
         return null
     }
     return (
@@ -92,7 +114,7 @@ function SingleBooking(){
                         <span>Total Cost</span>
                     </div>
                     <div className="SBDetailText">
-                        <span>{booking.spot[0].address}, {booking.spot[0].city}, {booking.spot[0].state}</span>
+                        <span>{bookingLength} nights at ${booking.spot[0].price} a night = ${price}</span>
                     </div>
                 </div>
                 <div className="SBDetailContainer">
