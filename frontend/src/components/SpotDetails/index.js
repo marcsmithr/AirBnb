@@ -186,31 +186,59 @@ const SpotDetails = () => {
                 </div>
                 <div className="right-details">
                     <div className="right-details-header">
-                    <div>
-                        <span className='right-details-price'>${spot.price} </span>
-                         night
+                        <div>
+                            <span className='right-details-price'>${spot.price} </span>
+                            night
+                        </div>
+                        <div className="right-details-reviews-container">
+                        {(spot.numReviews=== 1) &&
+                        <>
+                    <span className="star-rating">
+                        <i className="fa-solid fa-star star"></i>
+                            {spot.avgRating} ᛫
+                        </span>
+
+                        <span className="right-details-header-reviews"> {spot?.numReviews} review </span>
+                        </>}
+                        {(spot.numReviews > 1) &&
+                        <>
+                    <span className="star-rating">
+                        <i className="fa-solid fa-star star"></i>
+                            {spot.avgRating} ᛫
+                        </span>
+
+                        <span className="right-details-header-reviews"> {spot?.numReviews} reviews </span>
+                        </>}
+
                     </div>
-                    <div className="right-details-reviews-container">
-                    {(spot.numReviews=== 1) &&
-                    <>
-                   <span className="star-rating">
-                     <i className="fa-solid fa-star star"></i>
-                        {spot.avgRating} ᛫
-                    </span>
-
-                    <span className="right-details-header-reviews"> {spot?.numReviews} review </span>
-                    </>}
-                    {(spot.numReviews > 1) &&
-                    <>
-                   <span className="star-rating">
-                     <i className="fa-solid fa-star star"></i>
-                        {spot.avgRating} ᛫
-                    </span>
-
-                    <span className="right-details-header-reviews"> {spot?.numReviews} reviews </span>
-                    </>}
-
                 </div>
+                <div className="right-details-booking-container">
+                    <div>
+                        <form>
+                            <div className="check-in-out-container">
+                                <div className="check-container">
+                                    <div className="check-header">
+                                        <span>CHECK-IN</span>
+                                    </div>
+                                    <div>
+                                        <input type="date" className="date-input"></input>
+                                    </div>
+                                </div>
+                                <div className="check-container">
+                                    <div className="check-header">
+                                        <span>CHECKOUT</span>
+                                    </div>
+                                    <div>
+                                        <input type="date" className="date-input"></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="reserve-button-container">
+                                <button className="airbnb-button full-w">Reserve</button>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
                 </div>
             </div>
