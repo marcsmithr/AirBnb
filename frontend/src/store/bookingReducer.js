@@ -22,6 +22,17 @@ export const allBookingsByUser = () => async dispatch => {
     }
 }
 
+export const allBookingsBySpot = (spotId) =>async dispatch => {
+    const response = await fetch (`/api/spots/${spotId}/bookings`)
+
+    if(response.ok){
+        const {Bookings} = await response.json()
+        console.log("bookings for spot", Bookings)
+        dispatch(load(Bookings))
+        return Bookings
+    }
+}
+
 
 
 

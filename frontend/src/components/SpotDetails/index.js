@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { getOneSpot, deleteSpot, getSpots } from "../../store/spotReducer";
 import { getReviews } from "../../store/reviewReducer";
 import ReviewCard  from "../ReviewCard/index.js"
+import CreateBooking from "../Bookings/CreateBooking";
 import './SpotDetails.css'
 
 const SpotDetails = () => {
@@ -213,31 +214,7 @@ const SpotDetails = () => {
                     </div>
                 </div>
                 <div className="right-details-booking-container">
-                    <div>
-                        <form>
-                            <div className="check-in-out-container">
-                                <div className="check-container">
-                                    <div className="check-header">
-                                        <span>CHECK-IN</span>
-                                    </div>
-                                    <div>
-                                        <input type="date" className="date-input"></input>
-                                    </div>
-                                </div>
-                                <div className="check-container">
-                                    <div className="check-header">
-                                        <span>CHECKOUT</span>
-                                    </div>
-                                    <div>
-                                        <input type="date" className="date-input"></input>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="reserve-button-container">
-                                <button className="airbnb-button full-w">Reserve</button>
-                            </div>
-                        </form>
-                    </div>
+                    <CreateBooking spotId={spot.id}/>
 
                 </div>
                 </div>
