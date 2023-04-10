@@ -8,16 +8,18 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
     dateStyle: "short"
 })
 
+const findSpot=(allSpots, booking)=>{
+   const spot = allSpots.find((spot)=> spot.id ===booking.spotId)
+   return spot
+}
+
 function BookingCard ({booking}) {
 
     const dispatch = useDispatch()
-    const spot = useSelector(state=> state.spots.singleSpot)
+    const allSpots = Object.values(useSelector(state=> state.spots.allSpots))
+    const spot = findSpot(allSpots, booking)
     const {userId} = useParams()
-    console.log("USERID", userId)
-    let previewImage;
-    if(spot.spotImages && spot.spotImages.length> 0){
-        previewImage = spot.spotImages[0]
-    }
+
 
     useEffect(()=>{
         dispatch(getOneSpot(booking.spotId))
@@ -26,7 +28,7 @@ function BookingCard ({booking}) {
     if(!spot.id) return null
     return(
         <>
-            <Link to={`/${userId}/trips/${booking.id}`}>
+            <Link to={`/${userId}/trips/${booking.id}/${spot.id}`}>
             <div className="bookingCard">
                 <div className="bookingCardDetails">
                     <div className="bookingCardUpper">
@@ -34,7 +36,7 @@ function BookingCard ({booking}) {
                             <span>{spot.name}</span>
                         </div>
                         <div className="bookingCardDetail smallText">
-                            <span>Hosted by {spot.Owner.firstName}</span>
+                            <span>Hosted by {booking.Owner.firstName}</span>
                         </div>
                     </div>
                     <div className="bookingCardLower">
@@ -62,9 +64,8 @@ function BookingCard ({booking}) {
                     </div>
                 </div>
                 <div className="bookingCardImage">
-                    {spot.spotImages?.length!==0 &&
-                        <img src={previewImage.url}></img>
-                    }
+                        <img src={booking.previewImage}></img>
+
                 </div>
             </div>
             </Link>

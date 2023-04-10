@@ -36,7 +36,7 @@ function App() {
           <Route path="/:userId/trips" exact>
               <AllUserBookings/>
           </Route>
-          <Route path="/:userId/trips/:bookingId" exact>
+          <Route path="/:userId/trips/:bookingId/:spotId" exact>
               <SingleBooking/>
           </Route>
           <Route path="/spots/:spotId" exact>

@@ -23,6 +23,16 @@ function findBooking(arr, id){
     return targetBooking
 }
 
+// function findSpot(arr, id){
+//     console.log("arr in findBooking", arr)
+//     console.log("id in findBooking", id)
+//     const targetSpot = arr.find(spot => spot.id ==id)
+//     console.log("targetBooking", targetBooking)
+//     return targetBooking
+// }
+
+
+
 const weekday = new Intl.DateTimeFormat(undefined, {
     weekday: "short"
 })
@@ -41,13 +51,15 @@ const time = new Intl.DateTimeFormat(undefined, {
 
 function SingleBooking(){
     const dispatch = useDispatch()
-    const {bookingId, userId} = useParams()
+    const {bookingId, userId, spotId} = useParams()
 
     console.log("bookingId", bookingId)
     const bookings = Object.values(useSelector(state=> state.bookings.allBookings))
-    const spot = useSelector(state=> state.spots.singleSpot)
+    // const allSpots = Object.values(useSelector(state=> state.spots.allSpots))
+    const spot = useSelector(state=>state.spots.singleSpot)
     console.log("bookings", bookings)
     const booking = findBooking(bookings, bookingId)
+    // const spot = findBooking(allSpots, booking.spotId)
     console.log("booking", booking)
 
     console.log("spot", spot)
@@ -55,7 +67,7 @@ function SingleBooking(){
     let price;
     if(booking){
         bookingLength = daysBetween(booking.startDate, booking.endDate)
-        price = bookingLength * booking.spot[0].price
+        price = bookingLength * booking.spot.price
         console.log("length of booking", bookingLength)
         console.log("price of booking", price)
     }
@@ -68,7 +80,11 @@ function SingleBooking(){
         dispatch(allBookingsByUser(userId))
     },[])
 
-    if(!booking || !spot ){
+    useEffect(()=>{
+        dispatch(getOneSpot(spotId))
+    },[])
+
+    if(!booking || !spot.id ){
         return null
     }
     return (
@@ -114,7 +130,7 @@ function SingleBooking(){
                         <span>Total Cost</span>
                     </div>
                     <div className="SBDetailText">
-                        <span>{bookingLength} nights at ${booking.spot[0].price} a night = ${price}</span>
+                        <span>{bookingLength} nights at ${booking.spot.price} a night = ${price}</span>
                     </div>
                 </div>
                 <div className="SBDetailContainer">
@@ -123,7 +139,7 @@ function SingleBooking(){
                         <span>Address</span>
                     </div>
                     <div className="SBDetailText">
-                        <span>{booking.spot[0].address}, {booking.spot[0].city}, {booking.spot[0].state}</span>
+                        <span>{booking.spot.address}, {booking.spot.city}, {booking.spot.state}</span>
                     </div>
                 </div>
                 <div className="SBDetailContainer">

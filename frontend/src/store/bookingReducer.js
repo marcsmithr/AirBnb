@@ -1,3 +1,4 @@
+import { csrfFetch } from "./csrf"
 const LOAD = 'bookings/LOAD'
 const CREATE = 'bookings/CREATE'
 const UPDATE = 'bookings/UPDATE'
@@ -9,6 +10,11 @@ const load = bookings => ({
     bookings
 })
 
+const create = booking => ({
+    type: CREATE,
+    booking
+})
+
 
 export const allBookingsByUser = () => async dispatch => {
     console.log("hello from booking thunk")
@@ -16,7 +22,6 @@ export const allBookingsByUser = () => async dispatch => {
     console.log("response in booking thunk",response)
     if(response.ok){
         const {Bookings} = await response.json()
-        console.log("Bookings in thunk", Bookings)
         dispatch(load(Bookings))
         return Bookings
     }
@@ -27,9 +32,22 @@ export const allBookingsBySpot = (spotId) =>async dispatch => {
 
     if(response.ok){
         const {Bookings} = await response.json()
-        console.log("bookings for spot", Bookings)
         dispatch(load(Bookings))
         return Bookings
+    }
+}
+
+export const createBooking = (spotId, payload) => async dispatch => {
+    const response = await csrfFetch (`/api/spots/${spotId}/bookings`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+    })
+
+    if(response.ok){
+        const {booking} = await response.json()
+        console.log("Booking in thunk", booking)
+        dispatch(create(booking))
     }
 }
 
@@ -48,6 +66,11 @@ const bookingReducer = (state = intialState, action) => {
                 bookingPlaceholder[booking.id] = booking
             })
             newState.allBookings = bookingPlaceholder
+            return newState
+        }
+        case CREATE:{
+            newState = {...state, allBookings: {...state.allBookings}}
+            newState.allBookings[action.booking.id] = action.booking
             return newState
         }
         default:

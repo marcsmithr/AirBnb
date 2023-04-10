@@ -2,23 +2,26 @@ import React, {useState} from "react"
 import './index.css'
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-import { allBookingsBySpot } from "../../../store/bookingReducer"
+import { allBookingsBySpot, createBooking } from "../../../store/bookingReducer"
 import { DateRangePicker } from 'react-date-range';
 import { eachDayOfInterval } from "date-fns"
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
 function checkBookedDates(bookings){
+    let bookedDates = []
     if(bookings.length === 0 ){
         return []
     }
     bookings.forEach((booking)=>{
         let bookingRange = eachDayOfInterval({
-            start: new Date(booking.startDate),
-            end: new Date(booking.endDate)
+            start: new Date(booking.startDate.slice(0,10)),
+            end: new Date(booking.endDate.slice(0,10))
         })
-        console.log(bookingRange)
+        bookedDates = [...bookedDates, ...bookingRange]
     })
+
+    return bookedDates
 }
 
 function CreateBooking({spotId}){
@@ -27,9 +30,9 @@ function CreateBooking({spotId}){
     const [endDate, setEndDate] = useState(new Date())
     const [bookedDates, setBookedDates] = useState([])
 
-    const currentBookings = Object.values(useSelector((state)=>state.bookings.allBookings))
-    console.log(currentBookings)
-    checkBookedDates(currentBookings)
+    const allBookings = Object.values(useSelector((state)=>state.bookings.allBookings))
+    const currentBookings = allBookings.filter(booking=>booking.spotId==spotId)
+
     const selectionRange = {
         startDate,
         endDate,
@@ -41,43 +44,45 @@ function CreateBooking({spotId}){
         setEndDate(ranges.selection.endDate)
     }
 
-    const testDate1 = new Date("2023-04-20")
-    const testDate2 = new Date("2023-04-22")
+    const handleSubmit= async(e)=>{
+        e.preventDefault()
+        console.log("startDate", startDate)
+        console.log("endDate", endDate)
+        const payload = {
+            startDate,
+            endDate
+        }
+        dispatch(createBooking(spotId, payload))
+    }
 
     useEffect(()=>{
         dispatch(allBookingsBySpot(spotId))
     },[])
 
+    useEffect(()=>{
+        setBookedDates(checkBookedDates(currentBookings))
+    }, [])
+
+    // useEffect(()=>{
+    //     console.log("useEffect start", startDate)
+    // }, [startDate])
+    // useEffect(()=>{
+    //     console.log("useEffect end", endDate)
+    // }, [endDate])
+
+
     return(
         <div>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <DateRangePicker
                 ranges={[selectionRange]}
                 minDate={new Date()}
                 rangeColors={["#FD6B61"]}
                 onChange={handleSelect}
-                disabledDates={[bookedDates]}
+                disabledDates={bookedDates}
                 />
-                {/* <div className="check-in-out-container">
-                    <div className="check-container full-w">
-                        <div className="check-header">
-                            <span>CHECK-IN</span>
-                        </div>
-                        <div>
-                            <input type="date" className="date-input"></input>
-                        </div>
-                    </div>
-                    <div className="check-container full-w">
-                        <div className="check-header">
-                            <span>CHECKOUT</span>
-                        </div>
-                        <div>
-                            <input type="date" className="date-input"></input>
-                        </div>
-                    </div>
-                </div> */}
                 <div className="reserve-button-container">
-                    <button className="airbnb-button full-w">Reserve</button>
+                    <button className="airbnb-button full-w" type="submit">Reserve</button>
                 </div>
             </form>
         </div>

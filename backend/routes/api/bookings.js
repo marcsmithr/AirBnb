@@ -1,6 +1,7 @@
 const express = require('express');
 const { User, Spot, Review, ReviewImage, SpotImage, Booking, sequelize } = require('../../db/models');
 const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
+const { json } = require('sequelize');
 
 const router = express.Router();
 
@@ -10,11 +11,15 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
     let userObjString = JSON.stringify(userDataObj)
     let user = JSON.parse(userObjString)
 
+
     let Bookings= await Booking.findAll({where:{userId: user.id}})
     for(let bookingDataObj of Bookings){
         let bookingDataString = JSON.stringify(bookingDataObj)
         let booking = JSON.parse(bookingDataString)
-        let spot = await Spot.findAll({where:{id: booking.spotId}})
+        let spotDataObj = await Spot.findAll({where:{id: booking.spotId}})
+        let spotString = JSON.stringify(spotDataObj)
+        let spotObj = JSON.parse(spotString)
+        console.log("spot--------", spotObj)
         let previewImage = await SpotImage.findAll({
             where: {
                 spotId: booking.spotId,
@@ -28,8 +33,13 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
         if(previewImageObj[0]){
             url = previewImageObj[0].url
         }
-
-        bookingDataObj.setDataValue('spot', spot)
+        let ownerObj = await User.scope("public").findByPk(spotObj[0].ownerId)
+        console.log("ownerObj---------", ownerObj)
+        let owner = {}
+        owner.id = ownerObj.id;
+        owner.firstName = ownerObj.firstName;
+        bookingDataObj.setDataValue('Owner', owner)
+        bookingDataObj.setDataValue('spot', spotObj[0])
         bookingDataObj.setDataValue('previewImage', url)
 }
 res.status(200)
