@@ -13,13 +13,13 @@ const findSpot=(allSpots, booking)=>{
    return spot
 }
 
-function BookingCard ({booking}) {
+function BookingCard ({booking, spot}) {
 
     const dispatch = useDispatch()
     const allSpots = Object.values(useSelector(state=> state.spots.allSpots))
-    const spot = findSpot(allSpots, booking)
+    // const spot = findSpot(allSpots, booking)
     const {userId} = useParams()
-
+    console.log('booking', booking)
 
     useEffect(()=>{
         dispatch(getOneSpot(booking.spotId))
@@ -36,7 +36,7 @@ function BookingCard ({booking}) {
                             <span>{spot.name}</span>
                         </div>
                         <div className="bookingCardDetail smallText">
-                            <span>Hosted by {booking.Owner.firstName}</span>
+                            <span>Hosted by {spot.Owner.firstName}</span>
                         </div>
                     </div>
                     <div className="bookingCardLower">

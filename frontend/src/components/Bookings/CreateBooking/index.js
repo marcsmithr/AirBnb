@@ -7,6 +7,7 @@ import { DateRangePicker } from 'react-date-range';
 import { eachDayOfInterval } from "date-fns"
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+import { useHistory } from "react-router-dom"
 
 function checkBookedDates(bookings){
     let bookedDates = []
@@ -25,6 +26,7 @@ function checkBookedDates(bookings){
 }
 
 function CreateBooking({spotId}){
+    const history = useHistory()
     const dispatch = useDispatch()
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState(new Date())
@@ -32,7 +34,8 @@ function CreateBooking({spotId}){
 
     const allBookings = Object.values(useSelector((state)=>state.bookings.allBookings))
     const currentBookings = allBookings.filter(booking=>booking.spotId==spotId)
-
+    const user = useSelector(state=>state.session.user)
+    const spot = useSelector(state=>state.spots.singleSpot)
     const selectionRange = {
         startDate,
         endDate,
@@ -52,7 +55,8 @@ function CreateBooking({spotId}){
             startDate,
             endDate
         }
-        dispatch(createBooking(spotId, payload))
+       const newBooking = await dispatch(createBooking(spotId, payload))
+        .then((newBooking)=> history.push(`/${user.id}/trips/${newBooking.id}/${spotId}`))
     }
 
     useEffect(()=>{
@@ -81,9 +85,11 @@ function CreateBooking({spotId}){
                 onChange={handleSelect}
                 disabledDates={bookedDates}
                 />
+                {user.id != spot.Owner.id &&
                 <div className="reserve-button-container">
                     <button className="airbnb-button full-w" type="submit">Reserve</button>
                 </div>
+                }
             </form>
         </div>
     )

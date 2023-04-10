@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
-import { allBookingsByUser } from "../../../store/bookingReducer"
+import { useHistory, useParams } from "react-router-dom"
+import { allBookingsByUser, deleteBooking } from "../../../store/bookingReducer"
 import { getOneSpot } from "../../../store/spotReducer"
 import './index.css'
 
@@ -51,6 +51,7 @@ const time = new Intl.DateTimeFormat(undefined, {
 
 function SingleBooking(){
     const dispatch = useDispatch()
+    const history = useHistory()
     const {bookingId, userId, spotId} = useParams()
 
     console.log("bookingId", bookingId)
@@ -65,15 +66,21 @@ function SingleBooking(){
     console.log("spot", spot)
     let bookingLength;
     let price;
-    if(booking){
+    if(booking && spot){
         bookingLength = daysBetween(booking.startDate, booking.endDate)
-        price = bookingLength * booking.spot.price
+        price = bookingLength * spot.price
         console.log("length of booking", bookingLength)
         console.log("price of booking", price)
     }
     let previewImage
     if(spot.spotImages && spot.spotImages.length> 0){
         previewImage = spot.spotImages[0]
+    }
+    const handleDelete = async() => {
+         await dispatch(deleteBooking(bookingId))
+        .then(()=> dispatch(allBookingsByUser(userId)))
+        .then(()=>history.push(`/${userId}/trips`))
+
     }
 
     useEffect(()=>{
@@ -151,7 +158,7 @@ function SingleBooking(){
                         </button>
                     </div>
                     <div className="SBCrud">
-                        <button className="SBCrudButton">
+                        <button className="SBCrudButton" onClick={handleDelete}>
                             <i class="fa-solid fa-ban"></i>
                             <span>Cancel Booking</span>
                         </button>

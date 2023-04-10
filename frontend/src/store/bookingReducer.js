@@ -15,6 +15,11 @@ const create = booking => ({
     booking
 })
 
+const remove = bookingId => ({
+    type: DELETE,
+    bookingId
+})
+
 
 export const allBookingsByUser = () => async dispatch => {
     console.log("hello from booking thunk")
@@ -45,10 +50,25 @@ export const createBooking = (spotId, payload) => async dispatch => {
     })
 
     if(response.ok){
-        const {booking} = await response.json()
+        const booking = await response.json()
         console.log("Booking in thunk", booking)
         dispatch(create(booking))
+        return booking
     }
+    return response
+}
+
+export const deleteBooking = (bookingId) => async dispatch => {
+    const response = await csrfFetch(`/api/bookings/${bookingId}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'}
+    })
+    if(response.ok){
+        const{message} = await response.json()
+        dispatch(remove(bookingId))
+        return message
+    }
+    return response
 }
 
 
@@ -71,6 +91,11 @@ const bookingReducer = (state = intialState, action) => {
         case CREATE:{
             newState = {...state, allBookings: {...state.allBookings}}
             newState.allBookings[action.booking.id] = action.booking
+            return newState
+        }
+        case DELETE:{
+            newState = {...state, allBookings: {...state.allBookings}}
+            delete newState[action.bookingId]
             return newState
         }
         default:
