@@ -33,7 +33,7 @@ function ProfileButton({ user }) {
   }, [showMenu]);
 
   const closeMenu = () => setShowMenu(false);
-
+ console.log("showmenu", showMenu)
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
@@ -41,7 +41,14 @@ function ProfileButton({ user }) {
     history.push('/')
   };
 
+  const goToTrips = (e) => {
+    e.preventDefault();
+    closeMenu();
+    history.push(`/${user.id}/trips`)
+  };
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  console.log("ulClassname", ulClassName)
 
   return (
     <div className="profile-button-container">
@@ -57,14 +64,11 @@ function ProfileButton({ user }) {
           {user.username&&
             <li>{user.username}</li>
           }
-          <Link to={`/${user.id}/trips`}>
-            <button>
-              <li>Trips</li>
-            </button>
-          </Link>
           {user.email &&
             <li>{user.email}</li>
           }
+
+          <li className='profile-dropdown-button trips' onClick={goToTrips}>Trips</li>
             <li onClick={logout} className='profile-dropdown-button'>
               Log Out
               {/* <button onClick={logout} className='logout-button'>Log Out</button> */}
