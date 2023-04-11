@@ -1,0 +1,49 @@
+.spot-card-container{
+    width: 23%;
+    display:flex;
+    flex-direction: column;
+    margin: 8px 1px;
+}
+
+.spot-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.spot-review-avg {
+    display: flex;
+    font-size: 15px
+}
+
+
+.star {
+    font-size: 15px;
+    margin-right: 2px;
+}
+
+.spot-image {
+width: 100%;
+height: 300px;
+border-radius: 5%;
+object-fit: cover;
+margin: 0px;
+}
+
+.spot-text {
+    margin: 0px;
+    font-size: 16px;
+    color: #484848
+}
+
+
+.location {
+    font-size: 16px;
+    font-weight:600;
+    margin: 0;
+}
+
+.price {
+    font-weight:bold;
+    margin-top: 2px;
+}

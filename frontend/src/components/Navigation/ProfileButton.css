@@ -1,0 +1,71 @@
+.profile-button-container {
+    position: relative;
+
+}
+
+.user-button{
+    background-color: white;
+    border-radius: 24px 24px 24px 24px;
+    border: 1px lightgrey solid;
+    height: 40px;
+    width:  80px;
+    padding: 0px 10px;
+    box-shadow: 0px;
+    transition-property: box-shadow;
+    transition-duration: .2s;
+}
+.user-button:hover {
+    box-shadow: 0px 2.4px 3.6px rgba(0, 0, 0, 0.2);
+}
+.user-icons-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.user-icon{
+    color:#767676;
+    font-size: 32px;
+}
+.user-bars{
+    color: #767676;
+    font-size: 20px;
+}
+
+.user-modal-information{
+   list-style-type:none ;
+}
+
+.profile-dropdown{
+    list-style-type: none;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items:flex-start;
+    padding: 20px 0px;
+    top: 36px;
+    right: 0;
+    width: 220px;
+    height: 200px;
+    background-color: white;
+    font-size: 20px;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 24px 24px 24px 24px;
+}
+
+.profile-dropdown > li {
+    margin: 0px;
+    padding: 8px;
+    width: 92%;
+    font-size: 18px;
+    color: #484848;
+}
+
+.profile-dropdown-button{
+    transition-property: background-color;
+    font-weight: 600;
+}
+.profile-dropdown-button:hover{
+    background-color: #F8F8F8;
+}

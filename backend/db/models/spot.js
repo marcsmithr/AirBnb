@@ -10,10 +10,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Spot.hasMany(models.Review, {foreignKey:'spotId', onDelete: 'CASCADE', hooks:true})
+      Spot.hasMany(models.Booking, {foreignKey:'spotId', onDelete: 'CASCADE', hooks:true})
+      Spot.belongsTo(models.User, {foreignKey: 'ownerId'})
+      Spot.hasMany(models.SpotImage, {foreignKey: 'spotId', onDelete: 'CASCADE', hooks:true})
     }
   }
   Spot.init({
+    id:{
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     ownerId: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -24,24 +32,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     city: {
       type: DataTypes.STRING,
-      allowNull:false,
-      validate:{
-        isAlpha: true
-      }
+      allowNull:false
     },
     state: {
       type: DataTypes.STRING,
-      allowNull:false,
-      validate:{
-        isAlpha: true
-      }
     },
     country: {
       type: DataTypes.STRING,
-      allowNull:false,
-      validate:{
-        isAlpha: true
-      }
+      allowNull:false
     },
     lat: {
       type: DataTypes.DECIMAL,
@@ -75,6 +73,16 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Spot',
+    defaultScope: {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      }
+    },
+    scopes: {
+      getAll: {
+        attributes: {exclude: []}
+      }
+    }
   });
   return Spot;
 };

@@ -10,16 +10,37 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      SpotImage.belongsTo(models.Spot, {foreignKey: 'spotId'})
     }
   }
   SpotImage.init({
-    spotId: DataTypes.INTEGER,
-    url: DataTypes.STRING,
+    id:{
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    spotId: {
+      type:DataTypes.INTEGER,
+      allowNull:false
+    },
+    url: {
+      type:DataTypes.STRING,
+      allowNull:false
+  },
     preview: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'SpotImage',
+    defaultScope: {
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "spotId"]
+      }
+    },
+    scopes: {
+      currentSpot: {
+        attributes: { exclude: ["createdAt", "updatedAt"] }
+      }
+    }
   });
   return SpotImage;
 };
