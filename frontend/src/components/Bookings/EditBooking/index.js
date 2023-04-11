@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import './index.css'
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-import { allBookingsBySpot, createBooking } from "../../../store/bookingReducer"
+import { allBookingsBySpot, createBooking, editBooking } from "../../../store/bookingReducer"
 import { DateRangePicker } from 'react-date-range';
 import { eachDayOfInterval } from "date-fns"
 import 'react-date-range/dist/styles.css'; // main style file
@@ -25,17 +25,20 @@ function checkBookedDates(bookings){
     return bookedDates
 }
 
-function CreateBooking({spotId}){
+function EditBooking({spot, booking}){
     const history = useHistory()
     const dispatch = useDispatch()
-    const [startDate, setStartDate] = useState(new Date())
-    const [endDate, setEndDate] = useState(new Date())
+    const [startDate, setStartDate] = useState(new Date(booking.startDate))
+    const [endDate, setEndDate] = useState(new Date(booking.endDate))
     const [bookedDates, setBookedDates] = useState([])
 
-    const allBookings = Object.values(useSelector((state)=>state.bookings.allBookings))
-    const currentBookings = allBookings.filter(booking=>booking.spotId==spotId)
+    console.log("spot in edit", spot)
+    const allBookingsObj = useSelector((state)=>state.bookings.allBookings)
+    console.log("allbookingobj", allBookingsObj)
+    delete allBookingsObj[booking.id]
+    const allBookings = Object.values(allBookingsObj)
+    const currentBookings = allBookings.filter(booking=>booking.spotId==spot.id)
     const user = useSelector(state=>state.session.user)
-    const spot = useSelector(state=>state.spots.singleSpot)
     const selectionRange = {
         startDate,
         endDate,
@@ -55,12 +58,12 @@ function CreateBooking({spotId}){
             startDate,
             endDate
         }
-       const newBooking = await dispatch(createBooking(spotId, payload))
-        .then((newBooking)=> history.push(`/${user.id}/trips/${newBooking.id}/${spotId}`))
+       const newBooking = await dispatch(editBooking(payload, booking.id))
+        .then((newBooking)=> history.push(`/${user.id}/trips/${newBooking.id}/${spot.id}`))
     }
 
     useEffect(()=>{
-        dispatch(allBookingsBySpot(spotId))
+        dispatch(allBookingsBySpot(spot.id))
     },[])
 
     useEffect(()=>{
@@ -78,7 +81,7 @@ function CreateBooking({spotId}){
                 onChange={handleSelect}
                 disabledDates={bookedDates}
                 />
-                {(user && user.id != spot.Owner.id) &&
+                {user.id != spot.Owner.id &&
                 <div className="reserve-button-container">
                     <button className="airbnb-button full-w" type="submit">Reserve</button>
                 </div>
@@ -88,4 +91,4 @@ function CreateBooking({spotId}){
     )
 }
 
-export default CreateBooking
+export default EditBooking

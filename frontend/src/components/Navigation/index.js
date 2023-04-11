@@ -6,6 +6,7 @@ import ProfileButton from './ProfileButton';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/session';
 import './Navigation.css';
+import SearchBar from '../Search/SearchBar';
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
@@ -25,6 +26,9 @@ function Navigation({ isLoaded }){
         <button onClick={handleLogin} className= "demo-user-button">
             <i className="fa-regular fa-id-card demo-user"></i>
         </button>
+      </div>
+      <div>
+        <SearchBar/>
       </div>
       {isLoaded && (
         <div className='right-nav-user-icons'>

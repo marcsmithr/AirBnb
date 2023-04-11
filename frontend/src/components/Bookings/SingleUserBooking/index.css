@@ -113,3 +113,7 @@
 .SBCrudButton>i{
     margin-left: .5rem
 }
+
+#hidden{
+    display: none;
+}

@@ -100,6 +100,10 @@ const SpotDetails = () => {
 
                 </div>
                 </div>
+                <div className="right-details-booking-container">
+                    <CreateBooking spotId={spot.id}/>
+
+                </div>
                 </div>
             </div>
         <div className="reviews-container">

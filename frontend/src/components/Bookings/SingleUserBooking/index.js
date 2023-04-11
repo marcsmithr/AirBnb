@@ -1,9 +1,10 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useParams } from "react-router-dom"
 import { allBookingsByUser, deleteBooking } from "../../../store/bookingReducer"
 import { getOneSpot } from "../../../store/spotReducer"
 import './index.css'
+import EditBooking from "../EditBooking"
 
 function daysBetween (startDate, endDate){
     const start = new Date(startDate)
@@ -16,10 +17,10 @@ function daysBetween (startDate, endDate){
 }
 
 function findBooking(arr, id){
-    console.log("arr in findBooking", arr)
-    console.log("id in findBooking", id)
+    // console.log("arr in findBooking", arr)
+    // console.log("id in findBooking", id)
     const targetBooking = arr.find(booking => booking.id ==id)
-    console.log("targetBooking", targetBooking)
+    // console.log("targetBooking", targetBooking)
     return targetBooking
 }
 
@@ -52,18 +53,19 @@ const time = new Intl.DateTimeFormat(undefined, {
 function SingleBooking(){
     const dispatch = useDispatch()
     const history = useHistory()
+    const [showEdit, setShowEdit] = useState(false)
     const {bookingId, userId, spotId} = useParams()
 
-    console.log("bookingId", bookingId)
+    // console.log("bookingId", bookingId)
     const bookings = Object.values(useSelector(state=> state.bookings.allBookings))
     // const allSpots = Object.values(useSelector(state=> state.spots.allSpots))
     const spot = useSelector(state=>state.spots.singleSpot)
-    console.log("bookings", bookings)
+    // console.log("bookings", bookings)
     const booking = findBooking(bookings, bookingId)
     // const spot = findBooking(allSpots, booking.spotId)
-    console.log("booking", booking)
+    // console.log("booking", booking)
 
-    console.log("spot", spot)
+    // console.log("spot", spot)
     let bookingLength;
     let price;
     if(booking && spot){
@@ -83,6 +85,11 @@ function SingleBooking(){
 
     }
 
+    const handleShowEdit = ()=>{
+        if (!showEdit){
+            setShowEdit(true)
+        } else setShowEdit(false)
+    }
     useEffect(()=>{
         dispatch(allBookingsByUser(userId))
     },[])
@@ -91,6 +98,7 @@ function SingleBooking(){
         dispatch(getOneSpot(spotId))
     },[])
 
+    const editId = showEdit? "": "hidden"
     if(!booking || !spot.id ){
         return null
     }
@@ -99,7 +107,7 @@ function SingleBooking(){
             <div className="SBInnerContainer">
                 <div className="SBMain">
                     <div className="SBImage">
-                        <img src={booking.previewImage}></img>
+                        <img src={spot.spotImages[0].url}></img>
                     </div>
                     <div className="SBInOutContainer">
                         <div className="SBInOutOuter">
@@ -137,7 +145,7 @@ function SingleBooking(){
                         <span>Total Cost</span>
                     </div>
                     <div className="SBDetailText">
-                        <span>{bookingLength} nights at ${booking.spot.price} a night = ${price}</span>
+                        <span>{bookingLength} nights at ${spot.price} a night = ${price}</span>
                     </div>
                 </div>
                 <div className="SBDetailContainer">
@@ -146,17 +154,20 @@ function SingleBooking(){
                         <span>Address</span>
                     </div>
                     <div className="SBDetailText">
-                        <span>{booking.spot.address}, {booking.spot.city}, {booking.spot.state}</span>
+                        <span>{spot.address}, {spot.city}, {spot.state}</span>
                     </div>
                 </div>
                 <div className="SBDetailContainer">
                     <h2>Manage Booking</h2>
                     <div className="SBCrud">
-                        <button className="SBCrudButton">
+                        <button className="SBCrudButton" onClick={handleShowEdit}>
                             <i class="fa-regular fa-pen-to-square"></i>
                             <span>Edit Booking</span>
                         </button>
                     </div>
+                    {/* <div id={editId}>
+                        <EditBooking spot={spot} booking={booking} />
+                    </div> */}
                     <div className="SBCrud">
                         <button className="SBCrudButton" onClick={handleDelete}>
                             <i class="fa-solid fa-ban"></i>
