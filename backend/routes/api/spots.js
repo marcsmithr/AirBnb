@@ -106,6 +106,12 @@ let Spots = await Spot.scope('getAll').findAll(query)
 
 //iterate through spots to manipulate each spot
     for(let spot of Spots){
+
+        let ownerObj = await User.scope("public").findByPk(spot.ownerId)
+            let owner = {}
+            owner.id = ownerObj.id;
+            owner.firstName = ownerObj.firstName;
+            owner.lastName = ownerObj.lastName
         //grab all reviews
         let reviews = await Review.findAll({
             where: {
@@ -137,6 +143,7 @@ let Spots = await Spot.scope('getAll').findAll(query)
         let reviewAverage = reviewAverageNum.toFixed(2)
         //set the data into each spot
         spot.setDataValue('avgRating', reviewAverage)
+        spot.setDataValue('Owner', owner)
         if(url){
         spot.setDataValue('previewImage', url)
         }
@@ -294,7 +301,7 @@ router.get('/:spotId', async (req, res) => {
             }
             spot.setDataValue('numReviews', numReviews)
             if(reviewAverage) spot.setDataValue('avgRating', reviewAverage);
-            if(spotImages) spot.setDataValue('SpotImages', spotImages);
+            if(spotImages) spot.setDataValue('spotImages', spotImages);
             if(owner) spot.setDataValue('Owner', owner);
 
     return res.json(spot)

@@ -1,0 +1,32 @@
+.check-in-out-container{
+    display: flex;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: .6rem;
+}
+
+.check-in-out-container>div:last-child{
+    border-left: 1px solid black;
+    padding-left: .6rem;
+}
+
+
+
+.check-header{
+    font-size: .8rem;
+    font-weight: bold;
+}
+
+
+.date-input{
+    font-size: .9rem;
+    border: none;
+}
+
+.reserve-button-container{
+    width: 100%;
+    margin-top: 1rem;
+}
+.full-w{
+    width: 100%;
+}

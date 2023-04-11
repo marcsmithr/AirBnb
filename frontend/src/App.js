@@ -10,6 +10,8 @@ import CreateSpot from "./components/CreateSpot";
 import SpotDetails from "./components/SpotDetails";
 import EditSpot from "./components/EditSpot";
 import CreateReview from "./components/CreateReview";
+import AllUserBookings from "./components/Bookings/AllUserBookings";
+import SingleBooking from "./components/Bookings/SingleUserBooking";
 
 
 function App() {
@@ -30,6 +32,12 @@ function App() {
           </Route>
           <Route path="/create" exact>
               <CreateSpot/>
+          </Route>
+          <Route path="/:userId/trips" exact>
+              <AllUserBookings/>
+          </Route>
+          <Route path="/:userId/trips/:bookingId/:spotId" exact>
+              <SingleBooking/>
           </Route>
           <Route path="/spots/:spotId" exact>
               <SpotDetails/>

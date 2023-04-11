@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { getOneSpot, deleteSpot, getSpots } from "../../store/spotReducer";
 import { getReviews } from "../../store/reviewReducer";
 import ReviewCard  from "../ReviewCard/index.js"
+import CreateBooking from "../Bookings/CreateBooking";
 import './SpotDetails.css'
 
 const SpotDetails = () => {
@@ -60,7 +61,7 @@ const SpotDetails = () => {
             </div>
 
             <div className="preview-images-div">
-                <img src={spot.SpotImages[0].url} className='main-spot-image'/>
+                <img src={spot.spotImages[0].url} className='main-spot-image'/>
             </div>
             <div className="details-div">
                 <div className="left-details">
@@ -98,6 +99,10 @@ const SpotDetails = () => {
                     </>}
 
                 </div>
+                </div>
+                <div className="right-details-booking-container">
+                    <CreateBooking spotId={spot.id}/>
+
                 </div>
                 </div>
             </div>
@@ -173,7 +178,7 @@ const SpotDetails = () => {
             </div>
 
             <div className="preview-images-div">
-                <img src={spot.SpotImages[0].url} className='main-spot-image'/>
+                <img src={spot.spotImages[0].url} className='main-spot-image'/>
             </div>
             <div className="details-div">
                 <div className="left-details">
@@ -186,31 +191,35 @@ const SpotDetails = () => {
                 </div>
                 <div className="right-details">
                     <div className="right-details-header">
-                    <div>
-                        <span className='right-details-price'>${spot.price} </span>
-                         night
+                        <div>
+                            <span className='right-details-price'>${spot.price} </span>
+                            night
+                        </div>
+                        <div className="right-details-reviews-container">
+                        {(spot.numReviews=== 1) &&
+                        <>
+                    <span className="star-rating">
+                        <i className="fa-solid fa-star star"></i>
+                            {spot.avgRating} ᛫
+                        </span>
+
+                        <span className="right-details-header-reviews"> {spot?.numReviews} review </span>
+                        </>}
+                        {(spot.numReviews > 1) &&
+                        <>
+                    <span className="star-rating">
+                        <i className="fa-solid fa-star star"></i>
+                            {spot.avgRating} ᛫
+                        </span>
+
+                        <span className="right-details-header-reviews"> {spot?.numReviews} reviews </span>
+                        </>}
+
                     </div>
-                    <div className="right-details-reviews-container">
-                    {(spot.numReviews=== 1) &&
-                    <>
-                   <span className="star-rating">
-                     <i className="fa-solid fa-star star"></i>
-                        {spot.avgRating} ᛫
-                    </span>
-
-                    <span className="right-details-header-reviews"> {spot?.numReviews} review </span>
-                    </>}
-                    {(spot.numReviews > 1) &&
-                    <>
-                   <span className="star-rating">
-                     <i className="fa-solid fa-star star"></i>
-                        {spot.avgRating} ᛫
-                    </span>
-
-                    <span className="right-details-header-reviews"> {spot?.numReviews} reviews </span>
-                    </>}
-
                 </div>
+                <div className="right-details-booking-container">
+                    <CreateBooking spotId={spot.id}/>
+
                 </div>
                 </div>
             </div>
