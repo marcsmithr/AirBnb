@@ -159,12 +159,12 @@ function SingleBooking(){
                 </div>
                 <div className="SBDetailContainer">
                     <h2>Manage Booking</h2>
-                    <div className="SBCrud">
+                    {/* <div className="SBCrud">
                         <button className="SBCrudButton" onClick={handleShowEdit}>
                             <i class="fa-regular fa-pen-to-square"></i>
                             <span>Edit Booking</span>
                         </button>
-                    </div>
+                    </div> */}
                     {/* <div id={editId}>
                         <EditBooking spot={spot} booking={booking} />
                     </div> */}

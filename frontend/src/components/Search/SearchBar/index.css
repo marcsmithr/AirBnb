@@ -2,6 +2,13 @@
     position: relative;
 }
 
+.search-input{
+    margin-left: 10px;
+    border-radius: 5px;
+    height: 2rem;
+    width: 300px
+}
+
 .search-results-container{
     position: absolute;
     top:30px;
