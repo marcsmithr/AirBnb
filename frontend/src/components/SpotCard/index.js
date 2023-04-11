@@ -1,13 +1,22 @@
+import { useContext } from 'react'
 import './SpotCard.css'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { SearchContext } from '../../context/Search'
 
 
 const SpotCard = ({spot}) => {
+    const history = useHistory()
 
-
+    const {searchResults, setSearchResults, searchedSpots, setSearchedSpots, searchQuery, setSearchQuery} = useContext(SearchContext)
+    const handleClick = ()=>{
+        setSearchResults([])
+        setSearchedSpots([])
+        setSearchQuery('')
+        history.push(`/spots/${spot.id}`)
+    }
     return(
-    <div className='spot-card-container'>
-        <Link to={`/spots/${spot.id}`}>
+    <div className='spot-card-container' onClick={handleClick}>
+
             <img src={spot.previewImage} className='spot-image'/>
             <div className='spot-info'>
                 <div className='spot-text'>
@@ -27,7 +36,7 @@ const SpotCard = ({spot}) => {
                     </span>
                 </div>}
             </div>
-            </Link>
+
         </div>
 
 

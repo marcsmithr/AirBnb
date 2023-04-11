@@ -46,7 +46,7 @@
     padding: 15px;
     border: 2px solid rgba(211,211,211, .2);
     width: 33%;
-    height: 30px;
+
     border-radius: 20px;
     box-shadow: 0px 5px 10px rgba(	248, 240, 227, .5);
 }
@@ -69,6 +69,7 @@
     text-decoration: underline;
     color: #767676
 }
+
 
 
 .owner-details {
