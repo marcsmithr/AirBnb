@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext} from "react"
 import { useSelector } from "react-redux"
 import { SearchContext } from "../../../context/Search"
 import './index.css'
 
-function searchSpots(){}
 
 function SearchBar (){
     const {searchResults, setSearchResults, setSearchedSpots, searchQuery, setSearchQuery} = useContext(SearchContext)
@@ -16,22 +15,22 @@ function SearchBar (){
         let results = []
         let spots = []
         allSpots.forEach((spot)=>{
-            if(spot.city.toLowerCase().slice(0,length)==value.toLowerCase()){
+            if(spot.city.toLowerCase().slice(0,length)===value.toLowerCase()){
                 spots.push(spot)
                 if(!results.includes(spot.city)){
                     results.push(spot.city)
                 }
-            } else if(spot.state.toLowerCase().slice(0,length)==value.toLowerCase()){
+            } else if(spot.state.toLowerCase().slice(0,length)===value.toLowerCase()){
                 spots.push(spot)
                 if(!results.includes(spot.state)){
                     results.push(spot.state)
                 }
-            }else if(spot.country.toLowerCase().slice(0,length)==value.toLowerCase()){
+            }else if(spot.country.toLowerCase().slice(0,length)===value.toLowerCase()){
                 spots.push(spot)
                 if(!results.includes(spot.country)){
                     results.push(spot.country)
                 }
-            }else if(spot.name.toLowerCase().slice(0,length)==value.toLowerCase()){
+            }else if(spot.name.toLowerCase().slice(0,length)===value.toLowerCase()){
                 spots.push(spot)
                 if(!results.includes(spot.name)){
                     results.push(spot.name)
