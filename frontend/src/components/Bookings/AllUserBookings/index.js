@@ -42,7 +42,6 @@ function AllUserBookings () {
                 </div>
                 <div className="bookingCardsContainer">
                     {bookings.map((booking)=>(
-
                         <BookingCard booking={pairs[booking.id][0]} spot={pairs[booking.id][1]} key={booking.id}/>
                     ))}
                 </div>
