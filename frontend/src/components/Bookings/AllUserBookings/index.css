@@ -1,6 +1,9 @@
 .allUserBookings{
     margin-left: 5%;
+    min-height: 75vh;
 }
+
+
 
 .allUserBookingsSubheader{
     font-size: 1.2rem;

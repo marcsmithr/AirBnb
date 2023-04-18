@@ -1,13 +1,37 @@
 .footer-container {
     border-top: 2px solid rgba(211,211,211, .2);
     background-color: #F4F4F4;
-    height: 80px;
     padding-bottom: 40px;
+}
+
+.footer-header{
+    display: flex;
+    justify-content: center;
+}
+
+.footer-header > span{
+    font-size: 25px;
+}
+
+.footer-socials{
+    display: flex;
+    justify-content: center;
+}
+
+.footer-socials{
+    display: flex;
+    justify-content: center;
+}
+
+.footer-socials-container{
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 30px 15px
 }
 
 .code-languages-container {
     display: flex;
     justify-content: space-evenly;
-    margin: 2%;
+    margin: 10px 2%;
     padding-bottom: 20px;
 }

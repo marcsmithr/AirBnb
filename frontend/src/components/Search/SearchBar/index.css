@@ -4,23 +4,27 @@
 
 .search-input{
     margin-left: 10px;
-    border-radius: 5px;
+    border-radius: 20px;
+    padding: 0px 10px;
     height: 2rem;
     width: 300px
 }
 
 .search-results-container{
     position: absolute;
-    top:30px;
+    top:35px;
+    left: 70px;
     z-index: 11;
     background-color: rgba(255, 255, 255, 0.912);
     border-radius: 10px;
 }
+
 .search-result{
     list-style: none;
     padding: 1rem;
     margin: 0px;
 }
+
 .search-result>li{
     background-color: rgba(255, 255, 255, 0.912);
     transition: background-color .5s;

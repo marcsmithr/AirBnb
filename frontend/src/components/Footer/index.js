@@ -6,6 +6,36 @@ export const Footer = () => {
 
     return (
         <div className='footer-container'>
+            <div className='footer-header'>
+                <span>
+                    Socials:
+                </span>
+            </div>
+            <div className='footer-socials'>
+                <div className='footer-socials-container'>
+                    <a href='https://www.linkedin.com/in/marc-smith-240720224/' target='_blank'>
+                        <i class="fa-brands fa-linkedin"></i>
+                            Linkedin
+                    </a>
+                </div>
+                <div className='footer-socials-container'>
+                    <a href='https://wellfound.com/u/marc-smith-24' target="_blank">
+                    <i class="fa-brands fa-angellist"></i>
+                        Angellist
+                    </a>
+                </div>
+                <div className='footer-socials-container'>
+                    <a href='https://github.com/marcsmithr' target='_blank'>
+                    <i class="fa-brands fa-github"></i>
+                        Git
+                    </a>
+                </div>
+            </div>
+            <div className='footer-header'>
+                <span>
+                    Technologies Used:
+                </span>
+            </div>
             <div className='code-languages-container'>
                 <div>
                     <span>

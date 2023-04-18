@@ -39,7 +39,11 @@ function SearchBar (){
             }
         })
             setSearchedSpots(spots)
+            if(results.length === 0){
+                setSearchResults(["No results found"])
+            }else{
             setSearchResults(results)
+            }
         }
 
         const selectResult =(e)=>{
