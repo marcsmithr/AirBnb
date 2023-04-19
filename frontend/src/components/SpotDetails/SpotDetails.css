@@ -45,7 +45,7 @@
 
     padding: 15px;
     border: 2px solid rgba(211,211,211, .2);
-    width: 33%;
+    width: 600px;
 
     border-radius: 20px;
     box-shadow: 0px 5px 10px rgba(	248, 240, 227, .5);
@@ -115,4 +115,12 @@ margin-bottom: 40px;
     margin-right: 20px;
     height: 90%;
     width: 100%;
+}
+
+@media screen and (max-width: 1340px) {
+    .details-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 }

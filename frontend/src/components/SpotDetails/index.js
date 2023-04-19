@@ -57,7 +57,8 @@ const SpotDetails = () => {
                 </div>
                 </div>
                 <div className="rightt-header-div">
-            </div>
+                    
+                </div>
             </div>
 
             <div className="preview-images-div">
