@@ -19,14 +19,12 @@ function AllUserBookings () {
     const user = useSelector((state)=> state.session.user)
     const bookings = Object.values(useSelector((state)=> state.bookings.allBookings))
     const allSpots = Object.values(useSelector((state)=>state.spots.allSpots))
-    console.log("bookings in comp", bookings)
     let pairs
     if(bookings && allSpots){
         pairs = pairSpotsandBooks(bookings, allSpots)
     }
 
     useEffect(()=>{
-        console.log("hello")
         dispatch(allBookingsByUser())
     }, [])
 

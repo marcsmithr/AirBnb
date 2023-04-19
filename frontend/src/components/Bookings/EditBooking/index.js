@@ -32,9 +32,7 @@ function EditBooking({spot, booking}){
     const [endDate, setEndDate] = useState(new Date(booking.endDate))
     const [bookedDates, setBookedDates] = useState([])
 
-    console.log("spot in edit", spot)
     const allBookingsObj = useSelector((state)=>state.bookings.allBookings)
-    console.log("allbookingobj", allBookingsObj)
     delete allBookingsObj[booking.id]
     const allBookings = Object.values(allBookingsObj)
     const currentBookings = allBookings.filter(booking=>booking.spotId==spot.id)
@@ -52,8 +50,6 @@ function EditBooking({spot, booking}){
 
     const handleSubmit= async(e)=>{
         e.preventDefault()
-        console.log("startDate", startDate)
-        console.log("endDate", endDate)
         const payload = {
             startDate,
             endDate

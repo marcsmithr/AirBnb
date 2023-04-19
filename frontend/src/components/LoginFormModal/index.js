@@ -23,7 +23,6 @@ function LoginFormModal() {
 
           if (data && data.errors) {
             const errorsArr = Object.values(data.errors)
-          console.log('data: ', data)
             setErrors(errorsArr)};
         }
       );

@@ -19,7 +19,6 @@ function BookingCard ({booking, spot}) {
     const allSpots = Object.values(useSelector(state=> state.spots.allSpots))
     // const spot = findSpot(allSpots, booking)
     const {userId} = useParams()
-    console.log('booking', booking)
 
     useEffect(()=>{
         dispatch(getOneSpot(booking.spotId))
