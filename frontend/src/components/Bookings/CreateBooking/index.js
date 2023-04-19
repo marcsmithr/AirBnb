@@ -49,8 +49,6 @@ function CreateBooking({spotId}){
 
     const handleSubmit= async(e)=>{
         e.preventDefault()
-        console.log("startDate", startDate)
-        console.log("endDate", endDate)
         const payload = {
             startDate,
             endDate

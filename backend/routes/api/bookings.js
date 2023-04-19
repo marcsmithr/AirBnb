@@ -19,7 +19,6 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
         let spotDataObj = await Spot.findAll({where:{id: booking.spotId}})
         let spotString = JSON.stringify(spotDataObj)
         let spotObj = JSON.parse(spotString)
-        console.log("spot--------", spotObj)
         let previewImage = await SpotImage.findAll({
             where: {
                 spotId: booking.spotId,
@@ -34,7 +33,6 @@ router.get('/current', restoreUser, requireAuth, async(req, res)=>{
             url = previewImageObj[0].url
         }
         let ownerObj = await User.scope("public").findByPk(spotObj[0].ownerId)
-        console.log("ownerObj---------", ownerObj)
         let owner = {}
         owner.id = ownerObj.id;
         owner.firstName = ownerObj.firstName;

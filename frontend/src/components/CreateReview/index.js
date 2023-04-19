@@ -24,10 +24,8 @@ const CreateReview = ()=>{
     await dispatch(postReview(payload))
     .catch(async(res) =>{
         let data = await res.json()
-        console.log('data: ', data)
         if( data && data.errors) {
-            console.log('data: ', data)
-            console.log('data.errors: ', data.errors)
+
             setErrors(data.errors)
         }})
         await dispatch(getReviews(spot.id))

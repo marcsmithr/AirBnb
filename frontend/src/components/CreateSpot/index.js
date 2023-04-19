@@ -29,10 +29,8 @@ const CreateSpot = ()=>{
     let spot = await dispatch(postSpot(payload))
     .catch(async(res) =>{
         let data = await res.json()
-        console.log('data: ', data)
+
         if( data && data.errors) {
-            console.log('data: ', data)
-            console.log('data.errors: ', data.errors)
             setErrors(data.errors)
         }})
         history.push(`/spots/${spot.id}`)

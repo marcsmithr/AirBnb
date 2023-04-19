@@ -46,10 +46,8 @@ function SearchBar (){
         }
 
         const selectResult =(e)=>{
-            console.log("e.target", e.target.getAttribute('value'))
             setSearchQuery(e.target.getAttribute('value'))
         }
-    console.log(searchResults[0])
     const searchResultsId = searchQuery? "":"hidden"
     return(
         <div className="search-container">

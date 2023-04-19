@@ -17,20 +17,10 @@ function daysBetween (startDate, endDate){
 }
 
 function findBooking(arr, id){
-    // console.log("arr in findBooking", arr)
-    // console.log("id in findBooking", id)
     const targetBooking = arr.find(booking => booking.id ==id)
-    // console.log("targetBooking", targetBooking)
     return targetBooking
 }
 
-// function findSpot(arr, id){
-//     console.log("arr in findBooking", arr)
-//     console.log("id in findBooking", id)
-//     const targetSpot = arr.find(spot => spot.id ==id)
-//     console.log("targetBooking", targetBooking)
-//     return targetBooking
-// }
 
 
 
@@ -46,9 +36,7 @@ const time = new Intl.DateTimeFormat(undefined, {
     timeStyle: "short"
 })
 
-// const standardDate = new Intl.DateTimeFormat(undefined, {
 
-// })
 
 function SingleBooking(){
     const dispatch = useDispatch()
@@ -56,23 +44,14 @@ function SingleBooking(){
     const [showEdit, setShowEdit] = useState(false)
     const {bookingId, userId, spotId} = useParams()
 
-    // console.log("bookingId", bookingId)
     const bookings = Object.values(useSelector(state=> state.bookings.allBookings))
-    // const allSpots = Object.values(useSelector(state=> state.spots.allSpots))
     const spot = useSelector(state=>state.spots.singleSpot)
-    // console.log("bookings", bookings)
     const booking = findBooking(bookings, bookingId)
-    // const spot = findBooking(allSpots, booking.spotId)
-    // console.log("booking", booking)
-
-    // console.log("spot", spot)
     let bookingLength;
     let price;
     if(booking && spot){
         bookingLength = daysBetween(booking.startDate, booking.endDate)
         price = bookingLength * spot.price
-        console.log("length of booking", bookingLength)
-        console.log("price of booking", price)
     }
     let previewImage
     if(spot.spotImages && spot.spotImages.length> 0){

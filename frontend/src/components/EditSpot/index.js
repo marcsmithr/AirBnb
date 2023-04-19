@@ -31,8 +31,6 @@ const EditSpot = ()=>{
     .catch(async(res) =>{
         const data = await res.json()
         if( data && data.errors) {
-            console.log('data: ', data)
-            console.log('data.errors: ', data.errors)
             let errorsArr = Object.values(data.errors)
             setErrors(errorsArr)
         }

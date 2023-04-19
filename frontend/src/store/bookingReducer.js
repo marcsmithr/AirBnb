@@ -27,9 +27,7 @@ const update = booking => ({
 
 
 export const allBookingsByUser = () => async dispatch => {
-    console.log("hello from booking thunk")
     const response = await fetch (`/api/bookings/current`);
-    console.log("response in booking thunk",response)
     if(response.ok){
         const {Bookings} = await response.json()
         dispatch(load(Bookings))
@@ -56,7 +54,6 @@ export const createBooking = (spotId, payload) => async dispatch => {
 
     if(response.ok){
         const booking = await response.json()
-        console.log("Booking in thunk", booking)
         dispatch(create(booking))
         return booking
     }
